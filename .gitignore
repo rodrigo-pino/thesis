@@ -21,3 +21,4 @@
 *.bcf
 *.xml
 *.pdf_tex
+.directory
