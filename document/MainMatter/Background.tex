@@ -1,1 +1,79 @@
 \chapter{Estado del Arte}\label{chapter:state-of-the-art}
+
+\section*{Optimizaci\'on Multiobjetivo Estado del Arte}
+
+En Optimizaci\'on Multiobjetivo existen varias t\'ecnicas para obtener el frente de Pareto. El problema no es encontrar soluciones aqui. Una solucion que maximice/minimce cualquiera de las m\'etricas ya pertenece a este frente. Existen varios approachs:
+
+\subsection*{T\'ecnicas de Scalarizacion}
+
+La tecninca de scalarizacion es meter las varias metricas a analizar y que el resultado sea un promedio ponderado de estas
+
+En resumen, dada vairas funciones objetivos, son convertidas en una sola, uniendolas, o planteando las n-1 funciones como constraints. Dependiendo del enfoque se han desarrollado varias t\'ecnicas:
+
+Las t\'ecnicas de scalarizaci\'on tienen problemas cuando el frente de pareto no es convexo, o para evitar esto necesitan tener cierto conocimiento sobre como este funciona para lograr una muestra representativa del frente de pareto
+
+\subsubsection*{Liner weighting}
+Se la a\~nade un peso a cada funcion objetivo, con almenos uno siendo positivo. Luego se trata de minizmar la suma ponderada de estas funciones. luego queda
+
+\begin{math}
+    \min \sum w_i f_i(x), \space x \in X
+\end{math}
+
+El frente de Pareto puede tener vairas formas. Si es convexo esto esta bien, pero frente a un frente concavo linear weightin suele no dar las soluciones de los puntos en la zona no concava. Alli pueden existir soluciones importantes para el usuario que no se muestran. Incluso teniendo informacion del problema modificar los pesos de las funciones no es posible para obtener respuestas en la zona concava.
+
+\subsubsection*{Chebychev Scalarization}
+
+Una solucion a esto es utilzar la escalarizacion de Chebychev que permite obtener soluciones en las zonas concavas del frente de pareto.
+
+Utilziando la distancia de Chebychev a un punto de referencia. El defecto de este es que se necesita un conocimiento de como se comporta dicho frente de Pareto. \\
+
+\begin{math}
+    \min  (\max_{i \in \{1,...,m\}}  \lambda_i|f_i(x) - z_i^*|), \space x \in X
+\end{math}
+
+\subsubsection*{$\epsilon$-constraint method}
+
+Otro appoach es convertir un problema Multiobjetivo en un problema de un solo objetivo y añadir las m\'etricas adicionales como constraints del problema\\
+
+\begin{math}
+    \min f_1(x), \text{ subject to } \forall g_i, \epsilon_i  \rightarrow g_i(x) \leq \epsilon_i
+\end{math}
+
+Al variar los $\epsilon_i$ uno puede obtener diferentes puntos en el frente de Pareto. Ademas es dificil seleccionar \epislon adecuados sin conocimiento previo del frente de Pareto
+
+\subsection*{Algoritmos Num\'ericos}
+
+La idea fundamental de estos es obtener una solucion unica resolviendo el problema de optimizaci\'on y luego ir creciendo esta seleccionando dado una $\espislon$-vecindad a su $\epsilon$-vecino m\'as adecuado siguiendo m\'etodos the continuaci\'on o homot\'opicos.
+
+\subsection*{Algoritmos Gen\'eticos}
+
+En casi ningun otro campo de las Ciencias de la Computaci\'on, la idea de paradigmas de busquedas utilizando algoritmos evolucionarios
+
+-> Strength Pareto Evolutionary ALgorithm 2 - SPEA 2
+
+-> Non-dominated Sorting Genetic ALgorithm II - NSGA-II
+
+-> Multiobjective  Genetic ALgorithm - MOGA
+
+
+Los algoritmos evolucionarios son utilizados resolver problemas de otpimizaci\'on combinatorios y no convexos. Se basan en generar soluciones y despues seleccionar las mejores y crecer sobre estas generando una segunda poblacion de soluciones, y asi sucesivamente hasta llegar a soluciones optimas.
+
+En MOO tambien existe el problema de minimos locales*
+
+Los algoritmos evolucionarios Multiobjetivo (MOEAs por sus siglas en ingl\'es) crecen sobre esto y estan diseñados para acercarse al frente de Pareto en ada iteraci\'on.
+
+Para los MOEA acutalmente existen tres paradigmas principales
+\begin{enumerate}
+    \item Pareto based MOEAs: Estos se dividen en dos estrategias de ranking. La primera ordena segundominancia. Donde se prioriza menor dominacion. La segunda ordena dado varios elementos de un mismo frente. Ej: NSGA-II y SPEA2
+    \item MOEAs basado en indicadores: Estos calculan el indicador de cuan buen es un set a partir del conjutno actual y realizan su generacio a partir de aqui (INVESTIGAR MAS SOBRE ESTO)
+    \item MOEAs basado en descomposción: El algoritmo descompone el problema en distintos subproblemas, cada uno dirigido a una parte distinta del frente de Pareto. Por cada subproblema un metodo de escalarizacion es utilizado. Ejemplo de este es NSGA-3
+\end{enumerate}
+
+
+\section*{Optimizaci\'on Multiobjetivo En AutoML}
+
+Algoritmos con Multiobjetivo acutalmente: TPOT, que utiliza accuracy y tiempo de entrenamiento y otpimzia para ambas
+
+\section*{El hueco que lleno}
+
+Con esta adicion se puede utilizar autogoal un algoritmo de automl que permite utilizar cuantas metricas se quieran.
