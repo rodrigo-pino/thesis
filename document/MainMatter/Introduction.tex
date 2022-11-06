@@ -1,27 +1,84 @@
 \chapter*{Introducción}\label{chapter:introduction}
 \addcontentsline{toc}{chapter}{Introducción}
 
+Optimizaci\'on Multiobjetivo(OM), tambi\'en conocida como optimizaci\'on vectorial o optimizaci\'on de Pareto, explora un espacio de decisi\'on tratando de optimizar m\'ultiples criterios simult\'aneamente. Usualmente, estos criterios entran en conflicto haciendo imposible la existencia de una soluci\'on \'optima \'unica de cada uno, en cambio existen una serie de puntos (no necesariamente finita) donde no es posible optimizar un criterio sin empeorar el resultado de otro. Este conjunto de puntos igual de buenos conforman lo que se conoce como el frente de Pareto. El resultado esperado de un buen algoritmo de OM dado un problema es la b\'usqueda de un subconjunto representativo del frente de Pareto para que luego el investigador decida cual de todas las posibles soluciones se adapta mejor a su problema.
+
+Es frecuente encontrar problemas de OM tanto en el d\'ia a d\'ia como en diversos campos de la ciencia y la t\'ecnica. Por ejemplo, una empresa de autom\'oviles que desea maximizar la potencia del motor y a la misma vez minimzar el consumo de combustible, o a la hora de realizar inversiones, se prefiere no tener riesgos innecesarios si la ganancia no lo merece.
+
 \section*{Motivaci\'on}
-Se habla del estado de arte, se muestra la existencia de problemas actuales sin soluci\'on y como pueden ser resueltos utilizando optimizacion multi-objetivo
+
+Un modelo de Aprendizaje de M\'aquina o \textit{Machine Learning(ML)}  tiene como objetivo maximizar la relevancia de sus resultados dado una sola m\'etrica. Para medir dichas relevancia, se utilizan m\'etricas como la \textit{precisi\'on} y \textit{recobrado}. 
+
+Precisi\'on mide la proproci\'on entre los valores relevantes identificados y todos los valores identificados mientras que recobrado mide la proporci\'on entre los valores relevantes identificados y todos los valores relevantes. Estas medidas usadas independientemente no resultan \'utiles pues basta para tener un recobrado perfecto seleccionar todos los elementos del conjunto de datos, y una precisi\'on casi perfecta seleccionando un pequeño conjunto de elementos. Para evitar estos defectos y lograr un balance entre ellas se utiliza \textit{F-score}, que relaciona ambas medidas y permite darle m\'as peso a una o a la otra seg\'un determine el investigador.
+
+Esto resuelve en parte la limitaci\'on de solo ser posible optimizar seg\'un un solo criterio. En el case de desear a\~nadir m\'etricas adicionales, requerer\'ia la modificaci\'on de F-score o la creaci\'on de una nueva que agrupe todas las m\'etricas. Al permitir optimizar seg\'un varios criterios simult\'aneamente se remueve completamente este obst\'aculo, y es posible agregar con relativa facilidad todas las m\'etricas que se deseen y de cualquier tipo como m\'etricas de equidad (miden el nivel de justeza cuando el modelo trata con capital humano).
+
+Un framwork de \textit{Automated Machine Learning(AutoML)} se beneficia de modelos que permiten optimizar para varios objetivos simult\'aneamente, pudiendo retornar un conjunto de estos, cada modelo representando un punto del frente de Pareto.
+
+% Estas tipo de m\'etricas se han vuelto cada vez m\'as importante debido al incremeto de la integraci\'on de modelos ML a nuestra sociedad y el peso de sus resultados en la toma de decisiones. Existen hechos documentados de discriminaci\'on en un modelo de ML, como el caso de Goldman \& Sachs en 2019 donde el algoritmo otorgaba mayor credito a hombres que a mujeres.
+
+% Un modelo de AutoML que permita optimizar para multiobjetivo permite a\~nadir m\'etricas de equidad, y de cualquier tipo con relativa facilidad, removiendo el d\'ificil trabajo de crear una nueva m\'etrica que represente una expresi\'on matem\'atica de todas las m\'etricas a optimizar. 
+
+
+% Un sistema AutoML convierte datos de entrada en un modelo de ML. Estos sistemas estan dirigidos a producir un modelo que realize las predicciones con la mayor precisi\'on posible, no obstante solo precisi\'on no solo basta para saber cuan bueno es el modelo. Es necesario la utilizaci\'on de otras medidas como recobrado. No obstante ninguna de estas metricas se vale por si sola. Para esto se utiliza la metrica F score que es una manera de unir las dos medidas.
+
+% Una manera de quitarse eso puede ser (como eso es optimizaci\'on de la precisi\'on o de la metrica) se pueden optimizar todas las metricas necesarias y no hay necesidad de crear artificios para ello.
+
+% Ademas para cualquier metrica external a la precision del data set multi objetivo es necesario. 
+
+% Un tema muy explorado recientemente es el tema de la equidad en las decisiones que toman los modelos de aprendizaje de maquina. Estos se utilizan en la actualidad en sistemas bancarios por ejemplo para decidir si darle cierto credito a una persona o no.
+
+% Es necesarios juzgar tambi\'en al modelo por su equidad, donde equidad es cuando el modelo no discrimina a un ser humano por su color de piel, g\'enero u otras caracter\'isticas cuando toma decisiones. En el 2019, Goldman \& Sachs fueron investigados porque su algoritmo otorgaba menor credito a las mujeres que a los hombres, o una aseguradora de vehiculos que daba precios mayors a los sectores minoristas de la poblaci\'on a pesar de que viv\'ian en zonas de igual riesgo.
+
+% Para lograr existencia de equidad en AutoML se utilizan ciertas m\'etricas y una vez añadidas al modelo es necesario optimzar teniendo estas en cuenta, luego se necesita de un algoritmo que permita obtener un modelo de aprendizaje que minimice el error de predicci\'on y las m\'etricas de equidad paralelamente.
+
+% La existencia de las puntuaciones F son una medida para lograr que exista una buena relaci\'on entre las distintas m\'etricas de comparaci\'on:
+
+% Cuales son las metricas F.
+
+% Por que existen las metricas F y como Optimizaci\'on Multiobjetivo se utiliza en ellas
+
+% Las metricas external al proceso como la metrica de equidad
+
+% El problema de distillitaion!:
+% Es entrenar una red neuronal mas peque\~na con una red neuronal mas grande ya entrenada. La red mas peque\~na aprede a replicar los resultados de la red m\'as grande en cada nivel.
+
+
+% Recientemente ha habido un incremento de desarrollo en algoritmos de aprendizaje de m\'aquina. Estos algoritmos son cada vez m\'as utilizados dentro de instituciones y empresas para la toma de decisiones. Es importante que esas decisiones no se vean afectadas por color de piel, g\'enero o nacionalidad. 
+% En los \'ultimos años ha aumentado la investigaci\'on sobre sesgos y equidad en algoritmos de aprendizaje de m\'aquina.
+
+% En la actualidad existe un desarrollo de ML muy grande. Cada vez es adoptado e incorporado a las instituciones y empresas. En una encuesta realizada por BanfokEngland, 2/3 de los encuestados utilizaban ya modelos en sus servicios y planeaban aumentar su uso de este.
+
+% Los modelos es necesario que no tengan sesgos cuando toman decisiones. Si hay datos como g\'enero, color de piel, nacionalidad, es probable que exista una minor\'ia. El modelo puede con tal de ganar \textit{accuracy} discriminar a los minor\'ias. Es importante que a la hora de un sistema de tomar una decsi\'on financiera, de contratar a alguien, medica, de justicia criminal.
+
+% Pueden existir incluso en el modelo sesgos introuducidos por el propio ser humano.
+
+% Una manera de enfrentarse a eso es AI Fairness 360 implementado por IBM que provee maneras de mitigar los sesgos in el pre-procesamiento, procesamiento y post-procesamiento. El algoritmo trabaja sobre los datos para identificar y tratar los sesgos. 
+
+
+% En muchos casos de la vida real, cuando una decisi\'on tomada afecta directamente a una persona o un grupo de estas, no es suficiente tener un modelo con la mayor precisi\'on posible, tambi\'en se espera que sigan ciertas pautas \'eticas y no pongan a ciertos individuos en desventajas. (Explicar xq existe un bias solamente cuando uno se enfoca en precision)
+
+% De acuerdo a una encuesta realizada en el sector financiero de Inglaterra, dos tercios de los bancos se apoyan en el algoritmos de ML para tomar sus decisiones. (Como MOO soluciona esto)
+
 
 \section*{Antecedentes}
-No existe
+En el entorno del grupo de Inteligencia Artificial de la Universidad de La Habana se desarrolla AutoGOAL una herramienta de AutoML que permite obtener modelos optimizados con respecto a una sola m\'etrica.
 
 \section*{Problem\'atica}
-Aplicar Optimizaci\'on Multiobjetivo donde el espacio de decisi\'on es una Gram\'atica Libre del Contexto.\\
+AutoGOAL no presenta actualmente una herramienta para resolver problemas multiobjetivos. Se propone la adici\'on de un decisor que permita producir varios modelos de ML, cada uno perteneciente y a la vez represantivo del frente de Pareto.
 
-\section*{Hip\'otesis}
-Hip\'otesis
+% \section*{Hip\'otesis}
+% Hip\'otesis.
 
 \section*{Objetivo}
 \subsection*{Objetivo General}
-Resolver problemas de AutoML utilizando optimizaci\'on multi-objetivo
+Resolver problemas de AutoML utilizando optimizaci\'on multi-objetivo.
 \subsection*{Objetivos Espec\'ificos}
 \begin{itemize}
     \item Optimizaci\'on Multiobjetivo utilizando herramientas de scalarization:
         \begin{itemize}
             \item Linear Weighting
-            \item Chebychev distance
+            \item Chebychev Distance
         \end{itemize}
     \item Optimizaci\'on Multiobjetivo Utilizando metahur\'isticas (PGE, proveniente de EDA)
     \item Comparar/Probar los resultados
