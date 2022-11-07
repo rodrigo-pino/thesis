@@ -3,13 +3,34 @@
 
 \section{Optimizaci\'on Multiobjetivo}
 
-Existen  m\'ultiples t\'ecnicas para la Optimizaci\'on Multiobjetivo. No es problem\'atico encontrar soluciones en el frente de Pareto, pues cada solucion de cada funcion objetivo pertenece a este, sino encontrar un conjunto de soluciones que sean representativo de este.
+Optimizaci\'on Multiobjetivo es la rama de la optimizaci\'on que se dedica a optimizar varias funciones sim\'ultaneamente.\\
 
-Existen tres enfoques prinincipales para resolver estos problemas.
+\textit{Optimizaci\'on Multiobjetivo}: Dado $m$ funciones objetivos: $f_1: \mathcal{X} \rightarrow \mathbb{R}, ..., f_m: \mathcal{X} \rightarrow \mathbb{R}$ que dado un vector en el espacio de decisi\'on $\mathcal{X}$  $\mathbb{R}$. Un problema multiobjetivo esta dado por:
+\begin{align*}
+    \min f_1(x), ..., f_m(x), x \in \mathcal{X}
+\end{align*}
 
-\subsection*{T\'ecnicas de Escalarizaci\'on (Scalarization)}
+En la presencia de varias funciones objetivos ya no es posible hablar de soluci\'on \'unica o m\'inimo. Es usual que estos criterios de decisi\'on entren en conflictos entre s\'i y no sea posible encontrar una soluci\'on que satisfaga ambas m\'etricas, en cambio, se encuentran soluciones que si se intentan optimizar en algun aspecto, inevitablemente empeoran en otros. Estas soluciones son las que se conocen como soluciones del frente de Pareto. Con el concepto de Pareto viene el concepto de Pareto dominaci\'on.\\
 
-Consisten en convertir el problema multiobjetivo, en un problema de un solo objetivo combinando las funciones objetivos. Ejemplos:
+\textit{Pareto Dominaci\'on}: Dados vectors en el el espacio objetivo, $x \in \mathbb{R}^m$ y $y \in \mathbb{R}^m$ , se dice que $x$ Pareto domina a $y$ (i.e. $x \prec y$), si y solo si:
+\begin{align*}
+    \forall i \in \{1, ..., m\}: x_i \leq y_i \text{ and } \exists j \in \{1, ..., m\}: x_j < y_j 
+\end{align*}
+
+\textit{Frente de Pareto}: El conjunto de soluciones que no son dominadas por ningun otra soluci\'on en el espacio.\\
+
+Encontrar soluciones en el frente de Pareto no es tarea d\'ificil, basta con encontrar el m\'inimo de cada funci\'on objetivo, soluciones que indudablemente partenecen al frente de Pareto. La tarea d\'ificil se encuentra en tratar una aproximaci\'on del frente de Pareto que sea representativa de este.
+
+Se debe notar que el termino Optimizaci\'on Multiobjetivo suele referirse cuando se intenta optimzar simult\'aneamente para dos o tres funciones objetivos. Para un cantidad de criterios de optimizaci\'on grande se le suele conocer coloquialmente Optimizaci\'on para Muchos Objetivos o \textit{many-objective optimization} en ingl\'es. Existe una diferenciaci\'on en este pues al aumentar le n\'umero de m\'etricas a optimizar:
+\begin{enumerate}
+    \item ya no es posible la visualizaci\'on del frente;
+    \item la computaci\'on de indicadores o de selecci\'on se convierte en problemas NP-duros;
+    \item existe un r\'apido crecimiento de puntos no dominados, mientras mayor n\'umero de objetivos, la probabilidad de que un punto sea no dominado en un set con distribuci\'on normal tiende exponencialmente a 1.
+\end{enumerate}
+
+
+\subsection{T\'ecnicas de Escalarizaci\'on (Scalarization)}
+Los primeros intentos de resolver el MOP fue utilizando t\'ecinas de Escalarizaci\'on, que en resumen es cuando de alguna manera u otra se combinan todas las funciones objetivos en una sola. Existen varias maneras de esto:
 \begin{enumerate}
     \item Linear Weighting: Todas las funciones objetivos se combinan en una sola, y a cada una se le asigna un peso. Modificando estos pesos se obtiene una soluci\'on distinta del frente de Pareto.\\
     \begin{align*}
@@ -32,27 +53,6 @@ Consisten en convertir el problema multiobjetivo, en un problema de un solo obje
     CSP dado los pesos indicados puede encontrar cualquier punto del frente de Pareto, no importa si es c\'oncavo o convexo.
 
 \end{enumerate}
-
-% La tecninca de scalarizacion es meter las varias metricas a analizar y que el resultado sea un promedio ponderado de estas
-% En resumen, dada vairas funciones objetivos, son convertidas en una sola, uniendolas, o planteando las n-1 funciones como constraints. Dependiendo del enfoque se han desarrollado varias t\'ecnicas:
-% Las t\'ecnicas de scalarizaci\'on tienen problemas cuando el frente de pareto no es convexo, o para evitar esto necesitan tener cierto conocimiento sobre como este funciona para lograr una muestra representativa del frente de pareto
-
-% \subsubsection{Liner weighting}
-% Se la a\~nade un peso a cada funcion objetivo, con almenos uno siendo positivo. Luego se trata de minizmar la suma ponderada de estas funciones. luego queda
-
-% El frente de Pareto puede tener vairas formas. Si es convexo esto esta bien, pero frente a un frente concavo linear weightin suele no dar las soluciones de los puntos en la zona no concava. Alli pueden existir soluciones importantes para el usuario que no se muestran. Incluso teniendo informacion del problema modificar los pesos de las funciones no es posible para obtener respuestas en la zona concava.
-
-% \subsubsection{Chebychev Scalarization}
-% Una solucion a esto es utilzar la escalarizacion de Chebychev que permite obtener soluciones en las zonas concavas del frente de pareto.
-% Utilziando la distancia de Chebychev a un punto de referencia. El defecto de este es que se necesita un conocimiento de como se comporta dicho frente de Pareto. \\
-
-% \subsubsection*{$\epsilon$-constraint method}
-% % Otro appoach es convertir un problema Multiobjetivo en un problema de un solo objetivo y añadir las m\'etricas adicionales como constraints del problema\\
-% \begin{math}
-    % \min f_1(x), \text{ subject to } \forall g_i, \epsilon_i  \rightarrow g_i(x) \leq \epsilon_i
-% \end{math}
-% Al variar los $\epsilon_i$ uno puede obtener diferentes puntos en el frente de Pareto.
-% Ademas es dificil seleccionar $\epsilon$ adecuados sin conocimiento previo del frente de Pareto.\\
 
 \subsection{Algoritmos Num\'ericos}
 
@@ -78,25 +78,15 @@ Dentro de los MOEA existen tres paradigmas principales:
 \begin{enumerate}
     \item \textbf{MOEA basados en el frente de Pareto}: Se identifican porque dividen el proceso de selecci\'on en dos etapas. Una primera donde seleccionan los invidiuos segu\'un su ind\'ice de dominaci\'on, donde las soluciones que pertenecen al frente de Pareto tienen ind\'ice cero. Luego se realiza una segunda selecci\'on entre los ya seleccionados utilizando una segunda estrategia de puntuaci\'on. NSGA-II y SPEA2 son algoritmos de este tipo.
 
-    \item \textbf{Basado en indicador}: Estos utilizan un indicador para calcular cuan cercano es el conjunto actual al frente de Pareto (unario), o cuanto mejora el nuevo conjunto de soluciones respecto a la iteraci\'on anterior (binario). Ejemplo de este es SMS-EMOEA suele converger al frente de Pareto con soluciones igualmente distribuidas.
+    \item \textbf{Basados en indicador}: Estos utilizan un indicador para calcular cuan cercano es el conjunto actual al frente de Pareto (unario), o cuanto mejora el nuevo conjunto de soluciones respecto a la iteraci\'on anterior (binario). Ejemplo de este es SMS-EMOEA que suele converger al frente de Pareto con soluciones igualmente distribuidas.
 
-    \item \textbf{Basado en descomposici\'on}: La idea principal consiste en descomponer el problema en pequeños subproblemas cada una correspondiente a una secci\'on del frente de Pareto. Por cada sub-problema se resuelve utilizando escalarizaci\'on con dierente paramtrizaci\'on. El m\'etodo de escalarizaci\'on m\'as usado en estos casos suele ser CSP debido a ser capaz de obtener cualquier punto del frente de Pareto. Ejemplo de este paradigma son MOEA/D y NSPGA-III.
+    \item \textbf{Basados en descomposici\'on}: La idea principal consiste en descomponer el problema en pequeños subproblemas cada una correspondiente a una secci\'on del frente de Pareto. Por cada sub-problema se resuelve utilizando escalarizaci\'on con dierente paramtrizaci\'on. El m\'etodo de escalarizaci\'on m\'as usado en estos casos suele ser CSP debido a ser capaz de obtener cualquier punto del frente de Pareto. Ejemplo de este paradigma son MOEA/D y NSGA-III.
 \end{enumerate}
 
-%Los algoritmos evolucionarios son utilizados resolver problemas de otpimizaci\'on combinatorios y no convexos. Se basan en generar soluciones y despues seleccionar las mejores y crecer sobre estas generando una segunda poblacion de soluciones, y asi sucesivamente hasta llegar a soluciones optimas.
-
-% En MOO tambien existe el problema de minimos locales*
-
-%Los algoritmos evolucionarios Multiobjetivo (MOEAs por sus siglas en ingl\'es) crecen sobre esto y estan diseñados para acercarse al frente de Pareto en ada iteraci\'on.
-
-%Para los MOEA acutalmente existen tres paradigmas principales
-% Que es hypervolumen??
+% TODO: Que es hypervolumen??
 
 \section{Optimizaci\'on Multiobjetivo y AutoML}
 
 Aunque es cada vez un feature de m\'as demanda en la actualidad, no se conoce ning\'un sistema de AutoML que tenga implementado multiobjetivo, excepto por TPOT que optimiza sus pipelines mutuamente para `accuracy` y tiempo de entranamiento. No obstante no presenta flexibiliad sobre que m\'etricas optimizar.\\
 
 
-Se debe notar que el termino Optimizaci\'on Multiobjetivo suele referirse en la literatura cuando se intenta optimzar simultaneamente para dos o tres funciones objetivos. Añadir m\'etricas adicionales corresponde un perfomance hit pues el frente de pareto crece exponencialmente.\\
-
-Cuando se quieren optimizar para muchas m\'etircas se conoce como Optimizaci\'on para Muchos Objetivos, o \textit{many-objective optimization} en ingl\'es. Para este \'ultimo los enfoques m\'as capaces han sido los basados en descomposci\'on. 
