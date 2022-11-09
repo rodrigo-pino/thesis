@@ -32,13 +32,15 @@ Existe el caso en el conjunto de soluciones que existan soluciones que no sean d
 
 Encontrar puntos del frente de Pareto no es tarea d\'ificil, puede ser tan trivial con encontrar el m\'inimo de cada funci\'on objetivo. La complejidad yace en encontrar un conjunto soluci\'on que sea lo m\'as aproximado posible al frente de Pareto.
 
-Se debe notar que el termino Optimizaci\'on Multiobjetivo se utiliza cuando se optimza simult\'aneamente para dos o tres funciones objetivos. Para un cantidad de m\'etricas mayor se le conoce coloquialmente en la literatura como Optimizaci\'on para Muchos Objetivos o \textit{many-objective optimization} en ingl\'es. Se hace enf\'asis en esta  diferenciaci\'on este pues al aumentar le n\'umero de m\'etricas a optimizar:
+Se debe notar que el termino Optimizaci\'on Multiobjetivo se utiliza cuando se optimza simult\'aneamente para dos o tres funciones objetivos. Para un cantidad de m\'etricas mayor se le conoce coloquialmente en la literatura como Optimizaci\'on para Muchos Objetivos o \textit{many-objective optimization} en ingl\'es propuesto inicialmente por \cite{10.1007/978-3-540-31880-4_2}. Se hace enf\'asis en esta  diferenciaci\'on este pues al aumentar le n\'umero de m\'etricas a optimizar:
 \begin{enumerate}
     \item ya no es posible visualizar el frente obtenido;
     \item la computaci\'on de indicadores o de selecci\'on para muchos algoritmos se convierte en problemas NP-duros;
     \item existe un r\'apido crecimiento de puntos no dominados, mientras mayor n\'umero de objetivos, la probabilidad de que un punto sea no dominado en un set con distribuci\'on normal tiende exponencialmente a 1.
 \end{enumerate}
 
+%TODO:
+%Hablar sobre a priori, interactivo y a posteriori en la optimizacion multi objetivo
 
 \subsection{T\'ecnicas de Escalarizaci\'on (Scalarization)}
 Los manera cl\'asica de resolver MOP es utilizando t\'ecinas de Escalarizaci\'on que es cuando de alguna manera u otra se combinan todas las funciones objetivos en una sola. Existen diferentes t\'ecinas de combinar estas funciones:
@@ -70,28 +72,28 @@ Los manera cl\'asica de resolver MOP es utilizando t\'ecinas de Escalarizaci\'on
 % TODO: Es esto verdad?
 En principio todos los algoritmos de escalarizaci\'on se pueden resolver utilzando m\'etodos n\'umericos.\\
 
-Adem\'as, existen m\'etodos n\'umericos que intentan resolver el problema haciendo cumplir las condiciones de Karush-Kuhn-Tucker.
+Adem\'as, existen m\'etodos n\'umericos que intentan resolver el problema haciendo cumplir las condiciones de Karush-Kuhn-Tucker (\cite{kuhn2014nonlinear}).
 
-La idea va de encontrar al menos una soluci\'on al sistema de ecuaciones creado por tratar de resolver KKT. Luego utilizando m\'etodos de continuaci\'on y homotop\'ia para añadir al conjunto soluci\'on soluciones cercanas a estas. Este algoritmo require que las soluciones satisfagan las condiciones de convexidad local y diferenciabilidad.\\
+La idea va de encontrar al menos una soluci\'on al sistema de ecuaciones creado por tratar de resolver KKT. Luego utilizando m\'etodos de continuaci\'on y homotop\'ia para añadir al conjunto soluci\'on soluciones cercanas a estas. Este algoritmo require que las soluciones satisfagan las condiciones de convexidad local y diferenciabilidad, se puede obtener mas infomraci\'on en \cite{hillermeier2001nonlinear} y \cite{schutze_et_al:DagSemProc.04461.16}\\
 
-Tambien existen otros metodos para la b\'usqueda de m\'inimos globales como \textit{T\'ecnicas de Subdivisi\'on}, \textit{Optimizaci\'on Global Bayesiana} y \textit{Optimizaci\'on de Lipschitz}. Estas requiren de que el espacio de decisi\'on tenga una baja dimensionalidad.
+Tambien existen otros metodos para la b\'usqueda de m\'inimos globales como \textit{T\'ecnicas de Subdivisi\'on} por \cite{dellnitz2005covering}, \textit{Optimizaci\'on Global Bayesiana} por \cite{emmerich2016multicriteria} y \textit{Optimizaci\'on de Lipschitz} por \cite{vzilinskas2013worst}. Estas requiren de que el espacio de decisi\'on tenga una baja dimensionalidad.
 
-% TODO: Biibliografia de estos
-Aun m\'as, tambi\'en se investiga activamente m\'etodos n\'umericos que no dependan de derivadas para su resoluci\'on.
+Aun m\'as, tambi\'en se investiga activamente m\'etodos n\'umericos que no dependan de derivadas para su resoluci\'on utilizando t\'ecnicas de b\'usquedas directas. Ejemplos de algoritmos en \cite{custodio2011direct} y \cite{audet2010mesh}.
+% do they?
 
 \subsection{Algoritmos Gen\'eticos Multiobjetivos (MOEA)}
 
-Los algorimtos gen\'eticos tuvieron sus inicios en la decada del 60 y fueron usados principalmente en resolucion de problemas num\'ericos combinatorios y no convexos. Utilizan paradigmas extra\'idos de la naturaleza, tal como seleccion natural, mutaci\'on y recombinaci\'on para mover una poblaci\'on (o conjunto de vectores de decisi\'on) hacian una soluci\'on \'optima.
+Los algorimtos gen\'eticos tuvieron sus inicios en la decada del 60 y fueron usados principalmente en resolucion de problemas num\'ericos combinatorios y no convexos. Utilizan paradigmas extra\'idos de la naturaleza, tal como seleccion natural, mutaci\'on y recombinaci\'on para mover una poblaci\'on (o conjunto de vectores de decisi\'on) hacian una soluci\'on \'optima (\cite{back1996evolutionary}).
 
 Los algoritmos gen\'eticos multiobjetivos generalizan esta idea, y son diseñados para en cada iteraci\'on acercarse cada vez m\'as al frente de Pareto. Como en este caso no existe soluci\'on \'unica la manera de selccionar los individuos cambia fundamentalmente.
 
 Dentro de los MOEA existen tres paradigmas principales:
 \begin{enumerate}
-    \item \textbf{MOEA basados en el frente de Pareto}: Se identifican porque dividen el proceso de selecci\'on en dos etapas. Una primera donde seleccionan los invidiuos segu\'un su ind\'ice de dominaci\'on, donde las soluciones que pertenecen al frente de Pareto tienen ind\'ice cero. Luego se realiza una segunda selecci\'on entre los ya seleccionados utilizando una segunda estrategia de puntuaci\'on. NSGA-II y SPEA2 son algoritmos de este tipo.
+    \item \textbf{MOEA basados en el frente de Pareto}: Se identifican porque dividen el proceso de selecci\'on en dos etapas. Una primera donde seleccionan los invidiuos segu\'un su ind\'ice de dominaci\'on, donde las soluciones que pertenecen al frente de Pareto tienen ind\'ice cero. Luego se realiza una segunda selecci\'on entre los ya seleccionados utilizando una segunda estrategia de puntuaci\'on. NSGA-II (\cite{deb2002fast}) y SPEA2 (\cite{zitzler1999multiobjective}) son algoritmos de este tipo.
 
-    \item \textbf{Basados en indicador}: Estos utilizan un indicador para calcular cuan cercano es el conjunto actual al frente de Pareto (unario), o cuanto mejora el nuevo conjunto de soluciones respecto a la iteraci\'on anterior (binario). Ejemplo de este es SMS-EMOEA que suele converger al frente de Pareto con soluciones igualmente distribuidas.
+    \item \textbf{Basados en indicador}: Estos utilizan un indicador para calcular cuan cercano es el conjunto actual al frente de Pareto (unario), o cuanto mejora el nuevo conjunto de soluciones respecto a la iteraci\'on anterior (binario). Ejemplo de este es SMS-EMOEA (\cite{emmerich2005emo}) que suele converger al frente de Pareto con soluciones igualmente distribuidas.
 
-    \item \textbf{Basados en descomposici\'on}: La idea principal consiste en descomponer el problema en pequeños subproblemas cada una correspondiente a una secci\'on del frente de Pareto. Por cada sub-problema se resuelve utilizando escalarizaci\'on con dierente paramtrizaci\'on. El m\'etodo de escalarizaci\'on m\'as usado en estos casos suele ser CSP debido a ser capaz de obtener cualquier punto del frente de Pareto. Ejemplo de este paradigma son MOEA/D y NSGA-III.
+    \item \textbf{Basados en descomposici\'on}: La idea principal consiste en descomponer el problema en pequeños subproblemas cada una correspondiente a una secci\'on del frente de Pareto. Por cada sub-problema se resuelve utilizando escalarizaci\'on con dierente paramtrizaci\'on. El m\'etodo de escalarizaci\'on m\'as usado en estos casos suele ser CSP debido a ser capaz de obtener cualquier punto del frente de Pareto. Ejemplo de este paradigma son MOEA/D (\cite{zhang2007moea}) y NSGA-III (\cite{deb2013evolutionary}).
 \end{enumerate}
 
 % TODO: Que es hypervolumen??
