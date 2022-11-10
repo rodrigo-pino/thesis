@@ -1,9 +1,25 @@
+% TODO: Mejorar los objetivos (esta escueta el problema)
+% TODO: Parrafos del inicio cambiarlos, empezar mas general, xq hace falta -> que es lo que se hace -> como se hace
+% TODO: Introducccion corta
+
 \chapter*{Introducción}\label{chapter:introduction}
 \addcontentsline{toc}{chapter}{Introducción}
 
-Es frecuente encontrar problemas de Optimizaci\'on Multiobjetivo tanto en el d\'ia a d\'ia como en diversos campos de la ciencia y la t\'ecnica. Por ejemplo, una empresa de autom\'oviles que desea maximizar la potencia del motor y a la misma vez minimzar el consumo de combustible o un inversionista que quiere un balance adecuado entre ganancia y riesgo.
+Aprendizaje de Maquina (ML por sus siglas en ingl\'es) es una rama de la Inteligencia Artificial enfocada en entender y construir programas que ``aprendan'' y logren buenos resultados en un conjunto de tareas definidas (\cite{mitchell1990machine}). Este campo que vi\'o sus inicios sobre la d\'ecada de los 50 no tuvo auge hasta la primera decada del nuevo milenio gracias al auge de las nuevas tecnologias en el campo de la computaci\'on. Se comenz\'o a utilizar ampliamente en diferentes aplicaciones donde definir algoritmos convencionales era muy d\'ificil.
 
-Optimizaci\'on Multiobjetivo(OM), tambi\'en conocida como optimizaci\'on vectorial o optimizaci\'on de Pareto, explora un espacio de decisi\'on tratando de optimizar varias funciones objetivos simult\'aneamente. Estos criterios a optimizar suelen entrar en conflicto haciendo imposible la existencia de una soluci\'on \'optima \'unica al problema multiobjetivo (MOP por sus siglas en ingl\'es), en cambio existen un conjunto de puntos (no necesariamente finito) donde no es posible  mejorar un aspecto del resultado sin empeorar otro. Este conjunto de puntos igual de buenos e inmejorables se les conoce como frente de Pareto. El resultado esperado de un buen algoritmo de OM dado un problema es la b\'usqueda de un subconjunto representativo del frente de Pareto para que luego el investigador decida cual de todas las posibles soluciones se adapta mejor a su problema.
+Construir un flujo v\'alido de Aprendizaje de M\'aquina requiere tener al menos un experto en el tema pero estos son escasos lo que hace la herramienta parcialmente inaccesible. Se crea un nuevo campo que estudia el proceso de automzatizar la creaci\'on de estos flujos de ML (conocido por AutoML por sus siglas en ingl\'es). Esto impulsa a\'un mas la adopci\'on del aprendizaje de m\'aquina ya que se vuelve accesible a todos.
+
+El AutoML funciona dado un set de datos y una metrica busca el mejor algorimto de ML de acuerdo a la puntuaci\'on de dicha m\'etrica. Usualmente lo que buscan es exactitud en sus datos.
+
+Con el uso masivo que tiene los algorimtos de Aprendizaje de M\'aquina en la actualidad, y se forma parte de la vida diaria, ya obtener un sistema ML que tenga resultados relevanes no es el desafio. Se empiezaan a quere nuevas features que permitan mayor control sobre el sistema que se genera. Hay sistemas que est\'an dispuestos a sacrificar un poco de relevancia si se puede obtener un flujo de ML menos complejo (y evitar el overfit en el proceso). Otro que quieren tener sistemas ``interpretables'', sistemas que permiten a usuarios no expertos entender por que el algoritmo de ML tomo cierta decisi\'on.
+
+La adopci\'on masiva saca a relucir problemas desconocidos como sistemas de ML que producen resultados paracializados dependiendo a ciertas carecter\'isticas de estos. Esto tiene importancia especialmente cuando los datos representan seres humanos, y las decisiones del sistema tiene un impacto en el individuo o grupo. No se desea que juzgue por el color de piel o g\'enero. Nace la necesidad de producir sistemas justos que consideren ciertos atributos como protegidos y minimicen el sesgo que esto puedan provocar en sus decisiones.
+
+% No es posible obtener producir estos sistemas buscando obtener la mejor relevancia, es necesario utilizar otras m\'etricas y lograr que el sistema AutoML busque maximizar la mayor puntuaci\'on posible en estas. 
+
+% Optimizaci\'on Multiobjetivo(OM), tambi\'en conocida como optimizaci\'on vectorial o optimizaci\'on de Pareto, explora un espacio de decisi\'on tratando de optimizar varias funciones objetivos simult\'aneamente. Estos criterios a optimizar suelen entrar en conflicto haciendo imposible la existencia de una soluci\'on \'optima \'unica al problema multiobjetivo (MOP por sus siglas en ingl\'es), en cambio existen un conjunto de puntos (no necesariamente finito) donde no es posible  mejorar un aspecto del resultado sin empeorar otro. Este conjunto de puntos igual de buenos e inmejorables se les conoce como frente de Pareto. El resultado esperado de un buen algoritmo de OM dado un problema es la b\'usqueda de un subconjunto representativo del frente de Pareto para que luego el investigador decida cual de todas las posibles soluciones se adapta mejor a su problema.
+
+% Es frecuente encontrar problemas de Optimizaci\'on Multiobjetivo tanto en el d\'ia a d\'ia como en diversos campos de la ciencia y la t\'ecnica. Por ejemplo, una empresa de autom\'oviles que desea maximizar la potencia del motor y a la misma vez minimzar el consumo de combustible o un inversionista que quiere un balance adecuado entre ganancia y riesgo.
 
 \section*{Motivaci\'on}
 
@@ -15,7 +31,7 @@ Existen situaciones donde la \textit{interpretabilidad} que implica saber, sin s
 Tambi\'en existen casos donde es necsario producir sistemas de ML justos, para evitar que el algoritmo de ML tenga alg\'un tipo de sesgo por g\'enero, color de piel u otro. 
 Estos problemas se resolver\'ian muy bien con multiobjetivo; en caso de no optimizar la relevancia y optimizar \'unicamente para justeza o interpretabilidad respectivamente producir\'ia un sistema in\'util debido a sus malas predicciones.\\
 
-Optimizaci\'on multibojetivo en AutoML abr\'e las puertas tambi\'en a m\'etricas que no tienen mucho sentido usarlas individualemente como \textit{precisi\'on} y \textit{recobrado}.
+Optimizaci\'on multibojetivo en AutoML abr\'e las puertas tambi\'en a m\'etricas que no tienen sentido usarlas individualemente como \textit{precisi\'on} y \textit{recobrado}.
  Precisi\'on mide la proproci\'on entre los valores relevantes identificados y todos los valores identificados mientras que recobrado mide la proporci\'on entre los valores relevantes identificados y todos los valores relevantes. Estas m\'etircas usadas por separadas no son represantivas pues basta para tener un recobrado perfecto seleccionar todos los elementos del conjunto de datos, y una precisi\'on casi perfecta seleccionando un pequeño conjunto de elementos. Para lograr un balance entre estas se utiliza \textit{f-score}, que relaciona ambas medidas y permite darle m\'as peso a una o a la otra seg\'un determine el investigador, no obstante con OM se pueden obtener un sistema ML que optimice para ambas.\\
 
 
@@ -72,23 +88,20 @@ Un framework de \textit{Automated Machine Learning(AutoML)} que pueda optimizar 
 En el entorno del grupo de Inteligencia Artificial de la Universidad de La Habana se desarrolla AutoGOAL una herramienta de AutoML que permite obtener modelos optimizados con respecto a una sola m\'etrica.
 
 \section*{Problem\'atica}
-AutoGOAL no presenta actualmente una herramienta para resolver problemas multiobjetivos. Se propone la adici\'on de un decisor que permita producir varios modelos de ML, cada uno perteneciente y a la vez represantivo del frente de Pareto.
+AutoGOAL no presenta actualmente una herramienta para resolver problemas multiobjetivos. AutoGOAL utiliza Probabilistic Grammatic Evolution (PGE), un algorimtos gen\'etico. Implementar un algorimto de Optimizaci\'on Multiobjetivo que sea capaz de utilizar la infraestructura ya creada.
 
 % \section*{Hip\'otesis}
 % Hip\'otesis.
 
 \section*{Objetivo}
 \subsection*{Objetivo General}
-Resolver problemas de AutoML utilizando optimizaci\'on multi-objetivo.
+Añadir a AutoGOAL la habilidad de resolver problemas de optimizaci\'on multiobjetivo.
 \subsection*{Objetivos Espec\'ificos}
 \begin{itemize}
-    \item Optimizaci\'on Multiobjetivo utilizando herramientas de scalarization:
-        \begin{itemize}
-            \item Linear Weighting
-            \item Chebychev Distance
-        \end{itemize}
-    \item Optimizaci\'on Multiobjetivo Utilizando metahur\'isticas (PGE, proveniente de EDA)
-    \item Comparar/Probar los resultados
+    \item Estudiar el estado del arte relacionado con el problema
+    \item Identificar un algoritmo multiobjetivo que aproveche la estructura de AutoGOAL y su implementaci\'on de Probabilistic Grammatic Evolution (PGE)
+    \item Estudiar diferencias cuando se resuelve un mismo problema con optimizaci\'on multibojetivo
+    \item Analizar la efectividad de la soluci\'on
 \end{itemize}
 
 \section*{Estructura de la Tesis}
