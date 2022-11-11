@@ -106,21 +106,21 @@ Dentro de los MOEA existen tres paradigmas principales:
 
 \section{Aprendizaje de M\'aquina Automatizado}
 % Que es AutoML
-El Aprendizaje de M\'aquina Automatizado (Automated Machine Learning, AutoML) consiste en la generaci\'on autom\'atica de flujos o \textit{pipelines} de Machine Learning que resuelven un problema determinado. El objetivo es transferir el problema de combinaci\'on, selcci\'on y optimizaci\'on de hiperpar\'ametros(\textit{Combined Algorithm Selection and Hyperparameter Optimization}, CASH por sus siglas en ingl\'es) del investigador al sistema, permitiendole a este enfocarse en otras tareas como la validaci\'on de los datos o \textit{feature engineering}. Tambi\'en permite al p\'ublic general y no experto a aplicar ML a sus problemas ya que la parte d\'ificil del trabajo est\'a automatizada. 
+El Aprendizaje de M\'aquina Automatizado (Automated Machine Learning, AutoML) consiste en la generaci\'on autom\'atica de flujos o \textit{pipelines} de Machine Learning que resuelven un problema determinado. El objetivo es transferir el problema de combinaci\'on, selcci\'on y optimizaci\'on de hiperpar\'ametros(\textit{Combined Algorithm Selection and Hyperparameter Optimization}, CASH por sus siglas en ingl\'es) del investigador al sistema, permitiendole a este enfocarse en otras tareas como la validaci\'on de los datos o ingenier\'ia de caracter\'istcas. Tambi\'en democratiza el uso de Aprendizaje de M\'aquina pues usarios normales sin los recursos econ\'omicos suficiente pueden aplicar a sus problemas flujos de Machine Learning sin la necesidad de un Cient\'ifico de Datos gracias a que las operaciones de combinaci\'on y selecci\'on de modelos y optimizaci\'on de hiperpar\'ametros esta automatizada.
 
 % Ejemplos de AutoML
 
-Existen varias propuestas de Aprendizaje de M\'aquina Automatizado, utilizando t\'ecnias de variados dominios, como (i) Optimizaci\'on Bayesiana, (ii) Programaci\'on Evolutiva, (iii) B\'usqueda Aleatoria, (iv)(v) Aprendizaje de refuerzo y (vi) metodos bassados en gradientes.
+Existen varias propuestas de Aprendizaje de M\'aquina Automatizado, utilizando t\'ecnias de variados dominios. Entre los principales relacionados con el problema CASH:
+\begin{itemize}
+    \item \textbf{Optimizaci\'on Bayesiana} (\cite{hutter2019automated}): Utilizan optimizaci\'on bayesiana para encontrar el mejor flujo de ML que maximice cierta m\'etrica. Introducido por Auto-Weka en 2013 (\cite{thornton2013auto}) con el fin de resolver problemas CASH. Auto-Skelearn \cite{feurer2015efficient} crece sobre este introduciendo mejoras com la inclusion de un paso de meta-aprendizaje que reduce el espacio de b\'usquda aprendiendo de modelos que funcionaron bien en conjuntos de datos similares y luego un paso de selecci\'on de ensemblers que le permite reusar los flujos de ML que tuvieron mejor rendimiento.
+    
+    \item \textbf{Programaci\'on Evolutiva} \cite{chen2018autostacker}: Bas\'andos en algoritmos gen\'eticos funcionan creando una poblaci\'on inicial de flujos v\'alidos, se seleccionan los de mejor rendmiento respecto a una m\'etrica y se utilzan para crear la poblaci\'on de la pr\'oxima iteraci\'on. TPOT es uno de los m\'as reconocidos en esta \'area, permiten tener varias copias sobre el dataset y aplicar operadores sobre ellos, luego con un operador de cruce, permite crear flujos con los operadores con mejor puntuaci\'on. TPOT adem\'as realiza una b\'usqueda multiobjetivo sobre las soluciones encontradas utilizando NSGA-II (\cite{deb2002fast}) optimzando maximizar exactitud (\textit{accuracy} en la literatura) y minimizando la cantidad de operadores aplicados sobre los flujos de ML por un tema de simplicidad y evitar el sobreajuste a los datos.
+
+        AutoGOAL (\cite{estevez2020solving}) genera soluciones utilizando una Grama\'atica Probabl\'istca Libre del Contexto y Probabilistic Grammatic Evolution para actualizar las producciones.
+    
+\end{itemize}
 
 % comenzando con AutoWEKA que aplica optimizaci\'on Bayesiana con el objetivo de resolver el problema CASH. Auto-Sklearn crece sobre este mejorando su eficiencia y robustes. Incluye un paso de meta-Aprendizaje en suss flujos, permite la construcci\'on de ensemblers.
-
-Especificamente programaci\'on evolutiva es de inter\'es para nos 
-
-Tree-based Pipeline Optimization Tool (TPOT): Establece un flujo de datos en forma de arbol, donde cada hoja es una copia del dataset, y sobre cada uno se aplican un set de operadores. Se analiza los resultados de aplicar los operadores geneteticos y se seleccionan los k mejores. Luego se aplica regresion logistica. Se escogen los mejores 20 pipelines utilizando NSGAII. Donde se optimzia para el mayor accuracy y la menor cantidad de operadores sobre el flujo
-
-RECIPE: programacion genetica basado en gramaticas probabilisticas
-
-AutoGOAL: basado en gramaticas produce cierta cantidad de pipelines optimzados contra cierta metricas. Los pipelines se forman utilizando PGE. Se van generando gramatica tras gramatica hasta que se pase determiando threshold y se devuelve la que mejor optimice contra la metrica dada como input
 
 
 \section{Optimizaci\'on Multiobjetivo en AutoML}
