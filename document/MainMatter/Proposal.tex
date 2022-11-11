@@ -1,11 +1,52 @@
 \chapter{Propuesta}\label{chapter:proposal}
-Utilzar PGE de Autogoal
-De donde viene PGE, que es PGE
 
-Utilizar NSGA-II
+\section{Probabilistic Grammatic Evolution}
 
-Que es NSGA-II
+Algoritmos evolucionarios estan sutilmente inspirados por las ideas de Evlocion Natural, donde una selecciion de invdividuos evoluciona a traves de una aplicacion de operadores como seleccion, mutacion y recombinacion. La calidad de estos individuos se evaluan en contra de una m\'etrica de evaluacion. Tras aplicar los operadores e ir reteniendo los individuos con mayor puntuacion se espera que la poblacion mejore con el paso de las iteraciones.
 
-Explicar los dos algoritmos de ranking de NSGAII
+\subsection{GE}
+Con esta idea en mente nace Grammatical Evolution, que utiliza una gramatica para establecer restricciones sint\'acticas sobre las soluciones individuales. Exisite una distincion entre el genotipo y el fenotipo. 
+
+Para crear una solcui\'on se tienen el genotipo (Una lista de eneteros), que se mapea el fenotipo siguiendo las reglas de producci\'on en una Gram\'atica Libre del Contexto (\textit{Context-Free Grammar}, CFG). Donde una gramatica es una tupla $G = (NT, T, S, P)$ donde $NT$ y $T$ representan los conjuntos disjuntos no vac\'io de los s\'imbolos no terminales y terminales respectivamente. $S$ es un elemento de $NT$ llamado el axioma que representa el no-terminal principal que expandiendo este se puede llegar a todas las posibles formas de la gramatica. $P$ es el conjunto de reglas de producci\'on que rigen a la grma\'atica. Las reglas en $P$ tienen la forma de $A ::= \alpha$, donde $A \in NT$ y  $\alpha \in (NT \cup F)^*$ 
+
+La relacion genotipo-fenotipo es la cosa principal de GE, y se realiza en pasos sucesivos. Con el fin de seleccionar la produccion que se debe escoger para sustituir un elemento de NT se utiliza el operador m\'odulo.
+
+Insertar ejemplo de como funciona esta talla
+
+El rendimiento de GE ha sido criticado en la literatura por tener alta redundancia y poca localidad. Una representaci\'on tiene alta redundancia cuando varios genotipos corresponden al mismo fenotipo y localidad se refiere a como los cambios en el genotipo se refeljean en el fenotipo. 
+
+
+\subsection{PGE}
+Con el objetivo de mejora GE han exisitido varias propuestas. Una de esta es Evoluci\'on de Gram\'atica Probabilistica (\textit{Probabilistic Grammatic Evolution}). En PGE el genotipo ya no es una lista de enteros, sino una lista con la misma longitud que se adapta segun los fentoipos escogidos o algo asi
+
+Utiliza Algirmtos de Estimacion de Distribucion (\textit{Estimation of Distribution Algorithms, EDA}) una t\'ecninca probabi\'istica que remplaza los operadores de mutacion y cruce sampleando sobre la probabiliad de distribuci\'on del mejor individuo, para generar una nueva poblaci\'on en cada generaci\'on. Las probabilidades comienzan todas inicializadas en igual proporci\'on  y se actualizan basado en la frecuencia de las reglas de produccion escogidas para obtener el individuo con la mayor m\'etrica.
+
+Probablisitic Grammatical Evolution (PGE)  se apoya en una Gramatica Probabilistica Libre del Contexto (\textit{Probilistic Context-Free Grammatic Evolution} PCFGE) para realizar los mapeos de los fenotipos a los genotipos. PCFGE se establece como una tupla $PG = (NT, T, S, P, Prob)$ donde $Prob$  es un conjunto de probabilidades asocaido con cada regla de la gram\'atica. El genotipo en PGE es un vector de numeros fraccionarios, donde cada uno corresponer con la probabiliad de seleccion cierta regla de derivaci\'on.
+
+insetar ejemplo de PGE.
+
+En PGE las probabilidades se actualizan despues de cada generaci\'on  despues de evaluar la poblaci\'on generada, basasdo en cuantas veces cada regla de derivacion fue seleccionada por el el individuo de mejor rendimiento. Si la regla fue seleccionada su probablidad incrementa, en cambio si no, su probabilidad se reduce. Alternando entre estas dos variantes se ayuda a evitar usar el mismo individuo en iteraciones consecutivas, balanceando exploracion global con expotacion local.
+
+\section{Nodominated Sorting Genetic Algorithm}
+
+Como dicho en (insertar estado del arte), NSGA-II es (eso que dice). Se guia por dos ranking fundamentalmente
+
+El primer ranking ordena las soluciones de acuerdo a su \'indice de dominaci\'on
+
+Despues de obtenidas las N mejores respuestas, se quiere que el conjunto este bien esparcido sobre el frente de Pareto. 
+
+Se establece una m\'etrica de densidad (Crowding distance): Para obtener un estimado de l a densidad de soluciones aleda\~nas a cierata solucion se calcula la distancia promedio de dos puntos  en ambos  de cada objetivo. Esta cantidad sirve como un estimado del permiteero del cuboide formado usando los vecinos mas cercanos como vertices.
+
+El calculo de crowding distanc ereuier la ordenacion de la poblacion de acuerdo a acada funcion objetivo. Las soluciones fronterizas (los valores minimos y maximos de cada funcion objetivo) son asignados distancia infinita. El resto de las soluciones intermedias son asignados son asignados a la distancia igual a la diferencia normalizada absoluta en los valores de las funciones objetivos de las soluciones adyacentes.
+
+Es importante nomralizar la funci\'on objetivo antes de calcualr el crowding distance.
+
+Poner pseudo codigo de Crowding distance
+
+Luego el algorimto escoge de las poblacion general formada:
+Si x $prec$ y, entonces se va x
+Si rank x == rank y entonces se escoge a x si su crowding distancia es mayor que y
+
+\section{Autogoal con NSGA-II y PGE}
 
 Como lo que existe ya de AutoGOAL interactua con la nueva implementaci\'on de PGA
