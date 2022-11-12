@@ -5,8 +5,8 @@
 
 \section{Optimizaci\'on Multiobjetivo}
 
-Optimizaci\'on Multiobjetivo es la rama de la Ciencia y la Matem\'atica que se dedica a optimizar para varias funciones objetivos sim\'ultaneamente.
-
+Optimizaci\'on Multiobjetivo es la rama de la Ciencia y la Matem\'atica que se dedica a optimizar varias funciones objetivos sim\'ultaneamente. Es una rama nueva en campo activo de la investigaci\'on, tiene sus primeros logros a finales la d\'ecada del 90 con la creaciond de NSGA-II (\cite{deb2002fast}) que super\'o a los algoritmos de la \'epoca.
+ 
 \begin{definition}{Optimizaci\'on Multibojetivo:}
      Dado $m$ funciones objetivos: $f_1: \mathcal{X} \rightarrow \mathbb{R}, ..., f_m: \mathcal{X} \rightarrow \mathbb{R}$ que dado un vector en el espacio de decisi\'on $\mathcal{X}$ es transformado en un valor de $\mathbb{R}$. M\'as formalmente:
     \begin{equation*}
@@ -14,8 +14,7 @@ Optimizaci\'on Multiobjetivo es la rama de la Ciencia y la Matem\'atica que se d
     \end{equation*}
 \end{definition}
 
-En presencia de varias funciones objetivos ya no es posible hablar de una soluci\'on \'unica mejor que el resto.  
-Como las solucions se comparan respecto a dos o m\'as aspectos, se habla de dominaci\'on.
+En presencia de varias funciones objetivos ya no es posible hablar de una soluci\'on \'unica mejor que el resto. Ni que una soluci\'on es directamente mejor que otra pues existe mas de una m\'etrica a comparar. Se introduce el concepto de dominaci\'on.
 
 \begin{definition}{Pareto Dominaci\'on:}
     Dados dos vectores en el el espacio objetivo, $x \in \mathbb{R}^m$ y $y \in \mathbb{R}^m$, se dice que $x$ Pareto domina a $y$ (i.e. $x \prec y$), si y solo si:
@@ -24,8 +23,9 @@ Como las solucions se comparan respecto a dos o m\'as aspectos, se habla de domi
     \end{equation*}
 \end{definition}
 
-% Aqui tirar una foto prodr\'ia ser muy \'util
-Existe el caso en el conjunto de soluciones que existan soluciones que no sean dominadas por ninguna otra soluci\'on. Estas soluciones vienen siendo el conjunto solucion del problema de optimziaci\'on multiobjetivo.
+Poner imagen de cuando hay pareto dominaci\'on.
+
+Existe el caso en el conjunto de soluciones que existan soluciones que no sean dominadas por ninguna otra soluci\'on. Estas soluciones vienen siendo el conjunto soluci\'on del problema de optimziaci\'on multiobjetivo.
 
 % Es usual que estos criterios de decisi\'on entren en conflictos entre s\'i y no sea posible encontrar una soluci\'on que satisfaga ambas m\'etricas, en cambio, se encuentran soluciones que si se intentan optimizar en algun aspecto, inevitablemente empeoran en otros. Estas soluciones son las que se conocen como soluciones del frente de Pareto. Con el concepto de Pareto viene el concepto de Pareto dominaci\'on.\\
 
@@ -100,7 +100,7 @@ Dentro de los MOEA existen tres paradigmas principales:
 
     \item \textbf{Basados en indicador}: Estos utilizan un indicador para calcular cuan cercano es el conjunto actual al frente de Pareto (unario), o cuanto mejora el nuevo conjunto de soluciones respecto a la iteraci\'on anterior (binario). Ejemplo de este es SMS-EMOEA (\cite{emmerich2005emo}) que suele converger al frente de Pareto con soluciones igualmente distribuidas.
 
-    \item \textbf{Basados en descomposici\'on}: La idea principal consiste en descomponer el problema en pequeños subproblemas cada una correspondiente a una secci\'on del frente de Pareto. Por cada sub-problema se resuelve utilizando escalarizaci\'on con dierente paramtrizaci\'on. El m\'etodo de escalarizaci\'on m\'as usado en estos casos suele ser CSP debido a ser capaz de obtener cualquier punto del frente de Pareto. Ejemplo de este paradigma son MOEA/D (\cite{zhang2007moea}) y NSGA-III (\cite{deb2013evolutionary}).
+    \item \textbf{Basados en descomposici\'on}: La idea principal consiste en descomponer el problema en pequeños subproblemas cada una correspondiente a una secci\'on del frente de Pareto. Por cada sub-problema se resuelve utilizando escalarizaci\'on con diferente paramtrizaci\'on. El m\'etodo de escalarizaci\'on m\'as usado en estos casos suele ser CSP debido a ser capaz de obtener cualquier punto del frente de Pareto. Ejemplo de este paradigma son MOEA/D (\cite{zhang2007moea}) y NSGA-III (\cite{deb2013evolutionary}).
 \end{enumerate}
 
 
@@ -127,6 +127,22 @@ Existen varias propuestas de Aprendizaje de M\'aquina Automatizado, utilizando t
 
 % AutoML se lleva investigando muchos años. Existen varias propuestas para resolver problemas AutoML, una de las vertientes es utilizando Programacion Evolutiva con algoritmos geneticos,
 % Donde se generan N pipelines, se evaluan en contra de una metrica, se escogen los k mejores. Y se aplican mutacion y seleccion y recombinacion.
+
+
+El Moo en automl esta un poco sato, la t\'ecina m\'as utiliza es Linera Weighting. Esto como se explica no es very good.
+
+En un efoque de Pareto la funcion objetivo ya un escalar, sino un vector. Se debe retornar un conjunto de soluciones optimas e n vez de una sola.
+
+Exsiten varios sistemas para la optimizaci\'o Multiobjetivo. En el 2006 hay un paper para ROC analysis \cite{everson2006multi} para calcular el costo de mal-clasificar ofreciendo un grafico de los trade-off entre los true y false positives classification rates de dos problemas de clasificaci\'on. En este se exiende el analisis a muchas clases considerando los trade-offs entre los missclassification de una clase a la otra. Se trata de optimizar simultaneamete para que el missclassification rate entre todas las clases sea \'optima.
+
+\cite{jin2008pareto} hacen un analisis sobre el automl y sus casos de uso. Contemplan los pros y los cons de automl con multibojetivo linear weighting. Y hacen un overview de la optimizacion usando algorimtos geneticos para resolver el MOP.
+
+
+En el campo de configuraci\'on de algoritmos \cite{blot2016mo} introduce un busqueda iterativa local basado en multiples criterios para configurar SAT solvers.
+
+\cite{paria2020flexible} Esto es m\'as de MOO. En vez de tratar el frente completo pronone un algoritmo para solo obtneer un pedazo de este debido a condiciones externas, proponen una estraegia basado en random scalrization, permitiendo efectivamente samplear pedazos del frente de pareto.
+
+AutoXGBoost es un sistema de AutoML que utiliza optimizaci\'on bayesiana para sacar el mejor flujo. Est paper proponer a\~nadir Optimizacion Multi Objetvio 
 
 % AutoMLs con optimizacion multi objetivo, que son
 Optimizaci\'on Multibojetivo esta bien establecido en ML como ROC analysis, o biologia computacional. Son modelos optimizados para tener un buen performance e interpretabilidad.
