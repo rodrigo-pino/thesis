@@ -2,16 +2,14 @@
 
 \section{Probabilistic Grammatic Evolution}
 
-Algoritmos evolucionarios estan sutilmente inspirados por las ideas de Evlocion Natural, donde una selecciion de invdividuos evoluciona a traves de una aplicacion de operadores como seleccion, mutacion y recombinacion. La calidad de estos individuos se evaluan en contra de una m\'etrica de evaluacion. Tras aplicar los operadores e ir reteniendo los individuos con mayor puntuacion se espera que la poblacion mejore con el paso de las iteraciones.
+Algoritmos evolucionarios estan sutilmente inspirados por las ideas de Evoluci\'on Natural, donde una selecci\'on de invdividuos evoluciona a traves de una aplicaci\'on de operadores como selecci\'on, mutaci\'on y recombinaci\'on. La calidad de estos individuos se evaluan en contra de una m\'etrica de evaluacion. Tras aplicar los operadores e ir reteniendo los individuos con m\'as aptos se espera que la poblacion mejore en sucesivas iteraciones.
 
 \subsection{GE}
-Con esta idea en mente nace Grammatical Evolution, que utiliza una gramatica para establecer restricciones sint\'acticas sobre las soluciones individuales. Exisite una distincion entre el genotipo y el fenotipo. 
+Con esta idea en mente nace Grammatical Evolution, que utiliza una gramatica para establecer restricciones sint\'acticas sobre las soluciones individuales. Introudce la distinci\'on entre el genotipo y el fenotipo. 
 
-Para crear una solcui\'on se tienen el genotipo (Una lista de eneteros), que se mapea el fenotipo siguiendo las reglas de producci\'on en una Gram\'atica Libre del Contexto (\textit{Context-Free Grammar}, CFG). Donde una gramatica es una tupla $G = (NT, T, S, P)$ donde $NT$ y $T$ representan los conjuntos disjuntos no vac\'io de los s\'imbolos no terminales y terminales respectivamente. $S$ es un elemento de $NT$ llamado el axioma que representa el no-terminal principal que expandiendo este se puede llegar a todas las posibles formas de la gramatica. $P$ es el conjunto de reglas de producci\'on que rigen a la grma\'atica. Las reglas en $P$ tienen la forma de $A ::= \alpha$, donde $A \in NT$ y  $\alpha \in (NT \cup F)^*$ 
+Para obtener una soluci\'on se tienen el genotipo (usualmente una lista de enteros) que se mapea al fenotipo (una lista de prdoucciones) siguiendo las reglas de producci\'on en una Gram\'atica Libre del Contexto (\textit{Context-Free Grammar}, CFG). Donde una gramatica es una terna $G = (NT, T, S, P)$ donde $NT$ y $T$ representan los conjuntos disjuntos no vac\'io de los s\'imbolos no terminales y terminales respectivamente. $S$ es un elemento de $NT$ llamado el axioma que representa el no-terminal principal que expandiendo este se puede llegar a todas las posibles formas de la gramatica. $P$ es el conjunto de reglas de producci\'on que rigen a la grma\'atica. Las reglas en $P$ tienen la forma de $A ::= \alpha$, donde $A \in NT$ y  $\alpha \in (NT \cup F)^*$ 
 
-La relacion genotipo-fenotipo es la cosa principal de GE, y se realiza en pasos sucesivos. Con el fin de seleccionar la produccion que se debe escoger para sustituir un elemento de NT se utiliza el operador m\'odulo.
-
-Insertar ejemplo de como funciona esta talla
+% Insertar ejemplo de como funciona esta talla
 
 El rendimiento de GE ha sido criticado en la literatura por tener alta redundancia y poca localidad. Una representaci\'on tiene alta redundancia cuando varios genotipos corresponden al mismo fenotipo y localidad se refiere a como los cambios en el genotipo se refeljean en el fenotipo. Con el objetivo de mejora GE han exisitido varias propuestas. Una de esta es Evoluci\'on de Gram\'atica Probabilistica.
 
@@ -19,9 +17,9 @@ El rendimiento de GE ha sido criticado en la literatura por tener alta redundanc
 \subsection{PGE}
  (\textit{Probabilistic Grammatic Evolution}).
 
-En PGE el genotipo ya no es una lista de enteros, sino una lista de igual tamaño que la cantidad de ``
+% En PGE se propone un cambio de como se interpreta el genotipo, ya no es una lista de enteros, sino u
 
-Utiliza Algirmtos de Estimacion de Distribucion (\textit{Estimation of Distribution Algorithms, EDA}) una t\'ecninca probabi\'istica que remplaza los operadores de mutacion y cruce por un sampleando sobre la probabiliad de distribuci\'on de las producciones obtenidas mejor individuo, para luego generar una nueva poblaci\'on por cada cada generaci\'on. Las probabilidades comienzan todas inicializadas en igual proporci\'on  y se actualizan basado en la frecuencia de las reglas de produccion escogidas para obtener el individuo con el mayor rendimiento.
+Utiliza Algirmtos de Estimacion de Distribucion (\textit{Estimation of Distribution Algorithms, EDA}) una t\'ecninca probabi\'istica que remplaza los operadores de mutaci\'on y cruce por un sampleando sobre la probabiliad de distribuci\'on de las producciones obtenidas por mejor individuo, para luego generar una nueva poblaci\'on por cada cada generaci\'on. Las probabilidades comienzan todas inicializadas en igual proporci\'on  y se actualizan basado en la frecuencia de las reglas de produccion escogidas para obtener el individuo con el mayor rendimiento.
 
 Probablisitic Grammatical Evolution (PGE)  se apoya en una Gramatica Probabilistica Libre del Contexto (\textit{Probilistic Context-Free Grammatic Evolution} PCFGE) para realizar los mapeos de los fenotipos a los genotipos. PCFGE se establece como una tupla $PG = (NT, T, S, P, Prob)$ donde $Prob$  es un conjunto de probabilidades asocaido con cada regla de la gram\'atica. El genotipo en PGE es un vector de numeros fraccionarios, donde cada uno corresponer con la probabiliad de seleccion cierta regla de derivaci\'on.
 
