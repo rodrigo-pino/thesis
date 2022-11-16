@@ -27,26 +27,50 @@ insetar ejemplo de PGE.
 
 En PGE las probabilidades se actualizan despues de cada generaci\'on  despues de evaluar la poblaci\'on generada, basasdo en cuantas veces cada regla de derivacion fue seleccionada por el el individuo de mejor rendimiento. Si la regla fue seleccionada su probablidad incrementa, en cambio si no, su probabilidad se reduce. Alternando entre estas dos variantes se ayuda a evitar usar el mismo individuo en iteraciones consecutivas, balanceando exploracion global con expotacion local.
 
-\section{Nodominated Sorting Genetic Algorithm}
+\section{Nodominated Sorting Genetic Algorithm II (NSGA-II)}
 
-Como dicho en (insertar estado del arte), NSGA-II es (eso que dice). Se guia por dos ranking fundamentalmente
+\begin{figure}
+    \includegraphics[width=\linewidth]{Pictures/nsga2.png}
+    \label{nsga2}
+\end{figure}
 
-El primer ranking ordena las soluciones de acuerdo a su \'indice de dominaci\'on
+El funcinamiento general de NSGA-II es dado una poblacion ordenarlos, luego escoger los mejores $N$ individuos de dicha poblaci\'on y se genera una nueva poblacion con $2N$ individuos y se repiten los pasos.
 
-Despues de obtenidas las N mejores respuestas, se quiere que el conjunto este bien esparcido sobre el frente de Pareto. 
+La parte tocada de NSGA-II es en la manera en que ordena los elementos, que se divide en dos fases.
 
-Se establece una m\'etrica de densidad (Crowding distance): Para obtener un estimado de l a densidad de soluciones aleda\~nas a cierata solucion se calcula la distancia promedio de dos puntos  en ambos  de cada objetivo. Esta cantidad sirve como un estimado del permiteero del cuboide formado usando los vecinos mas cercanos como vertices.
+En la primera fase ordena las soluciones seg\'un las solucioens que las dominen, a traves de frentes de paretos de distinto rango. En primer lugar van las funciones que nadie domina, seria el frente de pareto de rango 0, las que domina al menos uno, el frente de pareto de rango 1, y as\'i sucesivamente.
 
-El calculo de crowding distanc ereuier la ordenacion de la poblacion de acuerdo a acada funcion objetivo. Las soluciones fronterizas (los valores minimos y maximos de cada funcion objetivo) son asignados distancia infinita. El resto de las soluciones intermedias son asignados son asignados a la distancia igual a la diferencia normalizada absoluta en los valores de las funciones objetivos de las soluciones adyacentes.
+Una vez se tenga esta ordenaci\'on se cogen los primero N soluciones para construir una nueva poblaci\'on a partir de esta utilizando un algoritmo gen\'etico. En el caso de que haya que picar por la mitad algun frente de rango K, es necesario utilizar otro metodo de ordenaci\'on. El objetivo final es obtener del frente de rango K la muestra mas representativa.
 
-Es importante nomralizar la funci\'on objetivo antes de calcualr el crowding distance.
+Para eso se propone Crowding distance:
+Que calcula una estimasion de la densidad de las soluciones vecinas a cierta soluci\'on. Se calucla el promedio de la distancia de estos dos puntos cercanos al punto por cada funci\'on objetivo. Esta distancia sirve como un estimado del permitro del cuboide formado usando los vecinos m\'as cercanos como v\'ertices. 
 
-Poner pseudo codigo de Crowding distance
+El calculo de la distancia necesita ordenar la poblacion de acuerdo a cada funcion objetivo en orden ascendiente. Las puntos de menor y mayor con respecto a una funci\'on objetivo son asignados $\infty$. Todas las soluciones intermedias son asignadas las distancias iguales a la diferencia absoulta normalizada de los valores de la funcion de dos puntos adyacentes. Este calculo se hace sobre todas las funciones objetivo. El crowding distance es calculado como la suma de cada distancia indivual correspondiendo a cada funci\'on objetivo.
 
-Luego el algorimto escoge de las poblacion general formada:
-Si x $prec$ y, entonces se va x
-Si rank x == rank y entonces se escoge a x si su crowding distancia es mayor que y
+\begin{algorithm*}\caption{Crowding Distance}
+    l = |S|
+
+    for i = 0 to l:
+
+    \quad set S[i].distance = 0
+
+    for each objective $m$
+
+    \quad S = sort(S, m)
+
+    \quad S[0].distance = S[l].distance = $\infty$
+
+    \quad for i = 2 to (l - 1):
+
+    \qquad 
+    \begin{math}
+        S[i].distance  = \frac{S[i].distance + (S[i + 1].m - I[i - 1].m)}{f^{max}_{m} - f^{min}_m}
+    \end{math}
+\end{algorithm*}
+
 
 \section{Autogoal con NSGA-II y PGE}
 
-Como lo que existe ya de AutoGOAL interactua con la nueva implementaci\'on de PGA
+En el caso de AutoGOAL se añade la busqueda NSPGE inspirada en NSGAII, donde se modifican a la hora de buscar los indices para actualizar la gramatica, se cogen a los N mejores utilizando los ordenamientos previamente mencionados. Es el cambio fundmental
+
+

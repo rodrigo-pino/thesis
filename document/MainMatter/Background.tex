@@ -1,6 +1,3 @@
-% TODO: Contemplar los trabajos parecidos al mio, que resuelven los trabajos parecidos al mio
-% TOOD: Esta corto
-
 \chapter{Estado del Arte}\label{chapter:state-of-the-art}
 
 \section{Optimizaci\'on Multiobjetivo}
@@ -11,11 +8,11 @@ Optimizaci\'on Multiobjetivo es la rama de la Ciencia y la Matem\'atica que se d
 \begin{definition}{Optimizaci\'on Multibojetivo:}
      Dado $m$ funciones objetivos: $f_1: \mathcal{X} \rightarrow \mathbb{R}, ..., f_m: \mathcal{X} \rightarrow \mathbb{R}$ que dado un vector en el espacio de decisi\'on $\mathcal{X}$ es transformado en un valor de $\mathbb{R}$. Se define el Problema Multiobjetivo (MOP) como:
     \begin{equation*}
-        \text{MOP: }\min f_1(x), ..., f_m(x), x \in \mathcal{X}
+        \min f_1(x), ..., f_m(x), x \in \mathcal{X}
     \end{equation*}
 \end{definition}
 
-En presencia de varias funciones objetivos ya no es posible hablar de una soluci\'on \'unica mejor que el resto. Ni que una soluci\'on es directamente mejor que otra pues existe mas de una m\'etrica a comparar. Se introduce el concepto de dominaci\'on.
+Cuando se optimiza varias funciones, la mejor soluci\'on  no es un escalar, sino un vector, o m\'as bien un conjutno de vectores; pues ya no siempre existe una soluci\'on \'unica mejor que el resto, pues al haber m\'as de dos medidas de evaluaci\'on un vector puede ser mejor que otro en ciertas m\'etricas pero no en todas. Para referirse a esto, en la literatura se le conoce como \textit{Pareto dominaci\'on}.
 
 \begin{definition}{Pareto Dominaci\'on:}
     Dados dos vectores en el el espacio objetivo, $x \in \mathbb{R}^m$ y $z \in \mathbb{R}^m$, se dice que $x$ Pareto domina a $z$ (i.e. $x \prec z$), si y solo si:
@@ -26,7 +23,7 @@ En presencia de varias funciones objetivos ya no es posible hablar de una soluci
 
 % Poner imagen de cuando hay pareto dominaci\'on.
 
-Cuando se tiene un conjunto de vectores que nadie domina, es lo que se conoce como Frente de Pareto y es el conjunto soluci\'on del problema multiobjetvio.
+Cuando se tiene un conjunto de vectores que nadie domina, es lo que se conoce como Frente de Pareto y es el conjunto soluci\'on del problema multiobjetivo.
 
 % Es usual que estos criterios de decisi\'on entren en conflictos entre s\'i y no sea posible encontrar una soluci\'on que satisfaga ambas m\'etricas, en cambio, se encuentran soluciones que si se intentan optimizar en algun aspecto, inevitablemente empeoran en otros. Estas soluciones son las que se conocen como soluciones del frente de Pareto. Con el concepto de Pareto viene el concepto de Pareto dominaci\'on.\\
 
@@ -38,7 +35,7 @@ Cuando se tiene un conjunto de vectores que nadie domina, es lo que se conoce co
     \end{align*}
 \end{definition}
 
-Se debe notar que el termino Optimizaci\'on Multiobjetivo se utiliza cuando se optimza simult\'aneamente para dos o tres funciones objetivos. Para un cantidad de m\'etricas mayor se le conoce coloquialmente en la literatura como Optimizaci\'on para Muchos Objetivos o \textit{many-objective optimization} en ingl\'es, ropuesto inicialmente por \cite{10.1007/978-3-540-31880-4_2}. Se hace enf\'asis en esta  diferenciaci\'on este pues al aumentar le n\'umero de m\'etricas a optimizar:
+Se debe notar que el termino Optimizaci\'on Multiobjetivo se utiliza cuando se optimza simult\'aneamente para dos o tres funciones objetivos. Para un cantidad de m\'etricas mayor se le conoce coloquialmente en la literatura como Optimizaci\'on para Muchos Objetivos o \textit{many-objective optimization} en ingl\'es, propuesto inicialmente por \cite{10.1007/978-3-540-31880-4_2}. Se hace enf\'asis en esta  diferenciaci\'on pues al aumentar el n\'umero de m\'etricas a optimizar:
 \begin{enumerate}
     \item ya no es posible visualizar el frente obtenido;
     \item la computaci\'on de indicadores o de selecci\'on para muchos algoritmos se convierte en problemas NP-duros;
@@ -51,20 +48,20 @@ Se debe notar que el termino Optimizaci\'on Multiobjetivo se utiliza cuando se o
 
 \subsection{T\'ecnicas de Escalarizaci\'on (Scalarization)}
 
-El problema multiobjetivo es usualmente resuelto utilizando t\'ecnicas de escalarizaci\'on (\cite{miettinen2012nonlinear}). Esta t\'ecnica consiste  en agregar funciones objetivos o  reformularlas como restricciones para luego resolver el problema optimizando para un solo objetivo. La nueva funci\'on objetivo se parametriza con el objetivo de obtener distintos puntos del frente de Pareto.
+El problema multiobjetivo cl\'asicamente ha sido resuelto utilizando t\'ecnicas de escalarizaci\'on (\cite{miettinen2012nonlinear}). Esta t\'ecnica consiste  en agregar funciones objetivos o  reformularlas como restricciones para luego resolver el problema optimizando para un solo objetivo. La nueva funci\'on objetivo se parametriza con el objetivo de obtener distintos puntos del frente de Pareto en cada corrida.
 \begin{enumerate}
     \item Linear Weighting: Todas las funciones objetivos se combinan en una sola, y a cada una se le asigna un peso. Modificando estos pesos se obtiene una soluci\'on distinta del frente de Pareto.
     \begin{equation*}
         \min \sum w_i f_i(x), \space x \in X
     \end{equation*}
-    Se garantiza que una soluci\'on de esta nueva funci\'on objetivo siempre est\'a sobre el frente de Pareto  y si este es convexo se puede hallar cualquier punto  dado el correcto vector de peso(\cite{emmerich2018tutorial}). El problema yace cuando el frente de Pareto tiene forma c\'oncava \textit{Linear Weighting} resulta insuficiente pues no es posible obtener los puntos de esta parte del frente.
+    Se garantiza que una soluci\'on de esta nueva funci\'on objetivo siempre est\'a sobre el frente de Pareto  y si este es convexo se puede hallar cualquier punto de este con el correcto vector de peso(\cite{emmerich2018tutorial}). El problema yace cuando el frente de Pareto tiene forma c\'oncava donde \textit{Linear Weighting} resulta insuficiente por no ser capaz obtener los puntos de esta secci\'on del frente.
 
-    \item $\epsilon$-constrain: Se selecciona una funci\'on objetivo como principal y las dem\'as se establecen como restricciones de esta, y tienen que ser menor que sierto $\epsilon_i$ con $1 \leq n - 1$ por cada funci\'on objetivo.
+    \item $\epsilon$-constrain: Se selecciona una funci\'on objetivo como principal y las dem\'as se establecen como restricciones de esta tal que sean menor que sierto $\epsilon_i$ con $1 \leq n - 1$ por cada funci\'on objetivo.
     \begin{align*}
             \min  f_1(x), \space x \in X  & \text{, sujeto a:}   \\
             g_i(x) \leq \epsilon_i & \quad  \forall i, 2 \leq i \leq n
     \end{align*}
-    Esta enfoque presenta dos dificultades principales: la obtenci\'on de los $\epsilon_i$, para una adecuada selecci\'on requiren conocimiento previo del frente de Pareto y, al igual que \textit{Linear Weighting}, no es capaz de detectar soluciones en las partes c\'oncavas del frente (\cite{emmerich2018tutorial}).
+    Esta enfoque presenta dos dificultades principales: la valores de los $\epsilon_i$, para una adecuada selecci\'on requiren conocimiento previo del frente de Pareto y al igual que \textit{Linear Weighting}, no es capaz de detectar soluciones en las partes c\'oncavas del frente (\cite{emmerich2018tutorial}).
 
     % TODO: Que condicion cumple los pesos de Chebychev
 \item Chebychev Distance (CSP): Se establece un punto de referencia $z^*$ y se utiliza la distancia de Chebychev de los vectores objetivos hacia este como funci\'on objetivo utilizando un vector de pesos $\lambda \in \mathbb{R}^m_{\prec 0}$, donde $\mathbb{R}^m_{\prec 0} = \{x | x \in \mathbb{R}^m, x \prec 0 \}$. 
@@ -74,7 +71,7 @@ El problema multiobjetivo es usualmente resuelto utilizando t\'ecnicas de escala
     CSP dado un punto de referenncia adecuado y los pesos indicados puede encontrar cualquier punto del frente de Pareto, no importa su forma (\cite{emmerich2018tutorial}).
 \end{enumerate}
 
-Recientemente escalarizaci\'on ha encontrado utilidad dentro de algoritmos gene\'eticos por descomposici\'on para buscar secciones definidas del frente de pareto.  En \cite{paria2020flexible} se propone un algorimto para extraer solo una secci\'on de un frente de Pareto utilizando una estrategia basada en escalarizaci\'on aleatoria.
+Recientemente escalarizaci\'on ha sido utilizado dentro de algoritmos gene\'eticos por descomposici\'on para buscar secciones definidas del frente de pareto.  En \cite{paria2020flexible} se propone un algorimto para mappear un area determinada del frente de Pareto utilizando una estrategia basada en escalarizaci\'on aleatoria.
 
 
 \subsection{Algoritmos Num\'ericos}
@@ -82,7 +79,7 @@ Recientemente escalarizaci\'on ha encontrado utilidad dentro de algoritmos gene\
 % TODO: Es esto verdad?
 En principio todos los algoritmos de escalarizaci\'on se pueden resolver utilzando m\'etodos n\'umericos. Adem\'as existen otros m\'etodos  que intentan resolver el problema haciendo cumplir las condiciones de Karush-Kuhn-Tucker (KKT) definidas por \cite{kuhn2014nonlinear}.
 
-La idea va de encontrar al menos una soluci\'on al sistema de ecuaciones creado por tratar de resolver KKT. Luego utilizando m\'etodos de continuaci\'on y homotop\'ia para añadir al conjunto soluci\'on soluciones cercanas a estas. Este algoritmo require que las soluciones satisfagan las condiciones de convexidad local y diferenciabilidad, se puede obtener mas infomraci\'on en \cite{hillermeier2001nonlinear} y \cite{schutze_et_al:DagSemProc.04461.16}.
+La idea va de encontrar al menos una soluci\'on al sistema de ecuaciones creado tras intentar resolver el problema KKT. Luego se utilizan m\'etodos de continuaci\'on y homotop\'ia para añadir al conjunto soluci\'on soluciones cercanas a esta. Este algoritmo require que las soluciones satisfagan las condiciones de convexidad local y diferenciabilidad, se puede obtener mas infomraci\'on en \cite{hillermeier2001nonlinear} y \cite{schutze_et_al:DagSemProc.04461.16}.
 
 Tambien existen otros metodos para la b\'usqueda de m\'inimos globales como \textit{T\'ecnicas de Subdivisi\'on} por \cite{dellnitz2005covering}, \textit{Optimizaci\'on Global Bayesiana} por \cite{emmerich2016multicriteria} y \textit{Optimizaci\'on de Lipschitz} por \cite{vzilinskas2013worst}. % Estas requiren de que el espacio de decisi\'on tenga una baja dimensionalidad.
 
@@ -91,13 +88,13 @@ Aun m\'as, tambi\'en se investiga activamente m\'etodos n\'umericos que no neces
 
 \subsection{Algoritmos Evolucionarios Multiobjetivos (MOEA)}
 
-Los algorimtos gen\'eticos tuvieron sus inicios en la decada del 60 y fueron usados principalmente en resoluci\'on de problemas num\'ericos combinatorios y no convexos. Utilizan paradigmas extra\'idos de la naturaleza, tal como seleccion natural, mutaci\'on y recombinaci\'on para mover una poblaci\'on (o conjunto de vectores de decisi\'on) hacia una soluci\'on \'optima (\cite{back1996evolutionary}).
+Los algorimtos gen\'eticos tuvieron sus inicios en la decada del 60 y fueron usados principalmente en resoluci\'on de problemas num\'ericos combinatorios y no convexos. Utilizan paradigmas extra\'idos de la naturaleza, tal como selecci\'on natural, mutaci\'on y recombinaci\'on para mover una poblaci\'on (o conjunto de vectores de decisi\'on) hacia una soluci\'on \'optima (\cite{back1996evolutionary}).
 
 Los algoritmos evolucionarios multiobjetivos (MOEA) generalizan esta idea, y son diseñados para en cada iteraci\'on acercarse cada vez m\'as al frente de Pareto. Como en este caso no existe soluci\'on \'unica la manera de selccionar los individuos cambia fundamentalmente.
 
 Dentro de los MOEA existen tres paradigmas principales:
 \begin{enumerate}
-    \item \textbf{MOEA basados en el frente de Pareto}: Se identifican porque dividen el proceso de selecci\'on en dos etapas. Una primera donde seleccionan los invidiuos segu\'un su ind\'ice de dominaci\'on, donde las soluciones que pertenecen al frente de Pareto tienen ind\'ice cero. Luego se realiza una ordenaci\'on entre los ya seleccionados utilizando una segunda estrategia de puntuaci\'on. NSGA-II (\cite{deb2002fast}) y SPEA2 (\cite{zitzler1999multiobjective}) son algoritmos de este tipo.
+    \item \textbf{MOEA basados en el frente de Pareto}: Se identifican por dividir el proceso de selecci\'on en dos etapas. En la primera se organizan los invidiuos segu\'un su ind\'ice de dominaci\'on y se acomodan en distintos subconjutnos seg\'un la cantidad de soluciones que los dominen (e.g. un subconjunto para las soluciones a las cuales nadie domina, otro para los son dominados por alguna soluci\'on etc.). En la segunda ordenaci\'on cada subconjunto se ordena buscando que los primeros lugares sean los elementos m\'as representativos de cada subconjunto. NSGA-II (\cite{deb2002fast}) y SPEA2 (\cite{zitzler1999multiobjective}) son algoritmos de este tipo.
 
     \item \textbf{Basados en indicador}: Estos utilizan un indicador para calcular cuan cercano es el conjunto actual al frente de Pareto (unario), o cuanto mejora el nuevo conjunto de soluciones respecto a la iteraci\'on anterior (binario). Ejemplo de este es SMS-EMOEA (\cite{emmerich2005emo}) que suele converger al frente de Pareto con soluciones igualmente distribuidas.
 
@@ -108,17 +105,17 @@ Dentro de los MOEA existen tres paradigmas principales:
 
 \section{Aprendizaje de M\'aquina Automatizado}
 % Que es AutoML
-El Aprendizaje de M\'aquina Automatizado (Automated Machine Learning, AutoML) consiste en la generaci\'on autom\'atica de flujos o \textit{pipelines} de Aprendizaje de M\'aquina que resuelven un problema determinado. El objetivo es transferir el problema de combinaci\'on, selcci\'on y optimizaci\'on de hiperpar\'ametros(\textit{Combined Algorithm Selection and Hyperparameter Optimization}, CASH por sus siglas en ingl\'es) del investigador al sistema, permitiendole a este enfocarse en otras tareas como la validaci\'on de los datos o ingenier\'ia de caracter\'istcas. Tambi\'en democratiza el uso de Aprendizaje de M\'aquina pues usarios normales sin los recursos econ\'omicos suficiente pueden aplicar a sus problemas modelos de Aprendizaje de M\'aquina sin la necesidad de un Cient\'ifico de Datos gracias a que las operaciones de combinaci\'on y selecci\'on de modelos y optimizaci\'on de hiperpar\'ametros esta automatizada.
+El Aprendizaje de M\'aquina Automatizado (Automated Machine Learning, AutoML) consiste en la generaci\'on autom\'atica de flujos o \textit{pipelines} de Aprendizaje de M\'aquina que resuelven un problema determinado. El objetivo es transferir el problema de combinaci\'on, selcci\'on y optimizaci\'on de hiperpar\'ametros(\textit{Combined Algorithm Selection and Hyperparameter Optimization}, CASH por sus siglas en ingl\'es) del investigador al sistema, permitiendole a este enfocarse en otras tareas como la validaci\'on de los datos o ingenier\'ia de caracter\'istcas. Tambi\'en democratiza el uso de Aprendizaje de M\'aquina pues usarios normales sin los recursos econ\'omicos suficiente pueden aplicar a sus problemas modelos de Aprendizaje de M\'aquina sin la necesidad de un Cient\'ifico de Datos gracias a que que el problema CASH esta automatizado.
 
 % Ejemplos de AutoML
 
 Existen varias propuestas de Aprendizaje de M\'aquina Automatizado, utilizando t\'ecnias de variados dominios. Entre los principales relacionados con el problema CASH se encuentran:
 \begin{itemize}
-    \item \textbf{Optimizaci\'on Bayesiana} (\cite{hutter2019automated}): Utilizan optimizaci\'on bayesiana para encontrar el mejor flujo de ML que maximice cierta m\'etrica. Introducido por Auto-Weka en 2013 (\cite{thornton2013auto}) con el fin de resolver problemas CASH. Auto-Skelearn \cite{feurer2015efficient} crece sobre este introduciendo mejoras com la inclusion de un paso de meta-aprendizaje que reduce el espacio de b\'usquda aprendiendo de modelos que funcionaron bien en conjuntos de datos similares y luego un paso de selecci\'on de ensemblers que le permite reusar los flujos de Aprendizaje de M\'aquina que tuvieron mejor rendimiento.
+    \item \textbf{Optimizaci\'on Bayesiana} (\cite{hutter2019automated}): Utilizan optimizaci\'on bayesiana para encontrar el mejor flujo de ML que maximice cierta m\'etrica. Introducido por Auto-Weka en 2013 (\cite{thornton2013auto}) con el fin de resolver problemas CASH. Auto-Skelearn \cite{feurer2015efficient} crece sobre este introduciendo mejoras com la inclusi\'on de un paso de meta-aprendizaje que reduce el espacio de b\'usquda aprendiendo de modelos que funcionaron bien en conjuntos de datos similares y luego un paso de selecci\'on de ensemblers que le permite reusar los flujos de Aprendizaje de M\'aquina que tuvieron mejor rendimiento.
     
-    \item \textbf{Programaci\'on Evolutiva} \cite{chen2018autostacker}: Bas\'andos en algoritmos gen\'eticos funcionan creando una poblaci\'on inicial de flujos v\'alidos, se seleccionan los de mejor rendmiento respecto a una m\'etrica y se utilzan para crear la poblaci\'on de la pr\'oxima iteraci\'on. TPOT (\cite{pmlr-v64-olson_tpot_2016}) es uno de los m\'as reconocidos en esta \'area, permiten tener varias copias sobre el dataset y aplicar operadores sobre ellos, luego con un operador de cruce, permite crear flujos con los operadores con mejor puntuaci\'on. TPOT adem\'as realiza una b\'usqueda multiobjetivo sobre las soluciones encontradas utilizando NSGA-II (\cite{deb2002fast}) optimzando maximizar exactitud (\textit{accuracy} en la literatura) y minimizando la cantidad de operadores aplicados sobre los flujos de ML por un tema de simplicidad y evitar el sobreajuste a los datos.
+    \item \textbf{Programaci\'on Evolutiva} \cite{chen2018autostacker}: Bas\'andos en algoritmos gen\'eticos funcionan creando una poblaci\'on inicial de flujos v\'alidos, se seleccionan los de mejor rendmiento respecto a una m\'etrica y se utilzan para crear la poblaci\'on de la pr\'oxima iteraci\'on. TPOT (\cite{pmlr-v64-olson_tpot_2016}) es uno de los m\'as reconocidos en esta \'area, permiten tener varias copias sobre el dataset y aplicar operadores sobre ellos simult\'aneamente para luego recombinarlos y crear flujos con los operadores de mejor rendimiento. TPOT adem\'as realiza una b\'usqueda multiobjetivo sobre las soluciones encontradas utilizando NSGA-II (\cite{deb2002fast}) optimzando maximizar exactitud (\textit{accuracy} en la literatura) y minimizando la cantidad de operadores aplicados sobre los flujos de ML por un tema de simplicidad y evitar el sobreajuste a los datos.
 
-        AutoGOAL (\cite{estevez2020solving}) genera soluciones utilizando una Grama\'atica Probabl\'istca Libre del Contexto para modelar el espacio de decisi\'on y Probabilistic Grammatic Evolution para construir las soluciones.
+        AutoGOAL (\cite{estevez2020solving}) genera soluciones utilizando una Grama\'atica Probabl\'istca Libre del Contexto para modelar el espacio de decisi\'on y Probabilistic Grammatic Evolution, un algortimos gen\'etico basados en EDA para construir las modelos de flujo. Tiene varios algorimtos bajo integrados y su generalidad permite abarcar problemas de cualquier tipo, incluido problemas de procesamiento de lenguage natura donde el sistema se encarga de pre-procesar los datos.
 
     \item \textbf{Aprendizaje \'Unico}: Utilizan un solo algoritmo de aprendizaje, y tratan de optimizar lo mejor posible los hiperpar\'ametros. Ejemplo de esto es \textit{autoxgboost} (\cite{thomas2018automatic}) que usa solamente como algoritmo de aprendizaje a metodos de aumento de gradientes con \'arboles (\textit{Gradient Boosting with Trees}, GBT) como \textit{xgboost} (\cite{chen2016xgboost}) debido a su gran rendimiento con los par\'ametros adecuados. \textit{autoxgboost} utiliza optimizaci\'on bayesiana para para tunear los hiperpar\'ametros.
     
@@ -132,13 +129,13 @@ Existen varias propuestas de Aprendizaje de M\'aquina Automatizado, utilizando t
 % AutoML se lleva investigando muchos años. Existen varias propuestas para resolver problemas AutoML, una de las vertientes es utilizando Programacion Evolutiva con algoritmos geneticos,
 % Donde se generan N pipelines, se evaluan en contra de una metrica, se escogen los k mejores. Y se aplican mutacion y seleccion y recombinacion.
 
-En el campo del aprendizaje de m\'aqina han habido investigaciones respecto a la Optimizaci\'on Multibobjetivo.  Anal\'is de de curva caracter\'istca de receptor (\textit{receiver operating characteristic curve}, ROC) de \cite{everson2006multi} para calcular el costo de clasificaciones err\'oneas de un clasificador mostrando gr\'aficamente un intercambio entre los verdaderos y falsos positvos de dos o m\'as problemas de clasificaci\'on utilizando Optimizaci\'on Multiobjetivo. 
+En el campo del aprendizaje de m\'aqina han habido varias investigaciones respecto a la Optimizaci\'on Multibobjetivo.  An\'alisis de curva caracter\'istca de receptor (\textit{receiver operating characteristic curve}, ROC) de \cite{everson2006multi} para calcular el costo de clasificaciones err\'oneas de un clasificador mostrando gr\'aficamente un intercambio entre los verdaderos y falsos positvos de dos o m\'as problemas de clasificaci\'on utilizando Optimizaci\'on Multiobjetivo. 
 \cite{jin2008pareto} hacen un analisis sobre la adici\'on de optimizaci\'on multibojetivo al Aprendizaje de M\'aquina. Compara los diferentes enfoques de escalarizaci\'on y algoritmos gen\'eticos.
-En el campo de configuraci\'on de algoritmos \cite{blot2016mo} introduce un busqueda iterativa local basado en multiples criterios para configurar SAT solvers.
+En el campo de configuraci\'on de algoritmos \cite{blot2016mo} introduce un busqueda iterativa local basado en multiples criterios para configurar solucionadores SAT.
 
-El estudio de optimizaci\'on en sistemas Aprendizaje de M\'aqina Automatizado es bastante reciente. Entre los sistemas AutoML que cuentan con esta propieda es TPOT \cite{pmlr-v64-olson_tpot_2016} que optimiza mutuamente para exactitud y modelos de Aprendizaje de Maquina m\'as sencillos, no obstante estas m\'etricas est\'an fijas y el progrmador no puede modificarlas, ni a\~nadir m\'as.
+El estudio de optimizaci\'on en sistemas Aprendizaje de M\'aqina Automatizado es bastante escaso. Entre los sistemas AutoML que cuentan con esta caracter\'istica se encuentra es TPOT \cite{pmlr-v64-olson_tpot_2016} que optimiza mutuamente para exactitud y modelos de Aprendizaje de Maquina m\'as sencillos, no obstante estas m\'etricas est\'an fijas y el progrmador no puede modificarlas, ni a\~nadir m\'as.
 En \cite{pfisterer2019multi} se propone una adici\'on a \textit{autoxgboost} (\cite{thomas2018automatic}) para optimizar multiobjetivo utilizando un algoritmo de simple de escalarizaci\'on. Esta implementaci\'on es flexible en cuanto a m\'etricas utilizar.
 
-En AutoGOAl se propone la adici\'on de optimizar para varios objetivos utilizando un algorimto gen\'etico que est\'an demostrados que son resistentes a la forma del frente de Pareto. Se propone el uso de cualquier m\'etrica.
+En AutoGOAL se propone la adici\'on de optimizar para varios objetivos utilizando un algorimto gen\'etico que est\'an demostrados que son resistentes a la forma del frente de Pareto. Los objetivos seri\'ian definidos por el usuario y la respuesta ser\'ia un conjunto de flujos de ML que estuvieran en el frente de Pareto.
 
 
