@@ -1,10 +1,35 @@
-\chapter{Propuesta}\label{chapter:proposal}
+% Diagrama de lo que espera hacer mi algorimto con una caja negra que es un sistema automl. Esperar que el sistema se actualize solo
+% Escribir que es lo que espera mi algoritmo caja negra, y que es lo que retorna 
+% Escribir como si todo fuera desde yo
 
-\section{Probabilistic Grammatic Evolution}
+\chapter{Propuesta}\label{chapter:proposal}
+El sistema toma como entrada un sistema de Aprendizaje de M\'aquina Automatizado $\mathcal{A}$ tal que $\mathcal{A}(D, M, P) = TP$ donde $D = \{(x_1, y_1), (x_2, y_2), ..., (x_n, y_n)\}$ representa un conjunto de datos de entrada, $M = \{f_1, f_2, ..., f_m\}$ un conjunto de m\'etricas a evaluar y $P = \{p_1, p_2, ..., p_k\}$ una serie de modelos de Aprendizaje Autom\'atico por los cuales se gu\'ia $\mathcal{A}$ para producir una poblaci\'on $TP$. El objetivo del sistema es producir una serie de modelos de Aprendizaje Autom\'atico $P $ que sean una muestra representativa del frente de Pareto utilizando un algoritmo evolutivo multiobjetivo  $\mathcal{H}$ tal que $\mathcal{H}(TP) = P$. 
+
+\begin{algorithm}\caption{Flujo del Sistema}
+    \KwIn{$\mathcal{A}$, D, M}
+    \KwOut{P}
+    
+    $TP \gets \mathcal{A}(D, M, \emptyset)$ \tcp*{Se obtiene poblaci\'on inicial aleatoria}
+    \While{no se cumplan condiciones de parada}{
+        $P = \mathcal{H}(TP)$ \tcp*{Se extraen los m\'as aptos de una poblaci\'on} 
+        $TP = \mathcal{A}(D, M, P)$ \tcp*{Se genera una nueva poblaci\'on}
+    }
+\end{algorithm}
+
+\section{Sistema AutoML}
+El sistema AutoML es necesario que sea capaz de generar una poblaci\'on inicial aleatoria de tamaño 2N. 
+
+Es necesario que sea capaz tambi\'en que dado N flujos de ML como entrada sea capaz de duplicar la poblaci\'on utilizando alg\'un algoritmo evolutivo, tal que se preserven las caracter\'isticas de los flujos de entrada. 
+
+% Cambiar de en Autogoal, a se sugiere y xq se sugiere
+\subsection{En Autogoal: PGE y CFGE}
+
+Para el caso de AutoGOAL se utiliza especif\'icamente 
+Se requiere de un sistema de AutoML que se utiliza como caja negra, que dado un set de datos sea capaz de retornar un conjunto de flujos de Aprendizaje Autom\'atico  que resulevan ese problema
 
 Algoritmos evolucionarios estan sutilmente inspirados por las ideas de Evoluci\'on Natural, donde una selecci\'on de invdividuos evoluciona a traves de una aplicaci\'on de operadores como selecci\'on, mutaci\'on y recombinaci\'on. La calidad de estos individuos se evaluan en contra de una m\'etrica de evaluacion. Tras aplicar los operadores e ir reteniendo los individuos con m\'as aptos se espera que la poblacion mejore en sucesivas iteraciones.
 
-\subsection{GE}
+\subsubsection{GE}
 Con esta idea en mente nace Grammatical Evolution, que utiliza una gramatica para establecer restricciones sint\'acticas sobre las soluciones individuales. Introudce la distinci\'on entre el genotipo y el fenotipo. 
 
 Para obtener una soluci\'on se tienen el genotipo (usualmente una lista de enteros) que se mapea al fenotipo (una lista de prdoucciones) siguiendo las reglas de producci\'on en una Gram\'atica Libre del Contexto (\textit{Context-Free Grammar}, CFG). Donde una gramatica es una terna $G = (NT, T, S, P)$ donde $NT$ y $T$ representan los conjuntos disjuntos no vac\'io de los s\'imbolos no terminales y terminales respectivamente. $S$ es un elemento de $NT$ llamado el axioma que representa el no-terminal principal que expandiendo este se puede llegar a todas las posibles formas de la gramatica. $P$ es el conjunto de reglas de producci\'on que rigen a la grma\'atica. Las reglas en $P$ tienen la forma de $A ::= \alpha$, donde $A \in NT$ y  $\alpha \in (NT \cup F)^*$ 
@@ -14,7 +39,7 @@ Para obtener una soluci\'on se tienen el genotipo (usualmente una lista de enter
 El rendimiento de GE ha sido criticado en la literatura por tener alta redundancia y poca localidad. Una representaci\'on tiene alta redundancia cuando varios genotipos corresponden al mismo fenotipo y localidad se refiere a como los cambios en el genotipo se refeljean en el fenotipo. Con el objetivo de mejora GE han exisitido varias propuestas. Una de esta es Evoluci\'on de Gram\'atica Probabilistica.
 
 
-\subsection{PGE}
+\subsubsection{PGE}
  (\textit{Probabilistic Grammatic Evolution}).
 
 % En PGE se propone un cambio de como se interpreta el genotipo, ya no es una lista de enteros, sino u
@@ -27,7 +52,13 @@ insetar ejemplo de PGE.
 
 En PGE las probabilidades se actualizan despues de cada generaci\'on  despues de evaluar la poblaci\'on generada, basasdo en cuantas veces cada regla de derivacion fue seleccionada por el el individuo de mejor rendimiento. Si la regla fue seleccionada su probablidad incrementa, en cambio si no, su probabilidad se reduce. Alternando entre estas dos variantes se ayuda a evitar usar el mismo individuo en iteraciones consecutivas, balanceando exploracion global con expotacion local.
 
-\section{Nodominated Sorting Genetic Algorithm II (NSGA-II)}
+\section{MOEA basado en Frente de Pareto}
+
+Cualquier algoritmo de este tipo es posible utilizarlo aqu\'i. La importancia radica en que los soluciones que se le den prioridad sean parte del frente de Pareto
+
+% Explicar xq se quiere nsga2, xq esta probado, es un buen metodo de optimzacion estandar y demostrado
+% Los nuevos metodos multiobjetivos se comparan con NSGAII.
+\subsection{NSGA-II}
 
 \begin{figure}
     \includegraphics[width=\linewidth]{Pictures/nsga2.png}
@@ -43,9 +74,9 @@ En la primera fase ordena las soluciones seg\'un las solucioens que las dominen,
 Una vez se tenga esta ordenaci\'on se cogen los primero N soluciones para construir una nueva poblaci\'on a partir de esta utilizando un algoritmo gen\'etico. En el caso de que haya que picar por la mitad algun frente de rango K, es necesario utilizar otro metodo de ordenaci\'on. El objetivo final es obtener del frente de rango K la muestra mas representativa.
 
 Para eso se propone Crowding distance:
-Que calcula una estimasion de la densidad de las soluciones vecinas a cierta soluci\'on. Se calucla el promedio de la distancia de estos dos puntos cercanos al punto por cada funci\'on objetivo. Esta distancia sirve como un estimado del permitro del cuboide formado usando los vecinos m\'as cercanos como v\'ertices. 
+Que calcula una estimaci\'on de la densidad de las soluciones vecinas a cierta soluci\'on. Se calcula el promedio de la distancia de estos dos puntos cercanos al punto por cada funci\'on objetivo. Esta distancia sirve como un estimado del perimetro del cuboide formado usando los vecinos m\'as cercanos como v\'ertices. 
 
-El calculo de la distancia necesita ordenar la poblacion de acuerdo a cada funcion objetivo en orden ascendiente. Las puntos de menor y mayor con respecto a una funci\'on objetivo son asignados $\infty$. Todas las soluciones intermedias son asignadas las distancias iguales a la diferencia absoulta normalizada de los valores de la funcion de dos puntos adyacentes. Este calculo se hace sobre todas las funciones objetivo. El crowding distance es calculado como la suma de cada distancia indivual correspondiendo a cada funci\'on objetivo.
+El calculo de la distancia necesita ordenar la poblaci\'on de acuerdo a cada funcion objetivo en orden ascendiente. Las puntos de menor y mayor con respecto a una funci\'on objetivo son asignados $\infty$. Todas las soluciones intermedias son asignadas las distancias iguales a la diferencia absoulta normalizada de los valores de la funcion de dos puntos adyacentes. Este calculo se hace sobre todas las funciones objetivo. El crowding distance es calculado como la suma de cada distancia indivual correspondiendo a cada funci\'on objetivo.
 
 \begin{algorithm*}\caption{Crowding Distance}
     l = |S|
@@ -67,10 +98,5 @@ El calculo de la distancia necesita ordenar la poblacion de acuerdo a cada funci
         S[i].distance  = \frac{S[i].distance + (S[i + 1].m - I[i - 1].m)}{f^{max}_{m} - f^{min}_m}
     \end{math}
 \end{algorithm*}
-
-
-\section{Autogoal con NSGA-II y PGE}
-
-En el caso de AutoGOAL se añade la busqueda NSPGE inspirada en NSGAII, donde se modifican a la hora de buscar los indices para actualizar la gramatica, se cogen a los N mejores utilizando los ordenamientos previamente mencionados. Es el cambio fundmental
 
 

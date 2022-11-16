@@ -1,7 +1,23 @@
 \chapter{Detalles de Implementación y Experimentos}\label{chapter:implementation}
 
-Para normalizar crowding distance se utiliza feature scaling
+% Aqui hablar de todo en general (para este viersen)
+% Donde es que se engancha mi implementaci\'on 
+% Pintar un diagrama de esto 
+% Explicar todas las partes del diagrama
 
-Se generaliza autogoal para retornar un conjunto de pipelines
+Para la implementacion se defini\'o una nueva clase basado en la implementaci\'on de PGE de AutoGOAL. 
+Se realizaron modificaciones sobre esta para obtener generalizar los resultados y poder trabajar con varias m\'etricas. Se adaptaron las funciones anteriores que solo optimzian para un solo objetivo y asum\'ian esto.
 
+La clase NSPGE implementa NSGAII aprovechandose de la definicion de PGE como algoritmo genetico que funciona muy bien. Lo \'unico que cambia es realmente a la hora de ordenar los resultados que se utiliza una primera ordenacion por ranking y una segunda ordencaci\'on crowding distance.
 
+Crowding distance require que los datos est\'en normalizados para esto se implemento feature scaling y se lleva por defecto todos los puntos en el rango de 0 a 1.
+
+Primeramente se hace un recorrido por las soluciones y se busca los vecotes que dominan a otros y se van ordenando en una lista, donde en la primera posicion se encuentran los vectores a los que no domina nadie, en la segunda posicion los vectores a los que al menos alguien domina.
+
+Luego se devuelven todos los frentes en orden hasta llegar a los N flujos requeridos. Si es necesario picar uno de los frentes estos se ordenan usando crowding distance.
+
+% Y despues de las pruebas
+
+% Probar cuando se usan varias m\'etricas (para este s\'abado)
+
+% Plotear como se acerca al frente de Pareto
