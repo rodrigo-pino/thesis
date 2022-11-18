@@ -34,28 +34,29 @@ Existen variadas propuestas en el campo Aprendizaje de M\'aquina Automatizado, u
     \item Programaci\'on Evolutiva (\cite{chen2018autostacker})
     \item B\'usqueda Aleatoria 
     \item Aprendizaje por Refuerzo
+    \item M\'etodo de Gradiente
     \item Modelos Constructivos
     \item Monte Carlo
 \end{itemize}
 
 \subsection{Optimizaci\'on Bayesiana}
-Las propuestas basadas en optimizaci\'on bayedsian est\'an divididas en dos componentes principales: un modelo estad\'istico bayesiano para modelar la funci\'on objetivo, y una funci\'on de adquisici\'on que dirige la b\'usqueda en el espacio. Esos sistemas utilizan el modelo estad\'istico para seleccionar el mejor candidato a evaluar. Luego de la evaluaci\'on se actualiza el modelo y se itera la b\'usqueda.
+Las propuestas basadas en optimizaci\'on bayesiana est\'an divididas en dos componentes principales: un modelo estad\'istico bayesiano para modelar la funci\'on objetivo, y una funci\'on de adquisici\'on que dirige la b\'usqueda en el espacio. Esos sistemas utilizan el modelo estad\'istico para seleccionar el mejor candidato a evaluar. Luego de la evaluaci\'on se actualiza el modelo y se itera la b\'usqueda.
 
-      \paragraph{AutoWeka (\cite{thornton2013auto})} presenta dos optimizadores bayesianos, una propuesta de configuraci\'on secuencia de Algortimos basados en Modelos (SMAC) y un estimador de Parzen con estrucutra de arbol (TPE).;
+\paragraph{Auto-WEKA (\cite{thornton2013auto})} Presenta dos optimizadores bayesianos, una propuesta de configuraci\'on secuencia de Algortimos basados en Modelos (SMAC por \cite{hutter2011sequential}) y un estimador de Parzen con estrucutra de arbol (TPE por \cite{bergstra2011algorithms}), ambos se utilizan en paralelo y se retorna la funci\'on con menor error en validaci\'on de entre todas las descubiertas.
 
-      \paragraph*{Auto-Skelearn (\cite{feurer2015efficient})} extiende la propuesta de AutoWEKA  introduciendo mejoras com la inclusi\'on de un paso de meta-aprendizaje que reduce el espacio de b\'usquda aprendiendo de modelos que funcionaron bien en conjuntos de datos similares y luego un paso de selecci\'on de ensemblers que le permite reusar los flujos de Aprendizaje de M\'aquina que tuvieron mejor rendimiento. Utiliza como base la bilbiotea de Python Scikit-Learn.
+\paragraph*{Auto-skelearn (\cite{feurer2015efficient})} Utiliza como biblioteca de aprendizaje autom\'atico a scikit-learn (\cite{pedregosa2011scikit}) y extiende la propuesta de AutoWEKA  introduciendo mejoras com la inclusi\'on de un paso de meta-aprendizaje que reduce el espacio de b\'usquda aprendiendo de modelos que funcionaron bien en conjuntos de datos similares y luego un paso de selecci\'on de ensemblers que le permite reusar los flujos de Aprendizaje de M\'aquina que tuvieron mejor rendimiento. 
 
-      \paragraph*{HyperOpt-Sklearn} al igual que Auto-Skelearn, utiliza la biblioteca cikit-Learn como base de algoritmos para realizar la b\'usqueda con el objetivo de reoslver el problema cash. El sistema provvee una infterfaz de optimziacion que distingue un espacio de configuraciones y una funcion de evaluacion que asigna valores de perdida reales a puntos dentro del espacio de configuraciones. Hyperopt requier de un esapcio  de configuraciones que sea una distribuci\'on de probabilidad, permitiendo una codficacio\'on m\'as expresiva de llas intuiciones de los expertos con respecto a los valores de los hyperparametros. Utiliza SMBO (Sequential Model-based Bayesian Optimization), consideraando este algoritmo como una componente intercambiable con el fin que cualquier t\'ecninca de b\'usqueda pueda ser utilizada con cualquier problema de b\'usqueda.
+\paragraph*{HyperOpt-Sklearn (\cite{komer2014hyperopt})} Similar a Auto-Skelearn con respecto a la bibliteca de aprendizaje subyacente, scikit-learn, utiliza Hyperopt (\cite{bergstra2013hyperopt}) para describir el espacio de b\'usqueda. Provee una infterfaz de optimziaci\'on que distingue un espacio de configuraciones y una funci\'on de evaluaci\'on que asigna valores de perdida reales a puntos dentro de dicho espacio. Hyperopt requiere que el espacio est\'e definido como una distribuci\'on de probabilidad, permitiendo una codficacio\'on m\'as expresiva de las intuiciones de los expertos con respecto a los valores de los hiperpar\'ametros. Utiliza SMBO (Sequential Model-based Bayesian Optimization), consideraando este algoritmo como una componente intercambiable con el fin de que cualquier t\'ecninca de b\'usqueda pueda ser utilizada con cualquier problema de b\'usqueda.
 
-      \paragraph*{Auto-Keras} es un sistema de Auto-DL basado en la biblioteca Keras de Python, utilizada para crear redes neuronales.  La idea prinicipal de esta propuesta es explorar el espacio mediante la transformaci\'on de redes, utilizando un algorimto de Optmizaci\'on Bayesiana eficiente. Dichas transformaciones permiten generar redes manteniendo las configuraciones alcanzadas con entrenamientos anteriores, disminuyendo el uso de los recursod e c\'omputo. Auto-Keras a nivel t\'ecnico est\'a estructurado para el uso eficiente de la memoria y el aprovechamiento m\'aximo del procesador y la targeta gr\'afica.
+      \paragraph*{Auto-Keras (\cite{jin2018efficient})} Un sistema de Auto-ML enfocado en resolver el problema NAS. Est\'a basado en la biblioteca Keras de Python, utilizada para crear redes neuronales.  La idea prinicipal de esta propuesta es explorar el espacio mediante la transformaci\'on de redes, utilizando un algorimto de Optmizaci\'on Bayesiana eficiente. Dichas transformaciones permiten generar redes manteniendo las configuraciones alcanzadas con entrenamientos anteriores, disminuyendo el uso de los recursod e c\'omputo. Auto-Keras a nivel t\'ecnico est\'a estructurado para el uso eficiente de la memoria y la ejecuci\'on en paralelo sobre el CPU y el GPU.
 
-      \paragraph*{autogxgboost (\cite{thomas2018automatic})} Utilizan un solo algoritmo de aprendizaje, y tratan de optimizar lo mejor posible los hiperpar\'ametros. Ejemplo de esto es \textit{autoxgboost} (\cite{thomas2018automatic}) que usa solamente como algoritmo de aprendizaje a metodos de aumento de gradientes con \'arboles (\textit{Gradient Boosting with Trees}, GBT) como \textit{xgboost} (\cite{chen2016xgboost}) debido a su gran rendimiento con los par\'ametros adecuados. \textit{autoxgboost} utiliza optimizaci\'on bayesiana para para tunear los hiperpar\'ametros.
+      \paragraph*{autogxgboost (\cite{thomas2018automatic})} Se cataloga asi mismo como un sistema AutoML \textit {single-learner} debido a que solo utiliza un algoritmo de aprendizaje y solamente optimzia los hiperpar\'ametros para este utilizando optimizaci\'on bayesiana. Requiere que el algoritmo sea un metodo de aumento de gradiente con \'arboles (\textit{Gradient Boosting with Trees}, GBT) como \textit {xgboost} (\cite{chen2016xgboost}) debido a su prometedor rendimiento con los param\'etros adecuados.   
     
 \subsection{Programaci\'on Evolutiva}
      Bas\'andos en algoritmos gen\'eticos funcionan creando una poblaci\'on inicial de flujos v\'alidos, se seleccionan los de mejor rendmiento respecto a cierta m\'etrica y se utilzan para crear la poblaci\'on de la pr\'oxima iteraci\'on. Las propuestas difieren principalmente en como modelan el espacio de b\'usqueda y como se producen los nuevos individuos.
-     \paragraph*{TPOT (\cite{pmlr-v64-olson_tpot_2016})} es uno de los m\'as reconocidos en esta \'area, permiten tener varias copias sobre el dataset y aplicar operadores sobre ellos simult\'aneamente para luego recombinarlos y crear flujos con los operadores de mejor rendimiento. TPOT adem\'as realiza una b\'usqueda multiobjetivo sobre las soluciones encontradas utilizando NSGA-II (\cite{deb2002fast}) optimzando maximizar exactitud (\textit{accuracy} en la literatura) y minimizando la cantidad de operadores aplicados sobre los flujos de ML por un tema de simplicidad y evitar el sobreajuste a los datos.
+     \paragraph*{TPOT (\cite{pmlr-v64-olson_tpot_2016})} Basado en la biblioteca de aprendijaze autom\'atico scikit-learn (\cite{pedregosa2011scikit}) y el algoritmo xgboost (\cite{chen2016xgboost}), es uno de los sistemas AutoML evolutivos m\'as reconocidos en esta \'area. Cada algoritmo a su disposici\'on se considera un operador, adem\'as de tener un operador especial de cruce. Permite tener varias copias del dataset y aplicar operadores sobre ellos simult\'aneamente para luego recombinarlos y crear flujos con los operadores que hayan tenido mejor rendimiento. TPOT adem\'as realiza una b\'usqueda multiobjetivo sobre las soluciones encontradas utilizando NSGA-II (\cite{deb2002fast}) optimzando maximizar exactitud (\textit{accuracy} en la literatura) y minimizando la cantidad de operadores aplicados sobre los flujos de ML por un tema de simplicidad y evitar el sobreajuste a los datos.
 
-     \paragraph*{RECIPE} utiliza programaci\'on gen\'etica basado en gram\'aticas, restringiendo las operaciones de mutaci\'on y cruzamiento para garantizar que cualquier tipo de flujo es v\'alido. Utiliza coomo base la bibliotea Scikit-Learn
+     \paragraph*{RECIPE (\cite{de2017recipe})} Utiliza programaci\'on gen\'etica basado en gram\'aticas (\textit{Grammar Genetic Programming}, GGP) para generar sus flujos. El sistema recibe como entrada un conjunto de datos y una gram\'atica libre del contexto (CFG), que utiliza para formar una poblac\'on inicial de flujos. Define operadores de mutaci\'on y cruzamiento que fuerzan que se cumplan las reglas de producci\'on al aplicarse sobre un flujo. Utiliza coomo base la bibliotea Scikit-Learn
 
         % HML-Opt Precursor de AutoGOAL? Necesario ponerlo
 
@@ -63,19 +64,27 @@ Las propuestas basadas en optimizaci\'on bayedsian est\'an divididas en dos comp
 
 
 \subsection{B\'usqueda Aleatoria}
-      Consiste en la exploraci\'on del espacio de b\'usqueda, ya sea de forma secuencial o en paralelo mediante la selecci\'on de soluciones aleatorias. Este m\'etodo es utilizado muchas veces como comparaci\'on frente a estrategias m\'as avanazadas.
+Consiste en la exploraci\'on del espacio de b\'usqueda, ya sea de forma secuencial o en paralelo mediante la selecci\'on de soluciones aleatorias. Este m\'etodo es utilizado muchas veces como comparaci\'on frente a estrategias m\'as avanazadas.
 
       \paragraph{NASH (Neural Arquitecture Search by Hillclimbing)} diseñado para solucionar el blomena NAS.
         Partiendo de una red alerotia o predeterminada, generan nuevas redes utilizando una funci\'on de evaluaci\'on. La que tenga mejor rendimiento se toma como padre para la siguiente evaluaci\'on.
         Sigue una estrategia de hill climbing y realliza transformaciones sobre las redes evitando el reentramiento desde cero.
 
-      \paragraph{H20 AutoML} consturye multiples modelos con diferentes juegos de hiperparametros seleccionados aleatoriamente en base de ciertas heur\'isticas. En funci\'on de la disponibilidad de recursos de c\'omputo la b\'usqueda se detiene y los mejores modelos se utilizaan para construir un ensembe.
+        \paragraph{H20 AutoML (\cite{ledell2020h2o})} Disponible en varios lenguages, utiliza la biblioteca H20 (\cite{boehmke2019hands}), una biblioteca de aprendizaje autom\'atico. Consturye multiples modelos con diferentes juegos de hiperpar\'ametros seleccionados aleatoriamente en base de ciertas heur\'isticas. En funci\'on de la disponibilidad de recursos de c\'omputo la b\'usqueda se detiene y los mejores modelos se utilizaan para construir un ensemble.
 
-      \paragraph{TransmogrifAI} donde la busqueda se realiza sobre el espacio de las transformacioes de caracter\'isticas que son posibles en funci\'on de los datos utilizados.
+        \paragraph{TransmogrifAI (\cite{tovbin93meet})}  Diseñado para tener un buen rendimiento, fue dise\~nado para ejecutarse sober Apache Spark. Encapsula cinco componentes del proceso de aprendizaje autom\'atico en diferents pasos:
+        \begin{enumerate}
+            \item Un primer paso de preprocesamiento de los datos donde obliga al cient\'ifico especificar un esquema para los datos y establecer su tipado. Transmogrif los analizaza e incluso es capaz de inferir el tipo de algunos. Este paso permite obtener errores en tiempo de compilaci\'on.
+            \item Aplica ingenieria de caracateristicas automatizada: eventualmente los datos sean del tipo que sean deben tener representaci\'on n\'umerica adecuada (todo una ciencia) y este sistema lo realiza por ti.
+            \item Realiza una validaci\'on de las caracter\'isticas para mitigar  la probable explosi\'on de dimensionalidad ocurrida en el paso anterior y los problemas que acarrea.
+            \item Resuelve el problema de selecci\'on autom\'atica de modelos ejecutanndo un torneo de varios algoritmos de aprendizaje de m\'aquina diferents, y escoge el mejor seg\'un el error de validaci\'on promedio.
+            \item En cada paso de los anteriores se ejecuta adem\'as un paso de optimizci\'on de hiperpar\'ametros, contrario a lo que muchos sistemas AutoML que solo optimizan para el modelo. 
+        \end{enumerate}
+        %donde la b\'usqueda se realiza sobre el espacio de las transformaciones de caracter\'isticas que son posibles en funci\'on de los datos utilizados.
 
 
 \subsection{Aprendizaje por Refuerzo}
-        El aprendizaje por refuerzo, como estrategia de b\'usqueda consiste en entrenar un agente que realiza modificaciones sobre una soluci\'on con el objetivo de maximizar una recompensa que depende del rendimiento de dicha soluci\'on. Est\'a estrategia es utilizada mayormente en sistemas AutoML que buscan resolver el problema NAS, donde el agente puede realizar acciones como a\~nadir, remover, o modificar una capa o sus hiperpar\'ametros. Las propuestas difieren seg\'un el dise\~no del agente.
+El aprendizaje por refuerzo, como estrategia de b\'usqueda consiste en entrenar un agente que realiza modificaciones sobre una soluci\'on con el objetivo de maximizar una recompensa que depende del rendimiento de dicha soluci\'on. Est\'a estrategia es utilizada mayormente en sistemas AutoML que buscan resolver el problema NAS, donde el agente puede realizar acciones como a\~nadir, remover, o modificar una capa o sus hiperpar\'ametros. Las propuestas difieren seg\'un el dise\~no del agente.
 
         % Para la representaci\'on de NAS como un problemam de aprendizaje por refuerzo, la generaci\'on de una rquitectura se considera como una acci\'on de un agente siendo el esapcio deacciones id\'entico al espacio de b\'usqueda. La recompenza del agente se basa en el rendimiento de las redes entrenadas. Las propuestas difieren en como se represente la politica del agente y como la optimizan.
 
@@ -84,8 +93,13 @@ Las propuestas basadas en optimizaci\'on bayedsian est\'an divididas en dos comp
         \paragraph*{NASNet (\cite{zoph2018learning})} Utiliza aprendizaje por refuerzo para aprender a construir la arquitectura de red neuronal \'optima para cualquier conjunto de im\'agenes. La contribuci\'on clave de esta propuesta es el diseño del espacio de b\'usqueda que permite construir la arquitectura en un dataset peque\~no y luego transferir los conocimientos para el entrenamiento de un set m\'as grande, aligerando el costo computacional de aplicarlo directamente.
 
 
+\section{M\'etodos de Gradiente}
+Los m\'etodos que utilzan esta estraetigan buscan calcular la direcci\'on del gradiente tal que se mejore el rendimiento de la soluci\'on inicial y evaluar nuevas soluciones en la vecindad de dicha direcci\'on. Cuando se tiene un espacio de b\'usqueda diferenciable el gradiente se puede calcular de forma exacta.
+
+    \paragraph*{DARTS} eso
+
 \subsection{Modelos Constructivos}
-     Estos m\'etodos exploran el espacio de b\'usqueda con una forma estructurada pues se definen de antemano los posibles modelos y formas de combinarlos. Se establece un orden de evaluaci\'on de las soluciones y la b\'usqueda finaliza cuando todo el espacio ha sido explorado. Esta estrategia es \'util cuando el espacio de b\'usqueda es peque\~no y consta de modelos bien definidos, variados y con un buen rendimiento.
+Estos m\'etodos exploran el espacio de b\'usqueda con una forma estructurada pues se definen de antemano los posibles modelos y formas de combinarlos. Se establece un orden de evaluaci\'on de las soluciones y la b\'usqueda finaliza cuando todo el espacio ha sido explorado. Esta estrategia es \'util cuando el espacio de b\'usqueda es peque\~no y consta de modelos bien definidos, variados y con un buen rendimiento.
 
      \paragraph{AutoGLuon} Coonstruye un ensemble de varios niveles a partir de entrar una instancia de cada uno de los tipos de modelos predefinidos. Cada modelo se entrena de forma secuencial y se a\~nade al ensemble. Al terminar se realiza un proceso de post-optimizaci\'on para destilar el ensemble resultante en un modelo m\'as peque\~no con rendimiento similar.
 
