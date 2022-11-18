@@ -110,8 +110,16 @@ Estos m\'etodos exploran el espacio de b\'usqueda con una forma estructurada pue
 
 
 \section{Optimizaci\'on Multiobjetivo}\label{proposal:moo}
-Optimizaci\'on Multiobjetivo es la rama de la Ciencia y la Matem\'atica que se dedica a optimizar varias funciones objetivos sim\'ultaneamente. Es relativamente nueva y un campo activo de investigaci\'on. El problema multiobjetivo (PMO) se define como:
- 
+Optimizaci\'on Multiobjetivo es la rama de la Ciencia y la Matem\'atica que se dedica a optimizar varias funciones objetivos sim\'ultaneamente. Es relativamente nueva y un campo activo de investigaci\'on y ha encontrado abundante campo en la ingenier\'ia y la econom\'ia donde muchas veces suelen existir objetivos opuestos. 
+
+Exsiten muchos ejemplos de de problemas en la actualidad que se resuelven utilizando optimizaci\'on multiobjetivo, por ejemplo:
+\begin{itemize}
+    \item Lograr el balance entre energ\'ia producida y combustible utilizado por una termoel\'ectrica (\cite{shirazi2012thermal} y \cite{shirazi2014thermal}).
+    \item El dise\~no \'optimo de una estructura como la configuraci\'on de gabinete de control (\cite{pllana2019customizing}) o una granja solar (\cite{ganesan2013hypervolume}).
+    \item La distribuci\'on adecuada de recursos de radio para satisfacer eficientemente el requerimiento de sus usuarios (\cite{bjornson2013optimal}).
+    \item La inspecci\'on de infraestructura compleja es costosa, y muchas veces no es factible cubriendo el \'area completa. Se busca optimizar la covertura mientras se minimizan los costos (\cite{ellefsen2017multiobjective}).
+\end{itemize}
+
 \begin{definition}{Optimizaci\'on Multibojetivo:}
      Dado $m$ funciones objetivos: $f_1: \mathcal{X} \rightarrow \mathbb{R}, ..., f_m: \mathcal{X} \rightarrow \mathbb{R}$ que dado un vector en el espacio de decisi\'on $\mathcal{X}$ es transformado en un valor de $\mathbb{R}$. Se define el PMO como:
     \begin{equation*}
@@ -140,15 +148,6 @@ Cuando se tiene un conjunto de vectores que nadie domina, es lo que se conoce co
 %TODO:
 %Hablar sobre a priori, interactivo y a posteriori en la optimizacion multi objetivo?
 
-El problema multiobjetivo ha encontrado uso en el campo de la ingenier\'ia y la econom\'ia donde los objetivos no se describen como mientras m\'as mejor, sino que se tiene un valor ideal para cada funci\'on objetivo y se quiere que todos se acerquen a esto lo m\'as posible. Cuando se produce energ\'ia se existe un trade of entre consumo  y combustible utilizado (\cite{shirazi2012thermal} y \cite{shirazi2014thermal})
-
-Buscando un diseño \'optimo que maximice ciertos objetivos. Control Cabinet Layouot Optimization (\cite{pllana2019customizing}). Diseño de una granja solar (\cite{ganesan2013hypervolume})
-
-Para la optimizacion de recursos de radio para satisfacer eficientemente el requerimiento de los usuarios (\cite{bjornson2013optimal})
-
-Inspecci\'on en Infraestructura, donde en estructuras complejas no es factible una revision 100\% y se plantea un MOP donde se optimice para maximizar la covertura y minimzar los costos (\cite{ellefsen2017multiobjective})
-
-% SPEA se utiliza en \cite{rafiei2009chaos}
 
 El problema multiobjetivo ha tenido tres enfoques princiaples a lo largo del tiempo:
 \begin{enumerate}
@@ -221,7 +220,7 @@ Los algoritmos evolucionarios multiobjetivos (MOEA) generalizan esta idea, y son
 % (Poner esto en alg\'un lado)
  El termino Optimizaci\'on Multiobjetivo se utiliza cuando el n\'umero de funciones objetivos son dos o tres. Para un cantidad de m\'etricas mayor se le conoce coloquialmente en la literatura como Optimizaci\'on para Muchos Objetivos o \textit{many-objective optimization} en ingl\'es, propuesto inicialmente por \cite{10.1007/978-3-540-31880-4_2}. Se hace enf\'asis en esta diferenciaci\'on pues al aumentar el n\'umero de m\'etricas a optimizar:
  \begin{enumerate}
-     \item ya no es posible visualizar el frente obtenido;
+     \item ya no es posible visualizar el frente de Pareto;
      \item la computaci\'on de indicadores o de selecci\'on para muchos algoritmos se convierte en problemas NP-duros;
      \item existe un r\'apido crecimiento de puntos no dominados, mientras mayor n\'umero de objetivos, la probabilidad de que un punto sea no dominado en un set con distribuci\'on normal tiende exponencialmente a 1.
  \end{enumerate}
@@ -234,9 +233,25 @@ Los algoritmos que mejor han tenido resultado en esta \'area son los algoritmos 
 % \cite{jin2008pareto} hacen un analisis sobre la adici\'on de optimizaci\'on multibojetivo al Aprendizaje de M\'aquina. Compara los diferentes enfoques de escalarizaci\'on y algoritmos gen\'eticos.
 % En el campo de configuraci\'on de algoritmos \cite{blot2016mo} introduce un busqueda iterativa local basado en multiples criterios para configurar solucionadores SAT.
 
-El estudio de optimizaci\'on en sistemas Aprendizaje de M\'aqina Automatizado es bastante escaso. Entre los sistemas AutoML que cuentan con esta caracter\'istica se encuentra es TPOT \cite{pmlr-v64-olson_tpot_2016} que optimiza mutuamente para exactitud y modelos de Aprendizaje de Maquina m\'as sencillos, no obstante estas m\'etricas est\'an fijas y el progrmador no puede modificarlas, ni a\~nadir m\'as.
-En \cite{pfisterer2019multi} se propone una adici\'on a \textit{autoxgboost} (\cite{thomas2018automatic}) para optimizar multiobjetivo utilizando un algoritmo de simple de escalarizaci\'on. Esta implementaci\'on es flexible en cuanto a m\'etricas utilizar.
+Recientemente ha habido enf\'asis en la comunidad FatML (\textit{Fairness, Accountability and Transparency in Machine Learning}) sobre como optimizar utilizando una sola m\'etrica acarrea problemas que pueden ser evitados optimizando simultaneamente para m\'ultiples m\'etricas (\cite{barocas2017fairness}). A\'un as\'i, es escaso el estudio sobre sistemas de Aprendizaje de M\'aquina Automatizado a los que se les aplica el optimizaci\'on multiobjetivo.
 
-En AutoGOAL se propone la adici\'on de optimizar para varios objetivos utilizando un algorimto gen\'etico que est\'an demostrados que son resistentes a la forma del frente de Pareto. Los objetivos seri\'ian definidos por el usuario y la respuesta ser\'ia un conjunto de flujos de ML que estuvieran en el frente de Pareto.
+Definimos el problema multiobjetivo aplicado a sistemas AutoML de la siguiente manera:
+\begin{definition}
+    Dado un conjuntos de datos $D$ y  $M = \{f_1, f_2, ...,f_m\}$ un conjunto m\'etricas a evaluar, se espera que sistema AutoML $\mathcal{A}$ retorne un conjunto de flujos, algoritmos o redes $P = \{p_1, p_2, ..., p_k\}$ tal que este sea una representaci\'on del frente de Pareto al optimizar para las m\'etricas en $M$.
+    \begin{equation*}
+        \mathcal{A}(D, M) = P  
+    \end{equation*}
+\end{definition}
+
+TPOT (\cite{pmlr-v64-olson_tpot_2016}) es un ejemplo de Sistema AutoML que aplica multiobjetivo para su resoluci\'on. Despu\'es de cada iteraci\'on ordena los algoritmos utilizando NSGA-II (\cite{deb2002fast}) gu\'iandose por exactitued y n\'umero de operadores. No obstante el resultado de TPOT no es un conjunto soluciones, sino la de mayor exactitud obtenida con el paso de las iteraciones. El uso de optimizaci\'on multiobjetivo se usa para evitar el sobre ajuste.
+
+\cite{pfisterer2019multi} propone una soluci\'on al problema multiobjetivo bas\'andose en \textit{autoxgboost} (\cite{thomas2018automatic}) y utilizando  parEgo (\cite{knowles2006parego}) un sistema de escalarizaci\'on multiobjetivo utilizando CSP con un vector uniforme de peso uniforme. Luego la funci\'on restultante de aplicar escalarizaci\'on es optimizada utilizando optimizaci\'on bayesiana est\'andar de un s\'olo criterio.
+Este algorimto cuenta con un humano que interactua con el modelo durante su b\'usqueda especificando a traves de contrains a donde quiere dirigir la b\'usqueda multiobjetivo.
+Al estar basados en un sistema AutoML que utiliza un solo algoritmo, el espacio de b\'usqueda se encuentra mutilado y es posble que incluya configuraciones \'optimas.
+
+% El estudio de optimizaci\'on en sistemas Aprendizaje de M\'aqina Automatizado es bastante escaso. Entre los sistemas AutoML que cuentan con esta caracter\'istica se encuentra es TPOT \cite{pmlr-v64-olson_tpot_2016} que optimiza mutuamente para exactitud y modelos de Aprendizaje de Maquina m\'as sencillos, no obstante estas m\'etricas est\'an fijas y el progrmador no puede modificarlas, ni a\~nadir m\'as.
+% En \cite{pfisterer2019multi} se propone una adici\'on a \textit{autoxgboost} (\cite{thomas2018automatic}) para optimizar multiobjetivo utilizando un algoritmo de simple de escalarizaci\'on. Esta implementaci\'on es flexible en cuanto a m\'etricas utilizar.
+
+% En AutoGOAL se propone la adici\'on de optimizar para varios objetivos utilizando un algorimto gen\'etico que est\'an demostrados que son resistentes a la forma del frente de Pareto. Los objetivos seri\'ian definidos por el usuario y la respuesta ser\'ia un conjunto de flujos de ML que estuvieran en el frente de Pareto.
 
 
