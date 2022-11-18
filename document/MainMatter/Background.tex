@@ -66,15 +66,14 @@ Las propuestas basadas en optimizaci\'on bayesiana est\'an divididas en dos comp
 \subsection{B\'usqueda Aleatoria}
 Consiste en la exploraci\'on del espacio de b\'usqueda, ya sea de forma secuencial o en paralelo mediante la selecci\'on de soluciones aleatorias. Este m\'etodo es utilizado muchas veces como comparaci\'on frente a estrategias m\'as avanazadas.
 
-      \paragraph{NASH (Neural Arquitecture Search by Hillclimbing)} diseñado para solucionar el blomena NAS.
-        Partiendo de una red alerotia o predeterminada, generan nuevas redes utilizando una funci\'on de evaluaci\'on. La que tenga mejor rendimiento se toma como padre para la siguiente evaluaci\'on.
-        Sigue una estrategia de hill climbing y realliza transformaciones sobre las redes evitando el reentramiento desde cero.
+\paragraph{NASH (\cite{wei2016network})} Neural Arquitecture Search by Hillclimbing es una propuesta de soluci\'on al problema NAS.
+        Partiendo de una red aleatoria o predeterminada le aplica morfismos de red para obtener  nuevas redes ``vecinas''. Se eval\'uan utilizando una funci\'on de evaluaci\'on y la que tenga mejor rendimiento se toma como principal y se reptie el proceso. La estrategia de hill climbing que sigue elimina la necesidad de rentrenar desde cero.
 
         \paragraph{H20 AutoML (\cite{ledell2020h2o})} Disponible en varios lenguages, utiliza la biblioteca H20 (\cite{boehmke2019hands}), una biblioteca de aprendizaje autom\'atico. Consturye multiples modelos con diferentes juegos de hiperpar\'ametros seleccionados aleatoriamente en base de ciertas heur\'isticas. En funci\'on de la disponibilidad de recursos de c\'omputo la b\'usqueda se detiene y los mejores modelos se utilizaan para construir un ensemble.
 
         \paragraph{TransmogrifAI (\cite{tovbin93meet})}  Diseñado para tener un buen rendimiento, fue dise\~nado para ejecutarse sober Apache Spark. Encapsula cinco componentes del proceso de aprendizaje autom\'atico en diferents pasos:
         \begin{enumerate}
-            \item Un primer paso de preprocesamiento de los datos donde obliga al cient\'ifico especificar un esquema para los datos y establecer su tipado. Transmogrif los analizaza e incluso es capaz de inferir el tipo de algunos. Este paso permite obtener errores en tiempo de compilaci\'on.
+            \item Se preprocesan los datos donde obliga al cient\'ifico especificar un esquema para estos y establecer un sistema de tipos sobre estos. Transmogrif los analiza siendo capaz de inferir el tipo de algunos.
             \item Aplica ingenieria de caracateristicas automatizada: eventualmente los datos sean del tipo que sean deben tener representaci\'on n\'umerica adecuada (todo una ciencia) y este sistema lo realiza por ti.
             \item Realiza una validaci\'on de las caracter\'isticas para mitigar  la probable explosi\'on de dimensionalidad ocurrida en el paso anterior y los problemas que acarrea.
             \item Resuelve el problema de selecci\'on autom\'atica de modelos ejecutanndo un torneo de varios algoritmos de aprendizaje de m\'aquina diferents, y escoge el mejor seg\'un el error de validaci\'on promedio.
@@ -88,25 +87,25 @@ El aprendizaje por refuerzo, como estrategia de b\'usqueda consiste en entrenar 
 
         % Para la representaci\'on de NAS como un problemam de aprendizaje por refuerzo, la generaci\'on de una rquitectura se considera como una acci\'on de un agente siendo el esapcio deacciones id\'entico al espacio de b\'usqueda. La recompenza del agente se basa en el rendimiento de las redes entrenadas. Las propuestas difieren en como se represente la politica del agente y como la optimizan.
 
-        \paragraph*{EAS} Effiecient Arquitectural Search es una propuesta utilizando este enfoque utilizando un meta-controlador basado en aprendizaje por refuerzo (\textit{Reinforcment Learning}, RL) y el algorimto REINFORCE para actualizarlo. En general, este sistema modela el proceso de dise\~no autm\'atico de arquitecutras como un proceso de toma de decisiones secuencial, donde el estado de la red actual y la actuaci\'on es la opteraci\'on de transformaci\'on correspondiente. Despue\'es de una cantidad determinada de pasos, la arquitectura resultante es evaludada para obtener la se\~nal de recompensa, que luego es utilizada para actualizar el meta-controlador, maximizando el rendmiento de validaci\'on.
+\paragraph*{EAS (\cite{cai2018efficient})} Effiecient Arquitectural Search es utiliza un meta-controlador basado en aprendizaje por refuerzo (\textit{Reinforcment Learning}, RL, \cite{kaelbling1996reinforcement}) y el algorimto REINFORCE (\cite{williams1992simple}) para actualizarlo. En general, este sistema modela el proceso de dise\~no autm\'atico de arquitecutras como un proceso de toma de decisiones secuencial, donde el estado de la red actual y la actuaci\'on es la operaci\'on de transformaci\'on correspondiente. Despue\'es de una cantidad determinada de pasos, la arquitectura resultante es evaludada para obtener la se\~nal de recompensa, que luego es utilizada para actualizar el meta-controlador, maximizando la validaci\'on.
 
         \paragraph*{NASNet (\cite{zoph2018learning})} Utiliza aprendizaje por refuerzo para aprender a construir la arquitectura de red neuronal \'optima para cualquier conjunto de im\'agenes. La contribuci\'on clave de esta propuesta es el diseño del espacio de b\'usqueda que permite construir la arquitectura en un dataset peque\~no y luego transferir los conocimientos para el entrenamiento de un set m\'as grande, aligerando el costo computacional de aplicarlo directamente.
 
 
-\section{M\'etodos de Gradiente}
-Los m\'etodos que utilzan esta estraetigan buscan calcular la direcci\'on del gradiente tal que se mejore el rendimiento de la soluci\'on inicial y evaluar nuevas soluciones en la vecindad de dicha direcci\'on. Cuando se tiene un espacio de b\'usqueda diferenciable el gradiente se puede calcular de forma exacta.
+% \section{M\'etodos de Gradiente}
+% Los m\'etodos que utilzan esta estraetigan buscan calcular la direcci\'on del gradiente tal que se mejore el rendimiento de la soluci\'on inicial y evaluar nuevas soluciones en la vecindad de dicha direcci\'on. Cuando se tiene un espacio de b\'usqueda diferenciable el gradiente se puede calcular de forma exacta.
 
-    \paragraph*{DARTS} eso
+    % \paragraph*{DARTS} eso
 
 \subsection{Modelos Constructivos}
 Estos m\'etodos exploran el espacio de b\'usqueda con una forma estructurada pues se definen de antemano los posibles modelos y formas de combinarlos. Se establece un orden de evaluaci\'on de las soluciones y la b\'usqueda finaliza cuando todo el espacio ha sido explorado. Esta estrategia es \'util cuando el espacio de b\'usqueda es peque\~no y consta de modelos bien definidos, variados y con un buen rendimiento.
 
-     \paragraph{AutoGLuon} Coonstruye un ensemble de varios niveles a partir de entrar una instancia de cada uno de los tipos de modelos predefinidos. Cada modelo se entrena de forma secuencial y se a\~nade al ensemble. Al terminar se realiza un proceso de post-optimizaci\'on para destilar el ensemble resultante en un modelo m\'as peque\~no con rendimiento similar.
+\paragraph{AutoGluon (\cite{erickson2020autogluon})} Realiza procesamiento de datos avanzados, aprendizaje profundo y ensamblaje de modelos multicapa. Reconoce autom\'aticamente el tipo de datos de cada columna para un procesaminto de datos robustos. Construye un ensemble multicapa  tomando como entrada la instancia de cada uno de los tipos de modelos predefinidos. Los modelo se entrena de forma secuencial y se a\~naden al ensemble. Para finalizar, se realiza un proceso de post-optimizaci\'on para destilar el ensemble resultante en un modelo m\'as peque\~no con rendimiento similar.
 
 \subsection{Monte Carlo}
  Esta estrategia se emplea en espacios de b\'usquedas jer\'arquicos para explorar eficientemente el \'arbol que describe todas las  posibles soluciones. En cada iterac\'on se deciende por una rama del \'arbol hasta llegar a un nodo hoja, el camino representa una posible soluci\'on. Como es un algoritmo de MonteCarlo es necesario definir una funci\'on que permita un balance entre exploraci\'on y explotaci\'on. Esta estrategia require un espacio de b\'usequda donde las decisiones m\'as importantes esten al principio en el \'arbol para ser efectiva
 
- \paragraph{ML-Plan} hace esto.
+ \paragraph{ML-Plan (\cite{mohr2018ml})} Un sistema novedoso basado en redes de tareas jer\'arquicas (HTN, \cite{erol1994umcp}). La b\'usqueda es aleatoria, construyendo flujos parciales junto con un mecanismo que evita el sobreajuste. Cuenta con con dos tipos de algoritmos:  preprocesadores de datos y de aprendizaje. Sus flujos son un par compuestos por un procesador parametrizado y por un algoritmo de aprendizaje.
     
 
 
