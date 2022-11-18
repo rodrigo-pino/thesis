@@ -236,7 +236,7 @@ Los algoritmos que mejor han tenido resultado en esta \'area son los algoritmos 
 Recientemente ha habido enf\'asis en la comunidad FatML (\textit{Fairness, Accountability and Transparency in Machine Learning}) sobre como optimizar utilizando una sola m\'etrica acarrea problemas que pueden ser evitados optimizando simultaneamente para m\'ultiples m\'etricas (\cite{barocas2017fairness}). A\'un as\'i, es escaso el estudio sobre sistemas de Aprendizaje de M\'aquina Automatizado a los que se les aplica el optimizaci\'on multiobjetivo.
 
 Definimos el problema multiobjetivo aplicado a sistemas AutoML de la siguiente manera:
-\begin{definition}
+\begin{definition}\label{proposal:moo-automl-problem}
     Dado un conjuntos de datos $D$ y  $M = \{f_1, f_2, ...,f_m\}$ un conjunto m\'etricas a evaluar, se espera que sistema AutoML $\mathcal{A}$ retorne un conjunto de flujos, algoritmos o redes $P = \{p_1, p_2, ..., p_k\}$ tal que este sea una representaci\'on del frente de Pareto al optimizar para las m\'etricas en $M$.
     \begin{equation*}
         \mathcal{A}(D, M) = P  
