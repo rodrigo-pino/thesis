@@ -31,10 +31,6 @@ Con el fin de aprovechar el espacio de decisi\'on ya definido se utiliza Evoluci
 
 En PCFG, al inicio, las probabilidades est\'an igualmente distribuidas sobre todas las producciones por cada regla de la gram\'atica y se actualizan al aplicar PGE con el individuo m\'as apto donde se alterna entre aumentar ligeramente la probabilidad de las producciones que utilizadas por este y disminuir la probabilidades de los que no fueron utilizadas. Alternar entre estas dos v\'ias evita la utilizaci\'on del mismo individuo en iteraciones consecutivas balanceando la exploraci\'on global con explotaci\'on local.
 
-\begin{algorithm}[H]\caption{Probabilistic Grammatical Evolution}
-    \KwIn{fittest}
-\end{algorithm}
-
 Como se trata de un problema multiobjetivo y no existe el individuo m\'as apto, sino un conjunto de estos las probabilidas se adaptan secuencialmente teniendo en cuenta cada uno de estos individuos.
  % (\textit{Probabilistic Grammatic Evolution}).
 % En PGE se propone un cambio de como se interpreta el genotipo, ya no es una lista de enteros, sino u
@@ -47,51 +43,54 @@ Como se trata de un problema multiobjetivo y no existe el individuo m\'as apto, 
 % Para obtener una soluci\'on se tienen el genotipo (usualmente una lista de enteros) que se mapea al fenotipo (una lista de prdoucciones) siguiendo las reglas de producci\'on en una Gram\'atica Libre del Contexto (\textit{Context-Free Grammar}, CFG). Donde una gramatica es una terna $G = (NT, T, S, P)$ donde $NT$ y $T$ representan los conjuntos disjuntos no vac\'io de los s\'imbolos no terminales y terminales respectivamente. $S$ es un elemento de $NT$ llamado el axioma que representa el no-terminal principal que expandiendo este se puede llegar a todas las posibles formas de la gramatica. $P$ es el conjunto de reglas de producci\'on que rigen a la grma\'atica. Las reglas en $P$ tienen la forma de $A ::= \alpha$, donde $A \in NT$ y  $\alpha \in (NT \cup F)^*$ 
 % Insertar ejemplo de como funciona esta talla
 % El rendimiento de GE ha sido criticado en la literatura por tener alta redundancia y poca localidad. Una representaci\'on tiene alta redundancia cuando varios genotipos corresponden al mismo fenotipo y localidad se refiere a como los cambios en el genotipo se refeljean en el fenotipo. Con el objetivo de mejora GE han exisitido varias propuestas. Una de esta es Evoluci\'on de Gram\'atica Probabilistica.
-\section{MOEA basado en Frente de Pareto}
+\section{Algoritmo Multiobjetivo}
 
-Cualquier algoritmo de este tipo es posible utilizarlo aqu\'i. La importancia radica en que los soluciones que se le den prioridad sean parte del frente de Pareto
 
-% Explicar xq se quiere nsga2, xq esta probado, es un buen metodo de optimzacion estandar y demostrado
-% Los nuevos metodos multiobjetivos se comparan con NSGAII.
-\subsection{NSGA-II}
+Dado una poblaci\'on de flujos de Aprendizaje Autom\'atico es necesario poder elegir los m\'as aptos. Como se habla de un conjunto de individuos, donde pueden haber muchos indiviudos correctos se busca escoger de los mejores de esto una muestra que sea representativa del conjunto total.
 
-\begin{figure}[H]
+Se utiliza NSGA-II (\cite{deb2002fast}) por ser un algoritmo popular en el campo de la optimizaci\'on multiobjetivo ampliamente probado y con un buen rendimiento. 
+
+NSGA-II al ser un algoritmo cat\'alogado como un MOEA basado en el frente de pareto (\ref{background:def:MOEA}) se caracteriza por una ordenaci\'o en dos etapas.
+
+En la primera etapa ordena los primeros individuos con respecto a su \'indice de dominaci\'on. Donde el \'inidice de dominaci\'on de una soluci\'on est\'a determinado por cuantos otras soluciones \textit{Pareto dominan} a esta.
+\begin{definition}
+    Dado un vector $x$ y un conjunto $Y$ de vectores en el espacio objetivo $\mathcal{Y}$ tal que los vectores en $Y$ dominan a $x$ (i.e. $Y = \{y | y \succ x\}$) se dice que $Ind(x) = |Y|$.
+\end{definition}
+Al final de la primera fase los vectores quedan ordenado de la siguiente manera
+$\{P^0, ..., P^k\}$ donde  $P^i = \{x | Ind(x) = i\}$ se le conoce como frente de rango $i$ e idealmente el frente de rango $0$ debe ser una muestra representativa al frente de Pareto.
+
+En la segunda etapa los vectores de cada frente obtenido anteriormente se organizan utilizando \textit{crowding distance} (CD), uno de las contribuciones claves de NSGA-II (\cite{deb2002fast}). El prop\'osito de \textit{crowding distance} es estimar la densidad de las soluciones midiendo sus soluciones vecinas de tal manera que los primeros lugares pertenezcan a los elementos m\'as representativos de dicho frente.
+
+La densidad de una soluci\'on se obtiene ordenando las soluciones por cada funci\'on objetivo y calculando el promedio de la distancia entre una soluci\'on y sus dos adyacentes. Esta distancia resulta siendo el per\'imetro del cuboide formado usando los vecinos m\'as cercanos como v\'ertices. En el caso de los puntos que representan el m\'inimo y m\'aximo de al menos alguna funci\'on objetivo se les asigna valor infinito. El pseudoc\'odigo del algoritmo se muestar en \ref{proposal:alg:cd}.
+
+\begin{algorithm*}[H]\caption{Crowding Distance}\label{proposal:alg:cd}
+    \tcp{F como entrada representa un frente de rango i}
+    \KwIn{F} 
+    \tcp{SF como salida representa el frente ordenado seg\'un CD}
+    \KwOut{SF}
+    \For{i desde 0 hasta $|F|$}{
+        $F[i].dist \gets 0$ \;
+    } 
+
+    \ForEach{funcion objetivo $m$}{
+        $F \gets ordenar(F, m)$ \tcp*{se ordena F con respecto a m}
+        $F[0].dist \gets \infty$\;
+        $F[|F|].dist \gets \infty$\;
+
+        \For{i desde 2 hasta $|F| - 1$} {
+            \begin{math}
+                F[i].distance  = \frac{F[i].distance + (F[i + 1].m - F[i - 1].m)}{f^{max}_{m} - f^{min}_m}
+            \end{math}
+        }
+    }
+    $SF \gets ordenar(F, dist)$ \tcp*{se ordena F respecto a CD}
+
+\end{algorithm*}
+
+Luego gu\'iandonos por la figura \ref{proposal:fig:nsga2} es posible ver el funcionamiento general del algoritmo. Se divide la poblaci\'on inicial en frentes de distinto rango. Luego por cada frente se aplica CD. Seg\'un lo que el sistema de AutoML necesite se pasan los subconjutnos. Si un conjutno no se puede pasar completo se garantiza que pasan los elementos m\'as representativos de este gracias a CD.
+
+\begin{figure}\caption{Funcionamineto de NSGA-II}\label{proposal:fig:nsga2}
     \includegraphics[width=\linewidth]{Pictures/nsga2.png}
     \label{nsga2}
 \end{figure}
-
-El funcinamiento general de NSGA-II es dado una poblacion ordenarlos, luego escoger los mejores $N$ individuos de dicha poblaci\'on y se genera una nueva poblacion con $2N$ individuos y se repiten los pasos.
-
-La parte tocada de NSGA-II es en la manera en que ordena los elementos, que se divide en dos fases.
-
-En la primera fase ordena las soluciones seg\'un las solucioens que las dominen, a traves de frentes de paretos de distinto rango. En primer lugar van las funciones que nadie domina, seria el frente de pareto de rango 0, las que domina al menos uno, el frente de pareto de rango 1, y as\'i sucesivamente.
-
-Una vez se tenga esta ordenaci\'on se cogen los primero N soluciones para construir una nueva poblaci\'on a partir de esta utilizando un algoritmo gen\'etico. En el caso de que haya que picar por la mitad algun frente de rango K, es necesario utilizar otro metodo de ordenaci\'on. El objetivo final es obtener del frente de rango K la muestra mas representativa.
-
-Para eso se propone Crowding distance:
-Que calcula una estimaci\'on de la densidad de las soluciones vecinas a cierta soluci\'on. Se calcula el promedio de la distancia de estos dos puntos cercanos al punto por cada funci\'on objetivo. Esta distancia sirve como un estimado del perimetro del cuboide formado usando los vecinos m\'as cercanos como v\'ertices. 
-
-El calculo de la distancia necesita ordenar la poblaci\'on de acuerdo a cada funcion objetivo en orden ascendiente. Las puntos de menor y mayor con respecto a una funci\'on objetivo son asignados $\infty$. Todas las soluciones intermedias son asignadas las distancias iguales a la diferencia absoulta normalizada de los valores de la funcion de dos puntos adyacentes. Este calculo se hace sobre todas las funciones objetivo. El crowding distance es calculado como la suma de cada distancia indivual correspondiendo a cada funci\'on objetivo.
-
-\begin{algorithm*}\caption{Crowding Distance}
-    l = |S|
-
-    for i = 0 to l:
-
-    \quad set S[i].distance = 0
-
-    for each objective $m$
-
-    \quad S = sort(S, m)
-
-    \quad S[0].distance = S[l].distance = $\infty$
-
-    \quad for i = 2 to (l - 1):
-
-    \qquad 
-    \begin{math}
-        S[i].distance  = \frac{S[i].distance + (S[i + 1].m - I[i - 1].m)}{f^{max}_{m} - f^{min}_m}
-    \end{math}
-\end{algorithm*}
-
 
