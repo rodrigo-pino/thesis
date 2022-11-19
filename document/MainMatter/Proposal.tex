@@ -4,10 +4,12 @@
 
 \chapter{AutoML Multiobjetivo}\label{chapter:proposal}
 
-Se propone como soluci\'on al  \textit{problema multiobjetivo en sistemas AutoML} (\ref{proposal:moo-automl-problem}) un algoritmo que utilize como caja negra un sistema de AutoML que pueda retornar un flujos y sus evaluaciones respecto a varias m\'etricas. Luego el programa selecciona los mejores utilizando un metodo de ordenaci\'on multiobjetivo y se los devuelve al sistema AutoML. Se espera que este, partiendo de los mejores flujos sea capaz de producir una nueva generaci\'on manteniendo estos rasgos. Se repite este paso hasta que se cumpla el criterio de parado, en donde se devuelven las mejores respuestas encontradas hasta el momento con respecto a todas las iteraciones.
+Se propone como soluci\'on al  \textit{problema multiobjetivo en AutoML} (\ref{proposal:moo-automl-problem}) un algoritmo que utilize como caja negra un sistema AutoML que sea capaz de producir flujos respecto a m\'etricas de entrada. El algoritmo selecciona los mejores flujos utilizando un metodo de ordenaci\'on multiobjetivo y pide al sistema AutoML que genere y evalue una poblaci\'on a partir de los flujos escogidos como los m\'as aptos. 
+%Se espera que este, partiendo de los mejores flujos sea capaz de producir una nueva generaci\'on manteniendo estos rasgos. 
+Se repite este paso hasta que se cumpla el criterio de parada, en donde se devuelven las mejores respuestas encontradas hasta el momento con respecto a todas las iteraciones.
 
 \section{Descripci\'on General}
-El sistema toma como entrada un sistema de Aprendizaje de M\'aquina Automatizado $\mathcal{A}$ tal que $\mathcal{A}(D, M, P) = TP$ donde $D = \{(x_1, y_1), (x_2, y_2), ..., (x_n, y_n)\}$ representa un conjunto de datos de entrada, $M = \{f_1, f_2, ..., f_m\}$ un conjunto de m\'etricas a evaluar y $P = \{p_1, p_2, ..., p_k\}$ una serie de modelos de Aprendizaje Autom\'atico por los cuales se gu\'ia $\mathcal{A}$ para producir una poblaci\'on $TP$. El objetivo del sistema es producir una serie de modelos de Aprendizaje Autom\'atico $P$ que sean una muestra representativa del frente de Pareto utilizando un algoritmo evolutivo multiobjetivo  $\mathcal{H}$ tal que $\mathcal{H}(TP) = P$. 
+El sistema toma como entrada un sistema de Aprendizaje de M\'aquina Automatizado $\mathcal{A}$ tal que $\mathcal{A}(D, M, P) = TP$ donde $D = \{(x_1, y_1), (x_2, y_2), ..., (x_n, y_n)\}$ representa un conjunto de datos de entrada, $M = \{f_1, f_2, ..., f_m\}$ un conjunto de m\'etricas a evaluar y $P = \{p_1, p_2, ..., p_k\}$ una serie de modelos de Aprendizaje Autom\'atico por los cuales se gu\'ia $\mathcal{A}$ para producir una nueva poblaci\'on de flujos $TP$. El objetivo del sistema es producir una conjutno de flujos de Aprendizaje Autom\'atico $P$ que sean una muestra representativa del frente de Pareto utilizando un algoritmo evolutivo multiobjetivo  $\mathcal{H}$ tal que $\mathcal{H}(TP) = P$ en cierto n\'umero de iteraciones determinado por un criterio de parada. 
 
 \begin{algorithm}[H]\caption{Flujo del Sistema}
     \KwIn{$\mathcal{A}$, D, M}
@@ -21,13 +23,13 @@ El sistema toma como entrada un sistema de Aprendizaje de M\'aquina Automatizado
 \end{algorithm}
 
 \section{Sistema AutoML}
-El sistema AutoML necesario para esta propuesta se utiliza como caja negra y debe ser capaz de producir una poblaci\'on inicial aleatoria, al igual que poblaciones que toman como base una serie de inidividuos para que los nuevos miembras conserven los rasgos de esto. Esto \'ultimo se logra utilizando algoritmos evolutivos que definen operadores de mutaci\'on, combinaci\'on y selecci\'on.
+El sistema AutoML necesario para esta propuesta se utiliza como caja negra y debe ser capaz de producir una poblaci\'on inicial aleatoria, al igual que poblaciones basadas en otra subpoblaci\'on tal que los nuevos individuos conserven los rasgos de esta subpoblaci\'on. Esto \'ultimo se logra utilizando algoritmos evolutivos que definen operadores de mutaci\'on, combinaci\'on y selecci\'on.
 
 Nuestra propuesta est\'a basada en AutoGOAL (\cite{estevez2020solving}) un sistema de AutoML que modela el espacio de decisi\'on utilizando una Gram\'atica Probabil\'istica  Libre del Contexto (\textit{Probabilistic Context Free Grammar}, PCFG). 
 
 Las PCFG se definen como una quinterna $PG = (NT, T, S, P, Prob)$ donde $NT$ y $T$ representan los conjuntos disjuntos no vac\'io de los s\'imbolos no terminales y terminales respectivamente. $S$ es un elemento de $NT$ llamado el axioma que representa el no-terminal inicial tal que expandiendo este se pueden llegar a todas las posibles formas de la gram\'atica. $P$ es el conjunto de reglas de producci\'on que rigen a la grma\'atica. $Prob$  es un conjunto de probabilidades asocaido con cada regla de la gram\'atica. 
 
-Con el fin de aprovechar el espacio de decisi\'on ya definido se utiliza Evoluci\'on Gram\'atica Probabil\'istica (\textit{Probabilistic Grammatic Evolution}, PGE, \cite{megane2021probabilistic}), un algorimto de Estimaci\'on de Distribuci\'on (\textit{Estimation of Distribution ALgorithms, EDA}, \cite{larranaga2001estimation}) que remplaza los operadores cl\'asicos de mutaci\'on y cruce por un sampleado sobre las probabilidas de distribuci\'on de PCGG de acuerdo a las producciones utilizadas por el emjor individuo.
+Con el fin de aprovechar el espacio de decisi\'on ya definido se utiliza Evoluci\'on Gram\'atica Probabil\'istica (\textit{Probabilistic Grammatic Evolution}, PGE, \cite{megane2021probabilistic}), un algorimto de Estimaci\'on de Distribuci\'on (\textit{Estimation of Distribution ALgorithms, EDA}, \cite{larranaga2001estimation}) que remplaza los operadores cl\'asicos de mutaci\'on y cruce por un muestreado sobre las probabilidades de distribuci\'on de PCFG de acuerdo a las producciones utilizadas por el mejor individuo.
 
 En PCFG, al inicio, las probabilidades est\'an igualmente distribuidas sobre todas las producciones por cada regla de la gram\'atica y se actualizan al aplicar PGE con el individuo m\'as apto donde se alterna entre aumentar ligeramente la probabilidad de las producciones que utilizadas por este y disminuir la probabilidades de los que no fueron utilizadas. Alternar entre estas dos v\'ias evita la utilizaci\'on del mismo individuo en iteraciones consecutivas balanceando la exploraci\'on global con explotaci\'on local.
 
@@ -48,20 +50,20 @@ Como se trata de un problema multiobjetivo y no existe el individuo m\'as apto, 
 
 Dado una poblaci\'on de flujos de Aprendizaje Autom\'atico es necesario poder elegir los m\'as aptos. Como se habla de un conjunto de individuos, donde pueden haber muchos indiviudos correctos se busca escoger de los mejores de esto una muestra que sea representativa del conjunto total.
 
-Se utiliza NSGA-II (\cite{deb2002fast}) por ser un algoritmo popular en el campo de la optimizaci\'on multiobjetivo ampliamente probado y con un buen rendimiento. 
+Se utiliza NSGA-II (\cite{deb2002fast}) por ser un algoritmo popular en el campo de la optimizaci\'on multiobjetivo, estar ampliamente probado y tener un buen rendimiento general. 
 
-NSGA-II al ser un algoritmo cat\'alogado como un MOEA basado en el frente de pareto (\ref{background:def:MOEA}) se caracteriza por una ordenaci\'o en dos etapas.
+NSGA-II al ser un algoritmo cat\'alogado como un MOEA basado en el frente de pareto (\ref{background:def:MOEA}) y se caracteriza por una ordenaci\'o en dos etapas.
 
-En la primera etapa ordena los primeros individuos con respecto a su \'indice de dominaci\'on. Donde el \'inidice de dominaci\'on de una soluci\'on est\'a determinado por cuantos otras soluciones \textit{Pareto dominan} a esta.
+En la primera etapa ordena los primeros individuos con respecto a su \'indice de dominaci\'on. Donde dicho \'inidice  est\'a determinado por la cantidad de soluciones distintas que \textit{Pareto dominan} a esta.
 \begin{definition}
     Dado un vector $x$ y un conjunto $Y$ de vectores en el espacio objetivo $\mathcal{Y}$ tal que los vectores en $Y$ dominan a $x$ (i.e. $Y = \{y | y \succ x\}$) se dice que $Ind(x) = |Y|$.
 \end{definition}
-Al final de la primera fase los vectores quedan ordenado de la siguiente manera
-$\{P^0, ..., P^k\}$ donde  $P^i = \{x | Ind(x) = i\}$ se le conoce como frente de rango $i$ e idealmente el frente de rango $0$ debe ser una muestra representativa al frente de Pareto.
+Luego los vectores se agrupan de acuerdo a su \'indice de dominaci\'on  de la siguiente manera
+$\{P^0, ..., P^k\}$ donde  $P^i = \{x | Ind(x) = i\}$ y se le conoce como frente de rango $i$. Idealmente el frente de rango $0$ debe ser una muestra representativa al frente de Pareto.
 
-En la segunda etapa los vectores de cada frente obtenido anteriormente se organizan utilizando \textit{crowding distance} (CD), uno de las contribuciones claves de NSGA-II (\cite{deb2002fast}). El prop\'osito de \textit{crowding distance} es estimar la densidad de las soluciones midiendo sus soluciones vecinas de tal manera que los primeros lugares pertenezcan a los elementos m\'as representativos de dicho frente.
+En la segunda etapa los vectores de cada frente obtenido se organizan utilizando \textit{crowding distance} (CD), uno de las contribuciones claves de NSGA-II (\cite{deb2002fast}). El prop\'osito de \textit{crowding distance} es estimar la densidad de las soluciones con respecto sus soluciones vecinas de tal manera que los primeros lugares pertenezcan a los elementos m\'as representativos de dicho frente.
 
-La densidad de una soluci\'on se obtiene ordenando las soluciones por cada funci\'on objetivo y calculando el promedio de la distancia entre una soluci\'on y sus dos adyacentes. Esta distancia resulta siendo el per\'imetro del cuboide formado usando los vecinos m\'as cercanos como v\'ertices. En el caso de los puntos que representan el m\'inimo y m\'aximo de al menos alguna funci\'on objetivo se les asigna valor infinito. El pseudoc\'odigo del algoritmo se muestar en \ref{proposal:alg:cd}.
+La densidad de una soluci\'on se obtiene ordenando las soluciones por cada funci\'on objetivo y calculando el promedio de la distancia entre una soluci\'on y sus dos adyacentes. Esta distancia resulta siendo el per\'imetro del cuboide formado usando los vecinos m\'as cercanos como v\'ertices. En el caso de los puntos que representan el m\'inimo y m\'aximo de al menos alguna funci\'on objetivo se les asigna valor infinito. El pseudoc\'odigo del algoritmo se muestra en \ref{proposal:alg:cd}.
 
 \begin{algorithm*}[H]\caption{Crowding Distance}\label{proposal:alg:cd}
     \tcp{F como entrada representa un frente de rango i}
