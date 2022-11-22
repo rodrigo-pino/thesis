@@ -8,23 +8,25 @@
 % Explicar todas las partes del diagrama
 
 Se desarrola la propuesta sobre AutoGOAL un sistema de AutoML ideado en el grupo de Inteligencia Artificial de la Universidad de la Habana.
-
-Luego utilizamos el sistema desarrollado sobre dos corupus distintos y con metricas variadas para comprobar el comportamiento de la nueva propuesta.
+Se aplica el sistema sobre tres corupus distintos junto con dos pares de m\'etricas para comprobar el rendimiento.
 
 \section{Implementaci\'on}
 
 
-AutoGOAL logra mantener las caracter\'isticas positivas de una poblaci\'oun utilzando PCFG y PGE. Una vez se genera una primera poblaci\'on se escogen los individuos $k$ individuos que seg\'un cierta m\'etrica $m$ fueron los m\'as aptos y se aplica PGE sobre cada uno para actualizar el DAG tal que esas producciones tengan mayor probabilidad de escogerse, y por tanto las individuos de las proximas poblaciones tenga m\'as posibilidad de conservar esos traits.
+AutoGOAL es un sistema de AutoML gen\'etico que utiliza una Gram\'atica Probabil\'istica Libre del Contexto  para modelar su espacio de decisi\'on. Se representa utilizando un grafo aciclico dirigido (DAG) donde cada nodo de este representa una posible cadena de la gram\'atica y sus aristas apuntan a todas las posibles cadenas que se pueden generar a partir de estas sustituyendo alg\'un No Terminal por una producci\'on de la Gram\'atica. Cuando una cadena se encuentra completamente expandida, i.e. compuesta por solo simbolos terminales, se tiene una soluci\'on v\'alida del sistema. 
 
-PGE en AutoGOAL se representa una clase que recibe $n$ individuos los ordena y escoge los primeros $k$ con los que actualiza PCFG que se representa como un Sampler. Para escoger los $k$ mejores utiliza la funcion \textit{\_inidices\_of\_the\_fittest\_} que lo que hace es es producir una lista encabezada por el primero m\'as apto
+Inicialmente cada arista de este DAG se inicializa con una probabilidad igual a todas sus aristas hermanas (i.e. todas las aristas que salen de su mismo nodo) tal que la suma de sus probabilidades sea 1. Un camino se escoge utilizando una variable uniforme tal que su valor determina la arista a seleccionar. Cuando se tiene un individuo apto la manera de AutoGOAL de conservar sus ``genes'' es aplicando PGE sobre las aristas que conforman el camino que llevaron a esa soluci\'on. M\'as especificamente, la implementaci\'on de AutoGOAL de PGE dado $n$ individuos, son evaluados respecto a una funci\'on de evaluaci\'on $f$ y se seleccionan las $k$ soluciones de mejor rendimiento y las aristas de las probabilidades se actualizan de acuerdo a estos individuos. 
 
-Se implementa la clase NSPGE (el nombre reminicente a NSGA-II pues se gu\'ia por sus mismos principios donde el algoritmo genetico utilzado es PGE) que hereda de PGE y sobre escribe el metodo de ordenar. Esta clase esta preparada para funcionar con todas las m\'etricas que se quieran.
+Se a\~nade a AutoGOAL la clase NSPGE, un m\'etodo de b\'usqueda inspirado en NSGA-II (\cite{deb2002fast}) que utiliza PGE como base. El objetivo de NSPGE es extender la funcionalidad de PGE para que sea capaz de seleccionar los $k$ mejores individuos de acuerdo a $m$ m\'etricas, con $m \ge 2$. El l\'ogica de PGE encargada de ordenar los inidividuos m\'as aptos se encuentra en el m\'etodo \textit{\_inidices\_of\_the\_fittest\_} el cual NPSGE sobreescribe.
 
-La ordenacion que ocurre aqui, que se cambia ya en vez de tomar los k mas aptos segun una metrica se toman los K mas aptos segun $m$ metricas.
-La manera de escoger los $k$ mas aptos es ordenarlos primeramente segu\'un el rango del frente al que pertencen (Non-dominated sorting). Si existe un frente tal que no caben sus soluciones enteras porque la cantidad de inviduos total hasta ahora excede $k$ se ordena utilizando crowding distance para quedarse con los elementos m\'as representativos de dicho frente.
+\subsection{Nueva ordenaci\'on}
 
+En NSPGE, dentro de \textit{\_inidices\_of\_the\_fittest\_} se aplica la ordenaci\'on definida por \cite{deb2002fast}. Dado $n$ soluciones se  agrupan seg\'un su \'indice de dominaci\'on (i.e. Non Dominated Sorting), donde cada agrupamiento se le llama frente de rango $i$, donde $i$ representa la cantidad de soluciones que dominan a cada una de estas. Una vez establecidos estos frentes se extraen las primeras $k$ soluciones, en caso de que no se pueda seleccionar un frente completo, se aplica Crowding Distance para seleccionar la muestra m\'as representativa de este.
 
-\subsubsection{Mejores \'indices}
+Es importante entender para la correctitud del aloritmo  que las soluciones que conforman un frente de rango $i$ no se \textit{Pareto dominan} ($\prec$) entre si.
+%Es f\'acilmente demostrable que la \texit{Pareto dominacion (i.e. $\prec$)} cumple con la propiedad de transitividad (i.e. si $x \prec y$, $y \prec z$, entonces $x \prec z$) 
+Dado un frente de rango $i$ $F_i$, tal que existen soluciones $x, y \in F_i$ se asume que $x \prec y$. Como el \'inidice de dominaci\'on de $x$ es $i$ y $x \prec y$ y ($\prec$) es una operador transitivo entonces todos los que dominan a $x$ dominan a $y$, adem\'as del propio $x$, por tanto el inidice de dominaci\'on de $y$ ser\'ia $i+1$ lo que es una contradicci\'on porque $y \in F_i$. 
+
 \begin{lstlisting}[language=Python]
 def _indices_of_fittest(self, fns: List[List[float]]):
   # Se ordenan todas las soluciones segun su orden
@@ -49,9 +51,12 @@ def _indices_of_fittest(self, fns: List[List[float]]):
   return indices
 \end{lstlisting}
 
-\subsubsection{Non Domianted Sort}
-% Explicar implmentacion dominated sorting
-El dominated sorting se realiza caminado por todo par de soluciones x, y obtenidas. Y se calcula el indice de dominacion de cada uno. Despues se inicializa un frente 0 de soluciones no dominadas. Todas las soluciones que estas soluciones dominan se le resta 1. Luego se pasa buscando todas las soluciones de rango 0 (hay nuevas xq se resto uno). Se le resta 1 al rango de todas las que estas domina y asi sucesivamente. Hasta que no queden soluciones
+\subsubsection{Non Dominated Sort}
+La ordenaci\'on se conforma por dos pasos l\'ogicos fundamentales:
+\begin{enumerate}
+    \item Se verifica todo par de soluciones $x, y$ encontradas y se aplica $x \prec y$ con el objetivo de calcular el \'inidice de dominaci\'on de cada soluci\'on. Adem\'as se construye un DAG conformado por las soluciones donde existe una arista entre las soluciones $x$ y $y$ si $x \prec y$. La ra\'iz de dicho DAG est\'a conformado por las soluciones que nadie domina.
+    \item Se recorre DAG utilizando una versi\'on de BFS ($Breadth First Search$) donde los soluciones visitadas se les reduce el \'indice de domianci\'on en uno. Si llega a 0 se a\~nade al frente de Pareto que se est\'a formando.
+\end{enumerate}
 
 \begin{lstlisting}[language=Python]
 def non_dominated_sort(self, scores: List[List[float]]):
@@ -95,9 +100,7 @@ def non_dominated_sort(self, scores: List[List[float]]):
 \end{lstlisting}
 
 \subsubsection{Crowding Distance}
-% Explicar crowding distance
-Siguiendo el pseudoc\'odigo escrito en (\ref{proposal:alg:cd}) se hacen $m$ iteraciones donde $m$ es la cantidad de m\'etricas. En cada iteracion se ordena el frente seg\'un el valor que tiene respecto a las $m$. Se establecen valors infinitos para los minimos y los maximos. Luego por cada punto adyacente se calculan las m\'etricas. En este paso el valor de las m\'etricas se normaliza de 0 a 1 utilizando Feature Scaling 
-
+Se sigue la idea del algoritmo propuesto en (\ref{proposal:alg:cd}). Dado $m$ m\'etricas a evaluar se realizan $m$ iteraciones, donde en cada una se ordena alg\'un frente de rango $k$ de acuerdo a la metrica $m_i$. A la soluciones que con respecto a la m\'etrica $m_i$ tienen el m\'inimo y mayor valor se les asigna distancia infinita y luego se c\'alculan los valores intermedios. En \cite{deb2002fast} requiren que los valores de las m\'etricas esten normalizados, en nuestra implementaci\'on utilizamos \textit{feature scaling} para normalizar los valores entre 0 y 1.
 
 \begin{lstlisting}[language=Python]
 def crowding_distance(
@@ -129,13 +132,6 @@ def crowding_distance(
   return crowding_distances[index]
 \end{lstlisting}
 
-Finalmente despues de este proceso quedan los $k$ mejores y se deja el funcionaminto actual de $PGE$ que siga con lo suyo de resamplear para los $k$ mejores.
-
-A parte de la adicion de NSPGE que conforma el grueso de la implementaci\'on se modifican las clases AutoML para que tenga en cuenta que los algoritmos de b\'usqueda pueden retornar uno o m\'as valores y SearchAlgoritm (clase base de PGE) para que guarde las mejores a traves de la iteracionesen vez de una sola que determine como la m\'as apta
-
-% \subsection{M\'etricas}
-
-
 \section{Marco Experimental}
 
 En este secci\'on se analiza el desemepe\~no de la propuesta utilizando AutoGOAL.
@@ -144,12 +140,11 @@ El objetivo es ejecutar datasets distintos con diferentes m\'etricas de evaluaci
 
 \subsection{M\'etricas Utilizadas}
 
-Se utilizan las m\'etricas F-score, Precision y Recall de sklearn.
+Para cada conjutno de datos se utilizan los siguentes pares de m\'etricas:
 
-Se utiliza la m\'etrica accuracy
+\paragraph{Precision contra Recobrado}: Precisi\'on es cuando . Recobrado es cuando . Para los tests donde se utiliza de una manera. Y para otros de otra
 
-Se utiliza una m\'etrica que calcula el tiempo estimado con que se entrena el algoritmo
-Es estimado xq existe un overhead pero es overhead es igual para todos los pipelines.
+\paragraph{F-Score contra Tiempo de Entrenamiento}: Se compara F-Score lo mismo que Recobrado y Precision. Para algunos tests de alguna forma, para otros de otra. Tiempo de Entrenemaiento es un estimado de cuanto timepo toma entrenar y validar el modelo.
 
 \subsection{Corpus de Evaluaci\'on}
 
@@ -226,6 +221,10 @@ Humor Analysis based on Human Annotation (HAHA), un conjunto de datos que contie
     \label{implementation:table:haha}
 \end{table}
 
+\subsubsection{MEDDOCAN}
+
+Una colecci\'on de 1000 casos cl\'inicos y sus anotaciones PHI; cada uno conformado con aproximadamente de 33 oraciones o 495 palabras. Cada caso cl\'inico est\'a codificado en texto plano en UTF8 y las anotaciones est\'an en formato BRAT.
+
 
 \subsection{Configuraci\'on Experimental}
 
@@ -265,6 +264,11 @@ Aqui se parce al ejemplo con Cars, aunque no de una manera tan marcada, es mas s
 
 Aqui es diferente al trabajo con Cars las m\'etricas forman un frente de pareto mas parecido a lo que describe la literatura. Se ve que hay un trade off evidente entre maximizar precison o recobrado. Esta exploarcion del espacio.
 
+\subsection{MEDDOCAN}
+
+\subsubsection{F-Score contra Tiempo de Entrenamiento}
+
+\subsubsection{Precisi\'on contra Recobrado}
 
 % Y despues de las pruebas
 
