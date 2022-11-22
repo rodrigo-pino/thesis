@@ -1,22 +1,277 @@
-\chapter{Detalles de Implementación y Experimentos}\label{chapter:implementation}
+\chapter{Implementación y Experimentos}\label{chapter:implementation}
 
-% Aqui hablar de todo en general (para este viersen)
+% En este cap\'itulo de detalla la implementaci\'on de nuestra propuesta con la utilizaci\'on de AutoGOAL. Luego se realizan diferentes pruebas con datasets extaidos de la literatura contra varias m\'etricas y se analiza la efectividad de la propuesta.
+
+% Aqui hablar de todo en general (para este viernes)
 % Donde es que se engancha mi implementaci\'on 
 % Pintar un diagrama de esto 
 % Explicar todas las partes del diagrama
 
-Para la implementacion se defini\'o una nueva clase basado en la implementaci\'on de PGE de AutoGOAL. 
-Se realizaron modificaciones sobre esta para obtener generalizar los resultados y poder trabajar con varias m\'etricas. Se adaptaron las funciones anteriores que solo optimzian para un solo objetivo y asum\'ian esto.
+Se desarrola la propuesta sobre AutoGOAL un sistema de AutoML ideado en el grupo de Inteligencia Artificial de la Universidad de la Habana.
 
-La clase NSPGE implementa NSGAII aprovechandose de la definicion de PGE como algoritmo genetico que funciona muy bien. Lo \'unico que cambia es realmente a la hora de ordenar los resultados que se utiliza una primera ordenacion por ranking y una segunda ordencaci\'on crowding distance.
+Luego utilizamos el sistema desarrollado sobre dos corupus distintos y con metricas variadas para comprobar el comportamiento de la nueva propuesta.
 
-Crowding distance require que los datos est\'en normalizados para esto se implemento feature scaling y se lleva por defecto todos los puntos en el rango de 0 a 1.
+\section{Implementaci\'on}
 
-Primeramente se hace un recorrido por las soluciones y se busca los vecotes que dominan a otros y se van ordenando en una lista, donde en la primera posicion se encuentran los vectores a los que no domina nadie, en la segunda posicion los vectores a los que al menos alguien domina.
 
-Luego se devuelven todos los frentes en orden hasta llegar a los N flujos requeridos. Si es necesario picar uno de los frentes estos se ordenan usando crowding distance.
+AutoGOAL logra mantener las caracter\'isticas positivas de una poblaci\'oun utilzando PCFG y PGE. Una vez se genera una primera poblaci\'on se escogen los individuos $k$ individuos que seg\'un cierta m\'etrica $m$ fueron los m\'as aptos y se aplica PGE sobre cada uno para actualizar el DAG tal que esas producciones tengan mayor probabilidad de escogerse, y por tanto las individuos de las proximas poblaciones tenga m\'as posibilidad de conservar esos traits.
+
+PGE en AutoGOAL se representa una clase que recibe $n$ individuos los ordena y escoge los primeros $k$ con los que actualiza PCFG que se representa como un Sampler. Para escoger los $k$ mejores utiliza la funcion \textit{\_inidices\_of\_the\_fittest\_} que lo que hace es es producir una lista encabezada por el primero m\'as apto
+
+Se implementa la clase NSPGE (el nombre reminicente a NSGA-II pues se gu\'ia por sus mismos principios donde el algoritmo genetico utilzado es PGE) que hereda de PGE y sobre escribe el metodo de ordenar. Esta clase esta preparada para funcionar con todas las m\'etricas que se quieran.
+
+La ordenacion que ocurre aqui, que se cambia ya en vez de tomar los k mas aptos segun una metrica se toman los K mas aptos segun $m$ metricas.
+La manera de escoger los $k$ mas aptos es ordenarlos primeramente segu\'un el rango del frente al que pertencen (Non-dominated sorting). Si existe un frente tal que no caben sus soluciones enteras porque la cantidad de inviduos total hasta ahora excede $k$ se ordena utilizando crowding distance para quedarse con los elementos m\'as representativos de dicho frente.
+
+
+\subsubsection{Mejores \'indices}
+\begin{lstlisting}[language=Python]
+def _indices_of_fittest(self, fns: List[List[float]]):
+  # Se ordenan todas las soluciones segun su orden
+  # de dominacion
+  fronts = self.non_dominated_sort(fns)
+  indices = []
+  k = int(self._selection * len(fns))
+
+  for front in fronts:
+    if len(indices) + len(front) <= k:
+      indices.extend(front)
+    else:
+      # Cuando solo se utiliza una porcion del frente
+      # se aplica crowding distance
+      indices.extend(
+          sorted(
+              front,
+              key=lambda i: -self.crowding_distance(fns, front, i)
+          )[: k - len(indices)]
+      )
+      break
+  return indices
+\end{lstlisting}
+
+\subsubsection{Non Domianted Sort}
+% Explicar implmentacion dominated sorting
+El dominated sorting se realiza caminado por todo par de soluciones x, y obtenidas. Y se calcula el indice de dominacion de cada uno. Despues se inicializa un frente 0 de soluciones no dominadas. Todas las soluciones que estas soluciones dominan se le resta 1. Luego se pasa buscando todas las soluciones de rango 0 (hay nuevas xq se resto uno). Se le resta 1 al rango de todas las que estas domina y asi sucesivamente. Hasta que no queden soluciones
+
+\begin{lstlisting}[language=Python]
+def non_dominated_sort(self, scores: List[List[float]]):
+  # fronts almacena los frentes 
+  #(i.e. fronts[i] es el frente de rango i)
+  fronts: List[List[int]] = [[]]
+
+  # domination_rank en i indica la cantidad de soluciones
+  # que dominan a la solucion i
+  domination_rank = [0] * len(scores)
+
+  # dominated_scores en i alamacena las soluciones dominadas
+  # por la solucion i
+  dominated_scores = [list() for _ in scores]
+
+  # revisa todo par de soluciones y se establece
+  # quien dominan a quien
+  for i, score_i in enumerate(scores):
+    for j, score_j in enumerate(scores):
+      if self._improves(score_i, score_j):
+          dominated_scores[i].append(j)
+      elif self._improves(score_j, score_i):
+          domination_rank[i] += 1
+    if domination_rank[i] == 0:
+       fronts[0].append(i)
+
+  # de acuerdo a la informacion sobre quienes
+  # se dominan, forma todos los frentes
+  front_rank = 0
+  while len(fronts[front_rank]) > 0:
+    next_front = []
+    for i in fronts[front_rank]:
+      for dominated in dominated_scores[i]:
+        domination_rank[dominated] -= 1
+        if domination_rank[dominated] == 0:
+          next_front.append(dominated)
+    front_rank += 1
+    fronts.append(next_front)
+
+  return fronts[:-1]
+\end{lstlisting}
+
+\subsubsection{Crowding Distance}
+% Explicar crowding distance
+Siguiendo el pseudoc\'odigo escrito en (\ref{proposal:alg:cd}) se hacen $m$ iteraciones donde $m$ es la cantidad de m\'etricas. En cada iteracion se ordena el frente seg\'un el valor que tiene respecto a las $m$. Se establecen valors infinitos para los minimos y los maximos. Luego por cada punto adyacente se calculan las m\'etricas. En este paso el valor de las m\'etricas se normaliza de 0 a 1 utilizando Feature Scaling 
+
+
+\begin{lstlisting}[language=Python]
+def crowding_distance(
+    self, scores: List[List[float]], front: List[int], index: int
+) -> float:
+  # Crowding distance usa los vectores normalizados.
+  # Se aplica feature scaling para llevar los vectores a [0, 1]
+  scaled_scores = feature_scaling(scores)
+
+  crowding_distances: List[float] = [0 for _ in scores]
+  for m in range(len(self._maximize)):
+    # Se ordena de acuerdo a la metrica m
+    front = sorted(front, key=lambda x: scores[x][m])
+
+    # Se establecen los extremos como infinitos
+    crowding_distances[front[0]] = math.inf
+    crowding_distances[front[-1]] = math.inf
+
+    # Valores de todas las soluciones con respecto a m 
+    m_values = [scaled_scores[i][m] for i in front]
+    scale: float = max(m_values) - min(m_values)
+    if scale == 0:
+      scale = 1
+    for i in range(1, len(front) - 1):
+      crowding_distances[i] += (
+        scaled_scores[front[i + 1]][m] - scaled_scores[front[i - 1]][m]
+      ) / scale
+
+  return crowding_distances[index]
+\end{lstlisting}
+
+Finalmente despues de este proceso quedan los $k$ mejores y se deja el funcionaminto actual de $PGE$ que siga con lo suyo de resamplear para los $k$ mejores.
+
+A parte de la adicion de NSPGE que conforma el grueso de la implementaci\'on se modifican las clases AutoML para que tenga en cuenta que los algoritmos de b\'usqueda pueden retornar uno o m\'as valores y SearchAlgoritm (clase base de PGE) para que guarde las mejores a traves de la iteracionesen vez de una sola que determine como la m\'as apta
+
+% \subsection{M\'etricas}
+
+
+\section{Marco Experimental}
+
+En este secci\'on se analiza el desemepe\~no de la propuesta utilizando AutoGOAL.
+
+El objetivo es ejecutar datasets distintos con diferentes m\'etricas de evaluaci\'on.
+
+\subsection{M\'etricas Utilizadas}
+
+Se utilizan las m\'etricas F-score, Precision y Recall de sklearn.
+
+Se utiliza la m\'etrica accuracy
+
+Se utiliza una m\'etrica que calcula el tiempo estimado con que se entrena el algoritmo
+Es estimado xq existe un overhead pero es overhead es igual para todos los pipelines.
+
+\subsection{Corpus de Evaluaci\'on}
+
+Se utilizan dos corpus de datos para comprobar el comportamiento del sistema cuando optmiza para varias m\'etricas simult\'aneamente.
+
+\subsubsection{CARS}
+Cars representa una conjunto de carros y con ciertas caracter\'isticas cat\'alogadas cualitativamente (ver \ref{implementation:table:cars:attributes}). Cada carro se clasifica de acuerdo a sus atributos  en inaceptable, aceptable, bueno o muy bueno (\ref{implementation:table:cars:classes}). El dataset no tiene valores desconocidos.
+
+\begin{table}[ht]
+    \centering
+    \parbox{.45\linewidth}{
+    \begin{tabular} { |l|c| }
+        \hline
+        Atributos & Valores \\
+        \hline
+        \hline
+        buying & v-high, hihg, med, low \\
+        \hline
+        maintance &  v-high, hihg, med, low\\
+        \hline
+        doors & 2, 3, 4, 5-more\\
+        \hline
+        persons & 2, 4, more\\
+        \hline
+        lug\_boot & small, med, big\\
+        \hline
+        safety & low, med, high\\
+        \hline
+    \end{tabular}
+    \caption{Tipos de Atributos en Cars}
+    \label{implementation:table:cars:attributes}
+    }
+    \qquad
+    \parbox[t]{.45\linewidth}{
+    \begin{tabular} {|l|c|c|}
+        \hline
+        Clases & N & \% \\
+        \hline
+        \hline
+        unacc & 1210 & 70.023\%\\
+        \hline
+        acc & 384 & 22.222\%\\
+        \hline
+        good & 69 & 3.993\%\\
+        \hline
+        v-good & 65 & 3.762\%\\
+        \hline
+    \end{tabular}
+    \caption{Distribuci\'on de clases en Cars}
+    \label{implementation:table:cars:classes}
+    }
+\end{table}
+
+\subsubsection{HAHA}
+Humor Analysis based on Human Annotation (HAHA), un conjunto de datos que contiene \textit{tweets} en espa\~nol y se clasifican en si son humor\'isticos o no. Contiene un total de 30000 tweets donde se utilizan 24000 para entrenaiento y 6000 para evaluaci\'on.
+
+\begin{table}[ht]
+    \centering
+    \begin{tabular} {|l||c|c|c|}
+        \hline
+        & Entrenamiento & Evaluaci\'on & Total \\
+        \hline
+        \hline
+        Tweets & 24000 & 6000 & $30000$\\
+        \hline
+        Graciosos & 9253 & 2342 & 11595\\
+        \hline
+        No graciosos & 14 757 & 3 658 & 18 405\\
+        \hline
+        Puntuaci\'on Promedio & 1305 & 275 & 1580\\
+        \hline
+    \end{tabular}
+    \caption{Distribuci\'on de clases en HAHA}
+    \label{implementation:table:haha}
+\end{table}
+
+
+\subsection{Configuraci\'on Experimental}
+
+\paragraph{Hardware} Los experimentos fueron ejecutados en un equipo con las siguientes propiedades: CPU AMD R5 3550h y 32 GB de RAM.
+
+\section{Resultados y An\'alisis}
+
+\subsection{Cars}
+
+Se utilzo una poblacion de 40 y una hora de autogoal y seleccion 10.
+
+\subsubsection{F-Score contra Tiempo de Entrenamiento}
+
+Como es un problema multi clase se utiliza f-score con weighted values que se ajusta a las clases que tienen poco cosa (o algo asi)
+
+Este set esta facilon para un clasificador 
+
+Despues de ver la forma de los puntos se intuye que le frente de pareto tiene forma rectangular, lo que significa que las m\'etricas no entran en conflicto entre si y es posible optimzar ambas muy bien
+
+No obstante, si se observa el punto en la esquina inferior izquierda hay un punto que tiene muy buen f-score, no obstante se demora mucho en entrenar 5 veces mas en entrenar que otros similares. Utilizar multiobjetvio aqui evita que tu algoritmo se vaya  por pileines por los cuales es mas lento la entrenacion
+
+\subsubsection{Precision contra Recobrado}
+
+En precision contra recobrado AutoGOAL solo encuentra puntos buenos, y aunque no nos da una buena representacion del frente de Pareto, tampoco es necesaria xq solo hay soluciones buenas.
+
+En este caso hay varias soluciones que logran la misma eficiencia (o muy cercanas entre ella) Como la implementacion de Moo las devuelve toda puede ser de interes al investigador ver la diferencia entre algoritmos o hiper parametros de estos.
+
+\subsection{HAHA}
+
+Se utilzo una poblacion de 40 y 8 horas de autogoal y seleccion 10. Debido a la mayor complejidad de este problema y que AutoGOAL se demora mas en encontrar pipelines validos por generacion. Con este tiempo se puede obtener una representacion del frente de Pareto mas nitida.
+
+\subsubsection{F-Score contra Tiempo de Entrenamiento}
+
+Aqui se parce al ejemplo con Cars, aunque no de una manera tan marcada, es mas suave el punto. Y ocurren cosas similares que las mismas metricas utilizads en Cars
+
+\subsubsection{Precisi\'on contra Recobrado}
+
+Aqui es diferente al trabajo con Cars las m\'etricas forman un frente de pareto mas parecido a lo que describe la literatura. Se ve que hay un trade off evidente entre maximizar precison o recobrado. Esta exploarcion del espacio.
+
 
 % Y despues de las pruebas
+
+% Aqui lo que se me ocurre es poner casos de comparacion:
+% Probar con tiempo de entrenamiento vs sin tiempo de entrenamiento
+% Probar con precision y recall vs fscore
+% Probar con otra m\'etrica como Interpretabilidad o Robustez
 
 % Probar cuando se usan varias m\'etricas (para este s\'abado)
 
