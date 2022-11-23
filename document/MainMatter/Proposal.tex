@@ -1,10 +1,10 @@
-% Diagrama de lo que espera hacer mi algorimto con una caja negra que es un sistema automl. Esperar que el sistema se actualize solo
-% Escribir que es lo que espera mi algoritmo caja negra, y que es lo que retorna 
-% Escribir como si todo fuera desde yo
+% Diagrama de lo que espera hacer mi algorimto con una caja negra que es un sistema automl. Esperar que el sistema se actualize solo!!!!!
+% Escribir que es lo que espera mi algoritmo caja negra, y que es lo que retorna !!!!
+% Escribir como si todo fuera desde yo, usando el imperseanl (No la primera persona)
 
-\chapter{AutoML Multiobjetivo}\label{chapter:proposal}
+\chapter{AutoML Heter\'ogeneo Multiobjetivo}\label{chapter:proposal}
 
-Se propone como soluci\'on al  \textit{problema multiobjetivo en AutoML} (\ref{proposal:moo-automl-problem}) un algoritmo que utilize como caja negra un sistema AutoML que sea capaz de producir flujos respecto a m\'etricas de entrada. El algoritmo selecciona los mejores flujos utilizando un metodo de ordenaci\'on multiobjetivo y pide al sistema AutoML que genere y evalue una poblaci\'on a partir de los flujos escogidos como los m\'as aptos. 
+Se propone como soluci\'on al  \textit{problema multiobjetivo en AutoML} (\ref{proposal:moo-automl-problem}) un algoritmo que utilize como caja negra un sistema AutoML que sea capaz de producir una poblaci\'on inicial aleatoria de flujos. El algoritmo selecciona los mejores flujos utilizando un metodo de ordenaci\'on multiobjetivo y pide al sistema AutoML que genere y evalue una poblaci\'on a partir de los flujos escogidos como los m\'as aptos. 
 %Se espera que este, partiendo de los mejores flujos sea capaz de producir una nueva generaci\'on manteniendo estos rasgos. 
 Se repite este paso hasta que se cumpla el criterio de parada, en donde se devuelven las mejores respuestas encontradas hasta el momento con respecto a todas las iteraciones.
 
@@ -23,15 +23,16 @@ El sistema toma como entrada un sistema de Aprendizaje de M\'aquina Automatizado
 \end{algorithm}
 
 \section{Sistema AutoML}
-El sistema AutoML necesario para esta propuesta se utiliza como caja negra y debe ser capaz de producir una poblaci\'on inicial aleatoria, al igual que poblaciones basadas en otra subpoblaci\'on tal que los nuevos individuos conserven los rasgos de esta subpoblaci\'on. Esto \'ultimo se logra utilizando algoritmos evolutivos que definen operadores de mutaci\'on, combinaci\'on y selecci\'on.
+El sistema AutoML necesario para esta propuesta se utiliza como una caja negra, solo debe ser capaz de producir una poblaci\'on inicial aleatoria, al igual que poblaciones basadas en otra subpoblaci\'on tal que los nuevos individuos conserven los rasgos de esta subpoblaci\'on. Esto \'ultimo puede lograrse utilizando algoritmos evolutivos que definen operadores de mutaci\'on, combinaci\'on y selecci\'on.
 
-Nuestra propuesta est\'a basada en AutoGOAL (\cite{estevez2020solving}) un sistema de AutoML que modela el espacio de decisi\'on utilizando una Gram\'atica Probabil\'istica  Libre del Contexto (\textit{Probabilistic Context Free Grammar}, PCFG). 
+Nuestra propuesta est\'a basada en AutoGOAL (\cite{estevez2020solving}) un sistema de AutoML que modela el espacio de decisi\'on basado una Gram\'atica Probabil\'istica  Libre del Contexto (\textit{Probabilistic Context Free Grammar}, PCFG). PCFG se definen como una quinterna $PG = (NT, T, S, P, Prob)$ donde $NT$ y $T$ representan los conjuntos disjuntos no vac\'io de los s\'imbolos no terminales y terminales respectivamente. $S$ es un elemento de $NT$ llamado el axioma que representa el no-terminal inicial tal que expandiendo este se pueden llegar a todas las posibles formas de la gram\'atica. $P$ es el conjunto de reglas de producci\'on que rigen a la grma\'atica. $Prob$  es un conjunto de probabilidades asocaido con cada regla de la gram\'atica. 
 
-Las PCFG se definen como una quinterna $PG = (NT, T, S, P, Prob)$ donde $NT$ y $T$ representan los conjuntos disjuntos no vac\'io de los s\'imbolos no terminales y terminales respectivamente. $S$ es un elemento de $NT$ llamado el axioma que representa el no-terminal inicial tal que expandiendo este se pueden llegar a todas las posibles formas de la gram\'atica. $P$ es el conjunto de reglas de producci\'on que rigen a la grma\'atica. $Prob$  es un conjunto de probabilidades asocaido con cada regla de la gram\'atica. 
+El espacio de decision de AutoGOAL tiene una adaptacion dependiendo de los datos de entrada, donde se recorren todos los posibles caminos de la gram\'atica y se quitan todas las producciones que no tienen sentido segun el conjunto de datos inicial (e.g. si la entrada son numeros no hay porque aplicar un algoritmo de lematizaci\'on). Se obtiene como resultado un Grafo Aciclico Dirigido (DAG), donde cada arista representa una la expansi\'on de alg\'un no terminal de la gram\'atica. Un camino recorrido por dicho DAG es una posible soluci\'on de autogoal, referido como flujo o \textit{pipeline} de Aprendizaje Autom\'atico. A las aristas del DAG mantienen las probabilidades contenidas en $Prob$. Para recorrer cada camino se lanza utiliza una variable aleatoria uniforme y seg\'un su valor se escoge una producci\'on. Esto se realiza hasta obtener nuevas soluciones, hasta obtener una gran poblaci\'on.
 
-Con el fin de aprovechar el espacio de decisi\'on ya definido se utiliza Evoluci\'on Gram\'atica Probabil\'istica (\textit{Probabilistic Grammatic Evolution}, PGE, \cite{megane2021probabilistic}), un algorimto de Estimaci\'on de Distribuci\'on (\textit{Estimation of Distribution ALgorithms, EDA}, \cite{larranaga2001estimation}) que remplaza los operadores cl\'asicos de mutaci\'on y cruce por un muestreado sobre las probabilidades de distribuci\'on de PCFG de acuerdo a las producciones utilizadas por el mejor individuo.
 
-En PCFG, al inicio, las probabilidades est\'an igualmente distribuidas sobre todas las producciones por cada regla de la gram\'atica y se actualizan al aplicar PGE con el individuo m\'as apto donde se alterna entre aumentar ligeramente la probabilidad de las producciones que utilizadas por este y disminuir la probabilidades de los que no fueron utilizadas. Alternar entre estas dos v\'ias evita la utilizaci\'on del mismo individuo en iteraciones consecutivas balanceando la exploraci\'on global con explotaci\'on local.
+Para acutalizar el espacio de decisi\'on  se utiliza Evoluci\'on Gram\'atica Probabil\'istica (\textit{Probabilistic Grammatic Evolution}, PGE, \cite{megane2021probabilistic}), un algorimto de Estimaci\'on de Distribuci\'on (\textit{Estimation of Distribution ALgorithms, EDA}, \cite{larranaga2001estimation}) que remplaza los operadores cl\'asicos de mutaci\'on y cruce por un muestreado sobre las probabilidades de distribuci\'on de PCFG de acuerdo a las producciones utilizadas por el mejor individuo. 
+
+Al inicio en el DAG las probabilidades est\'an igualmente distribuidas segu\'un el nodo y la cantidad de aristas (1 nodo con 3 aristas, 0.33 para cada uno) sobre todas las producciones por cada regla de la gram\'atica y se actualizan al aplicar PGE con el individuo m\'as apto donde se alterna entre aumentar ligeramente la probabilidad de las producciones que utilizadas por este y disminuir la probabilidades de los que no fueron utilizadas. Alternar entre estas dos v\'ias evita la utilizaci\'on del mismo individuo en iteraciones consecutivas balanceando la exploraci\'on global con explotaci\'on local.
 
 Como se trata de un problema multiobjetivo y no existe el individuo m\'as apto, sino un conjunto de estos las probabilidas se adaptan secuencialmente teniendo en cuenta cada uno de estos individuos.
  % (\textit{Probabilistic Grammatic Evolution}).
@@ -50,10 +51,9 @@ Como se trata de un problema multiobjetivo y no existe el individuo m\'as apto, 
 
 Dado una poblaci\'on de flujos de Aprendizaje Autom\'atico es necesario poder elegir los m\'as aptos. Como se habla de un conjunto de individuos, donde pueden haber muchos indiviudos correctos se busca escoger de los mejores de esto una muestra que sea representativa del conjunto total.
 
-Se utiliza NSGA-II (\cite{deb2002fast}) por ser un algoritmo popular en el campo de la optimizaci\'on multiobjetivo, estar ampliamente probado y tener un buen rendimiento general. 
+Se utiliza NSGA-II (\cite{deb2002fast}) por ser un algoritmo popular en el campo de la optimizaci\'on multiobjetivo, estar ampliamente probado y tener un buen rendimiento general. Dos etapas distintas de su funcionamineto componen su n\'ucleo:
 
-NSGA-II al ser un algoritmo cat\'alogado como un MOEA basado en el frente de pareto (\ref{background:def:MOEA}) y se caracteriza por una ordenaci\'o en dos etapas.
-
+% (Explicar como es el non dominated sort, es el naive o el bueno)
 En la primera etapa ordena los primeros individuos con respecto a su \'indice de dominaci\'on. Donde dicho \'inidice  est\'a determinado por la cantidad de soluciones distintas que \textit{Pareto dominan} a esta.
 \begin{definition}
     Dado un vector $x$ y un conjunto $Y$ de vectores en el espacio objetivo $\mathcal{Y}$ tal que los vectores en $Y$ dominan a $x$ (i.e. $Y = \{y | y \succ x\}$) se dice que $Ind(x) = |Y|$.
@@ -63,7 +63,7 @@ $\{P^0, ..., P^k\}$ donde  $P^i = \{x | Ind(x) = i\}$ y se le conoce como frente
 
 En la segunda etapa los vectores de cada frente obtenido se organizan utilizando \textit{crowding distance} (CD), uno de las contribuciones claves de NSGA-II (\cite{deb2002fast}). El prop\'osito de \textit{crowding distance} es estimar la densidad de las soluciones con respecto sus soluciones vecinas de tal manera que los primeros lugares pertenezcan a los elementos m\'as representativos de dicho frente.
 
-La densidad de una soluci\'on se obtiene ordenando las soluciones por cada funci\'on objetivo y calculando el promedio de la distancia entre una soluci\'on y sus dos adyacentes. Esta distancia resulta siendo el per\'imetro del cuboide formado usando los vecinos m\'as cercanos como v\'ertices. En el caso de los puntos que representan el m\'inimo y m\'aximo de al menos alguna funci\'on objetivo se les asigna valor infinito. El pseudoc\'odigo del algoritmo se muestra en \ref{proposal:alg:cd}.
+Calcular el CD de cada soluci\'on require ordenarlas seg\'un su rendmiento normalizado por cada funci\'on objetivo y calcular el promedio de la distancia entre una soluci\'on y sus dos adyacentes respecto a cada criterio de evaluaci\'on. Esta distancia resulta siendo el per\'imetro del cuboide formado usando los vecinos m\'as cercanos como v\'ertices. Los puntos que representan el m\'inimo y m\'aximo de al menos alguna funci\'on objetivo se les asigna \textit{crowiding distance} infinita. El flujo general del algoritmo se muestra en \ref{proposal:alg:cd}.
 
 \begin{algorithm*}[H]\caption{Crowding Distance}\label{proposal:alg:cd}
     \tcp{F como entrada representa un frente de rango i}
@@ -91,8 +91,8 @@ La densidad de una soluci\'on se obtiene ordenando las soluciones por cada funci
 
 Luego gu\'iandonos por la figura \ref{proposal:fig:nsga2} es posible ver el funcionamiento general del algoritmo. Se divide la poblaci\'on inicial en frentes de distinto rango. Luego por cada frente se aplica CD. Seg\'un lo que el sistema de AutoML necesite se pasan los subconjutnos. Si un conjutno no se puede pasar completo se garantiza que pasan los elementos m\'as representativos de este gracias a CD.
 
-\begin{figure}\caption{Funcionamineto de NSGA-II}\label{proposal:fig:nsga2}
+\begin{figure}[ht]\caption{Funcionamineto de NSGA-II}\label{proposal:fig:nsga2}
+    \centering
     \includegraphics[width=\linewidth]{Pictures/nsga2.png}
-    \label{nsga2}
 \end{figure}
 
