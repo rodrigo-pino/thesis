@@ -136,6 +136,7 @@ Cuando se optimizan varias funciones, la mejor soluci\'on  no es un escalar, sin
 Cuando se tiene un subconjunto de vectores, dentro de todo el espacio,  a los que ning\'un otro vector domina, se le  llama Frente de Pareto y es el conjunto soluci\'on del problema multiobjetivo.
 
 \begin{definition}
+    \label{background:def:pareto_front}
     \textit{Frente de Pareto}: Todos los vectores $x$ del espacio objetivo $\mathcal{Y}$ tal que no exista un vector $y \in \mathcal{Y}$ que \textit{Pareto domine} a $x$.
     \begin{align*}
         \mathcal{P} = \{x| x, y \in \mathcal{Y}, \neg \exists y \prec x \} 
@@ -225,7 +226,7 @@ Los algoritmos evolucionarios multiobjetivos (MOEA) generalizan esta idea, y son
 Los algoritmos que mejor han tenido resultado en esta \'area son los algoritmos basados en descomposci\'on.
 
 
-\section{AutoML y Multiobjetivo}\label{proposal:mooautoml}
+\section{AutoML y Multiobjetivo}\label{background:mooautoml}
 % En el campo del aprendizaje de m\'aqina han habido varias investigaciones respecto a la Optimizaci\'on Multibobjetivo.  An\'alisis de curva caracter\'istca de receptor (\textit{receiver operating characteristic curve}, ROC) de \cite{everson2006multi} para calcular el costo de clasificaciones err\'oneas de un clasificador mostrando gr\'aficamente un intercambio entre los verdaderos y falsos positvos de dos o m\'as problemas de clasificaci\'on utilizando Optimizaci\'on Multiobjetivo. 
 % \cite{jin2008pareto} hacen un analisis sobre la adici\'on de optimizaci\'on multibojetivo al Aprendizaje de M\'aquina. Compara los diferentes enfoques de escalarizaci\'on y algoritmos gen\'eticos.
 % En el campo de configuraci\'on de algoritmos \cite{blot2016mo} introduce un busqueda iterativa local basado en multiples criterios para configurar solucionadores SAT.
@@ -233,7 +234,7 @@ Los algoritmos que mejor han tenido resultado en esta \'area son los algoritmos 
 Recientemente ha habido enf\'asis en la comunidad FatML (\textit{Fairness, Accountability and Transparency in Machine Learning}) sobre como optimizar utilizando una sola m\'etrica acarrea problemas que pueden ser evitados optimizando simult\'aneamente para m\'ultiples m\'etricas (\cite{barocas2017fairness}). No obstante, es escaso el estudio sobre sistemas de Aprendizaje de M\'aquina Automatizado a los que se les aplica optimizaci\'on multiobjetivo.
 
 Definimos el problema multiobjetivo aplicado a sistemas AutoML de la siguiente manera:
-\begin{definition}\label{proposal:moo-automl-problem}
+\begin{definition}\label{background:def:moo-automl-problem}
     Dado un conjuntos de datos $D$ y  un conjunto de m\'etricas a evaluar $M = \{f_1, f_2, ...,f_m\}$, se espera que  un sistema AutoML $\mathcal{A}$ retorne un conjunto de flujos, algoritmos o redes $P = \{p_1, p_2, ..., p_k\}$ tal que su evaluaci\'on con respecto a las m\'etricas en $M$ sean una aproximaci\'on del frente de Pareto en el espacio objetivo $\mathcal{Y}$ .
     \begin{equation*}
         \mathcal{A}(D, M) = P  
