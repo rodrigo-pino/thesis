@@ -117,6 +117,7 @@ Ha encontrado abundante campo en la ingenier\'ia y la econom\'ia donde muchas ve
 \end{itemize}
 
 \begin{definition}{Optimizaci\'on Multibojetivo:}
+    \label{background:def:moo}
      Dado $m$ funciones objetivos: $f_1: \mathcal{X} \rightarrow \mathbb{R}, ..., f_m: \mathcal{X} \rightarrow \mathbb{R}$ que dado un vector en el espacio de decisi\'on $\mathcal{X}$ es transformado en un valor de $\mathbb{R}$. Se define el PMO como:
     \begin{equation*}
         \min f_1(x), ..., f_m(x), x \in \mathcal{X}
@@ -125,6 +126,7 @@ Ha encontrado abundante campo en la ingenier\'ia y la econom\'ia donde muchas ve
 
 Cuando se optimizan varias funciones, la mejor soluci\'on  no es un escalar, sino un vector y no necesariamente \'unico; pues al haber m\'as de dos medidas de evaluaci\'on un vector puede ser superior a otro sobre ciertas componentes pero no en todas. Un vector se dice mejor o que \textit{Pareto domina} a otro cuando es superior en al menos una componente, y no peor en las restantes. Se conoce formalmente en la literatura como \textit{Pareto dominaci\'on}.
 \begin{definition}{Pareto Dominaci\'on:}
+    \label{background:def:domintation}
     Dados dos vectores en el el espacio objetivo, $x \in \mathbb{R}^m$ y $z \in \mathbb{R}^m$, se dice que $x$ Pareto domina a $z$ (i.e. $x \prec z$), si y solo si:
     \begin{equation*}
         \forall i \in \{1, ..., m\}: x_i \leq z_i \text{ y } \exists j \in \{1, ..., m\}: x_j < z_j
