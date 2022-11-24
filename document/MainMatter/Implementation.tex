@@ -1,17 +1,21 @@
 % Picar el capitulo entre Implementacion y Experimentos
 % Añadir un p\'arrafo al final de Implementacion de como se utilza el nuevo sistema
 \chapter{Implementación}\label{chapter:implementation}
+En este cap\'itulo se muestra una implmentaci\'on la propuesta utilizando a AutoGOAL (\cite{estevez2020solving}) como sistema de AutoML. AutoGOAL utliza programaci\'on evolutiva para producir sus resultados, precisamente la  proceso es la se encuentra principalmente en contacto con nuestra propuesta, por tanto es importante antes de adentrarse en el proceso de implementaci\'on en s\'i entender la base te\'orica en la que se apoya AutoGOAL para modelar su espacio de b\'usqueda.
 
-% En este cap\'itulo de detalla la implementaci\'on de nuestra propuesta con la utilizaci\'on de AutoGOAL. Luego se realizan diferentes pruebas con datasets extaidos de la literatura contra varias m\'etricas y se analiza la efectividad de la propuesta.
+\section{Marco Te\'orico de AutoGOAL}
 
+Nuestra implementaci\'on est\'a basada en AutoGOAL (\cite{estevez2020solving}) un sistema de AutoML que modela el espacio de decisi\'on basado una Gram\'atica Probabil\'istica  Libre del Contexto (\textit{Probabilistic Context Free Grammar}, PCFG) y utiliza Evoluci\'on Gram\'atica Probabil\'istica (\textit{Probabilistic Grammatic Evolution} para modelar dirigir el espacio de b\'usqueda. 
 
-Se desarrola la propuesta sobre AutoGOAL un sistema de AutoML ideado en el grupo de Inteligencia Artificial de la Universidad de la Habana.
-Se aplica el sistema sobre tres corupus distintos junto con dos pares de m\'etricas para comprobar el rendimiento.
+PCFG se define como una quinterna $PG = (NT, T, S, P, Prob)$ donde $NT$ y $T$ representan los conjuntos disjuntos no vac\'io de los s\'imbolos no terminales y terminales respectivamente. $S$ representa el No Terminal inicial con el que es posible expandir toda la gram\'atia. $P$ es el conjunto de reglas de producci\'on que rigen a la grma\'atica. $Prob$ (el elemento que hace que sea diferente que las gram\'aticas libres de contexto en general) es un conjunto de probabilidades asocaido con cada producci\'on de la gram\'atica. 
 
+Para acutalizar el espacio de decisi\'on  se utiliza Evoluci\'on Gram\'atica Probabil\'istica (\textit{Probabilistic Grammatic Evolution}, PGE, \cite{megane2021probabilistic}), un algorimto de Estimaci\'on de Distribuci\'on (\textit{Estimation of Distribution ALgorithms, EDA}, \cite{larranaga2001estimation}) que remplaza los operadores cl\'asicos de mutaci\'on y cruce por un muestreado sobre las probabilidades de distribuci\'on de PCFG de acuerdo a las producciones utilizadas por el mejor individuo. 
+
+\section{Implementaci\'on en AutoGOAL}
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[scale=0.5]{Pictures/AutoGOAL Diagram.png}
+    \includegraphics[scale=0.6]{Pictures/autogoal_impl.png}
     \caption{Diagrama general}
     \label{impl:fig:general_diagram}
 \end{figure}
@@ -23,13 +27,10 @@ Inicialmente cada arista de este DAG se inicializa con una probabilidad igual a 
 
 Se a\~nade a AutoGOAL la clase NSPGE, un m\'etodo de b\'usqueda inspirado en NSGA-II (\cite{deb2002fast}) que utiliza PGE como base. El objetivo de NSPGE es extender la funcionalidad de PGE para que sea capaz de seleccionar los $k$ mejores individuos de acuerdo a $m$ m\'etricas, con $m \ge 2$. La l\'ogica de la PGE encargada de ordenar los inidividuos m\'as aptos se encuentra en el m\'etodo \textit{\_inidices\_of\_the\_fittest\_} la cual NPSGE sobreescribe.
 
-\section{NSPGE}
+\subsection{NSPGE}
 
 En NSPGE, dentro de \textit{\_inidices\_of\_the\_fittest\_} se aplica la ordenaci\'on definida por \cite{deb2002fast}. Dado $n$ soluciones se  agrupan seg\'un su \'indice de dominaci\'on (i.e. Non Dominated Sorting), donde cada agrupamiento se le llama frente de rango $i$, donde $i$ representa la cantidad de soluciones que dominan a cada una de estas. Una vez establecidos estos frentes se extraen las primeras $k$ soluciones, en caso de que no se pueda seleccionar un frente completo, se aplica Crowding Distance para seleccionar la muestra m\'as representativa de este.
 
-Es importante entender para la correctitud del aloritmo  que las soluciones que conforman un frente de rango $i$ no se \textit{Pareto dominan} ($\prec$) entre si.
-%Es f\'acilmente demostrable que la \texit{Pareto dominacion (i.e. $\prec$)} cumple con la propiedad de transitividad (i.e. si $x \prec y$, $y \prec z$, entonces $x \prec z$) 
-Dado un frente de rango $i$ $F_i$, tal que existen soluciones $x, y \in F_i$ se asume que $x \prec y$. Como el \'inidice de dominaci\'on de $x$ es $i$ y $x \prec y$ y ($\prec$) es una operador transitivo entonces todos los que dominan a $x$ dominan a $y$, adem\'as del propio $x$, por tanto el inidice de dominaci\'on de $y$ ser\'ia $i+1$ lo que es una contradicci\'on porque $y \in F_i$. 
 
 \begin{lstlisting}[language=Python]
 def _indices_of_fittest(self, fns: List[List[float]]):
@@ -55,7 +56,7 @@ def _indices_of_fittest(self, fns: List[List[float]]):
   return indices
 \end{lstlisting}
 
-\subsection{Non Dominated Sort}
+\subsubsection{Non Dominated Sort}
 La ordenaci\'on se conforma por dos pasos l\'ogicos fundamentales:
 \begin{enumerate}
     \item Se verifica todo par de soluciones $x, y$ encontradas y se aplica $x \prec y$ con el objetivo de calcular el \'inidice de dominaci\'on de cada soluci\'on. Adem\'as se construye un DAG conformado por las soluciones donde existe una arista entre las soluciones $x$ y $y$ si $x \prec y$. La ra\'iz de dicho DAG est\'a conformado por las soluciones que nadie domina.
@@ -103,7 +104,7 @@ def non_dominated_sort(self, scores: List[List[float]]):
   return fronts[:-1]
 \end{lstlisting}
 
-\subsection{Crowding Distance}
+\subsubsection{Crowding Distance}
 Se sigue la idea del algoritmo propuesto en (\ref{proposal:alg:cd}). Dado $m$ m\'etricas a evaluar se realizan $m$ iteraciones, donde en cada una se ordena alg\'un frente de rango $k$ de acuerdo a la metrica $m_i$. A la soluciones que con respecto a la m\'etrica $m_i$ tienen el m\'inimo y mayor valor se les asigna distancia infinita y luego se c\'alculan los valores intermedios. En \cite{deb2002fast} requiren que los valores de las m\'etricas esten normalizados, en nuestra implementaci\'on utilizamos \textit{feature scaling} para normalizar los valores entre 0 y 1.
 
 \begin{lstlisting}[language=Python]
