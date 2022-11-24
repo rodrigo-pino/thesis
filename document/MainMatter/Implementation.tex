@@ -1,17 +1,17 @@
 % Picar el capitulo entre Implementacion y Experimentos
 % Añadir un p\'arrafo al final de Implementacion de como se utilza el nuevo sistema
-\chapter{Implementación}\label{chapter:implementation}
-En este cap\'itulo se muestra una implmentaci\'on la propuesta utilizando a AutoGOAL (\cite{estevez2020solving}) como sistema de AutoML. AutoGOAL utliza programaci\'on evolutiva para producir sus resultados, precisamente la  proceso es la se encuentra principalmente en contacto con nuestra propuesta, por tanto es importante antes de adentrarse en el proceso de implementaci\'on en s\'i entender la base te\'orica en la que se apoya AutoGOAL para modelar su espacio de b\'usqueda.
+\chapter{AutoGOAL Multiobjetivo}\label{chapter:implementation}
+En este cap\'itulo se muestra una implmentaci\'on la propuesta utilizando a AutoGOAL (\cite{estevez2020solving}) como sistema de AutoML. AutoGOAL modela el espacio de b\'usqueda utilizando algoritmos evolutivos y nuestra propuesta consiste en seleccionar las mejores respuestas dada su evaluaci\'on.  AutoGOAL modela el espacio de b\'usqueda utilizando algoritmos evolutivos. Antes de explicar la implementaci\'on es necesario entender la base te\'orica sobre la que se apoya AutoGOAL para modelar el espacio  de b\'usqueda. 
 
 \section{Marco Te\'orico de AutoGOAL}
 
-Nuestra implementaci\'on est\'a basada en AutoGOAL (\cite{estevez2020solving}) un sistema de AutoML que modela el espacio de decisi\'on basado una Gram\'atica Probabil\'istica  Libre del Contexto (\textit{Probabilistic Context Free Grammar}, PCFG) y utiliza Evoluci\'on Gram\'atica Probabil\'istica (\textit{Probabilistic Grammatic Evolution} para modelar dirigir el espacio de b\'usqueda. 
+AutoGOAL (\cite{estevez2020solving}) modela su espacio de decisi\'on basado una Gram\'atica Probabil\'istica  Libre del Contexto (\textit{Probabilistic Context Free Grammar}, PCFG) y utiliza Evoluci\'on Gram\'atica Probabil\'istica (\textit{Probabilistic Grammatic Evolution} para dirigir la b\'usqueda dentro de este espacio. 
 
-PCFG se define como una quinterna $PG = (NT, T, S, P, Prob)$ donde $NT$ y $T$ representan los conjuntos disjuntos no vac\'io de los s\'imbolos no terminales y terminales respectivamente. $S$ representa el No Terminal inicial con el que es posible expandir toda la gram\'atia. $P$ es el conjunto de reglas de producci\'on que rigen a la grma\'atica. $Prob$ (el elemento que hace que sea diferente que las gram\'aticas libres de contexto en general) es un conjunto de probabilidades asocaido con cada producci\'on de la gram\'atica. 
+PCFG se define como una quinterna $PCFG = (NT, T, S, P, Prob)$ donde $NT$ y $T$ representan los conjuntos disjuntos no vac\'io de los s\'imbolos no terminales y terminales respectivamente. $S$ representa el No Terminal inicial con el que es posible expandir toda la gram\'atia. $P$ es el conjunto de reglas de producci\'on que rigen a la grma\'atica. $Prob$ (el elemento que hace que sea diferente que las gram\'aticas libres de contexto en general) es un conjunto de probabilidades asocaido con cada producci\'on de la gram\'atica. 
 
 Para acutalizar el espacio de decisi\'on  se utiliza Evoluci\'on Gram\'atica Probabil\'istica (\textit{Probabilistic Grammatic Evolution}, PGE, \cite{megane2021probabilistic}), un algorimto de Estimaci\'on de Distribuci\'on (\textit{Estimation of Distribution ALgorithms, EDA}, \cite{larranaga2001estimation}) que remplaza los operadores cl\'asicos de mutaci\'on y cruce por un muestreado sobre las probabilidades de distribuci\'on de PCFG de acuerdo a las producciones utilizadas por el mejor individuo. 
 
-\section{Implementaci\'on en AutoGOAL}
+\section{Implementaci\'on}
 
 \begin{figure}[ht]
     \centering

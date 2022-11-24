@@ -4,26 +4,22 @@
 
 \chapter{AutoML Heter\'ogeneo Multiobjetivo}\label{chapter:proposal}
 
-% Aqui poner flujo
-% Seguido por parrafo que describe dicho flujo
+AutoML Heter\'ogeneo Multibojetivo es una propuesta aplicable a cualquier sistema AutoML y permite resolver el problema definido en \ref{background:def:moo-automl-problem}.
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[scale=0.60]{Pictures/automl_moo_proposal.png}
-    \caption{Flujo general de la propuesta}\label{proposal:fig:flux}
+    \includegraphics[scale=0.5]{Pictures/automl_moo_proposal.png}
+    \caption{Flujo general de la propuesta}
+    \label{proposal:fig:flux}
 \end{figure}
 
-Se propone como soluci\'on al  \textit{problema multiobjetivo en AutoML} (\ref{proposal:moo-automl-problem}) un algoritmo que utiliza como caja negra un sistema AutoML que sea capaz de producir una poblaci\'on inicial aleatoria de flujos. El algoritmo selecciona los mejores flujos utilizando un metodo de ordenaci\'on multiobjetivo y pide al sistema AutoML que genere y evalue una poblaci\'on a partir de los flujos escogidos como los m\'as aptos. 
-%Se espera que este, partiendo de los mejores flujos sea capaz de producir una nueva generaci\'on manteniendo estos rasgos. 
-Se repite este paso hasta que se cumpla el criterio de parada, en donde se devuelven las mejores respuestas encontradas hasta el momento con respecto a todas las iteraciones.
+La soluci\'on propuesta (ver \ref{proposal:fig:flux}) recibe como entrada un sistema AutoML, un lista de m\'etricas a evaluar y un corpus de datos. En su primera iteraci\'on el sistema AutoML debe producir una serie de soluciones y sus evaluaciones respectivas frente a las criterios de entrada. El algoritmo multiobjetivo debe ser capaz de ordenar efectivamente las soluciones de acuerdo a su evaluaci\'on tal que que los primeros $k$ elementos sean los m\'as aptos de para resolver el problema. Estas soluciones de mejor rendimiento se utilizan como entrada al sistema AutoML para que produzca una nueva generaci\'on de soluciones tomando la soluciones de entrada como referencia. El proceso se repite hasta que se cumpla el criterio de parada en donde se retornan los mejores individuos encontrados hasta el momento.
 
-
-% Despues se define mas formalmente
-\begin{definition}
-El sistema toma como entrada un sistema de Aprendizaje de M\'aquina Automatizado $\mathcal{A}$ tal que $\mathcal{A}(D, M, P) = TP$ donde $D = \{(x_1, y_1), (x_2, y_2), ..., (x_n, y_n)\}$ representa un conjunto de datos de entrada, $M = \{f_1, f_2, ..., f_m\}$ un conjunto de m\'etricas a evaluar y $P = \{p_1, p_2, ..., p_k\}$ una serie de modelos de Aprendizaje Autom\'atico por los cuales se gu\'ia $\mathcal{A}$ para producir una nueva poblaci\'on de flujos $TP$. El objetivo del sistema es producir una conjutno de flujos de Aprendizaje Autom\'atico $P$ que sean una muestra representativa del frente de Pareto utilizando un algoritmo evolutivo multiobjetivo  $\mathcal{H}$ tal que $\mathcal{H}(TP) = P$ en cierto n\'umero de iteraciones determinado por un criterio de parada. 
-\end{definition}
-
-\begin{algorithm}[H]\caption{Flujo del Sistema}
+M\'as formalmente, 
+el sistema toma como entrada un sistema de Aprendizaje de M\'aquina Automatizado $\mathcal{A}$ tal que $\mathcal{A}(D, M, P) = TP$ donde $D = \{(x_1, y_1), ..., (x_n, y_n)\}$ representa el conjunto de datos de entrada, $M = \{f_1, f_2, ..., f_m\}$ un conjunto de m\'etricas a evaluar y $P = \{p_1, p_2, ..., p_k\}$ una serie de modelos de Aprendizaje Autom\'atico los cuales utiliza $\mathcal{A}$ para producir una nueva poblaci\'on de modelos $TP$. 
+Los flujos producidos $TP$ son organizados por una funci\'on de ordenaci\'on $\mathcal{H}$ tal que $\mathcal{H}(TP) = P^'$. 
+El objetivo final del sistema es producir una conjunto de soluciones de Aprendizaje Autom\'atico $P^'$ que sean una muestra representativa del frente de Pareto (\ref{background:def:pareto_front}) utilizando un algoritmo multiobjetivo  $\mathcal{H}$ tal que $\mathcal{H}(TP) = P^'$ en cierto n\'umero de iteraciones determinado por un criterio de parada. 
+\begin{algorithm}[ht]\caption{}
     \KwIn{$\mathcal{A}$, D, M}
     \KwOut{P}
     
@@ -35,6 +31,14 @@ El sistema toma como entrada un sistema de Aprendizaje de M\'aquina Automatizado
 \end{algorithm}
 
 % Despues aqui hablo sobre como se puede crear una separacion entre sistema AutoML y Algoritmo de Ordenacion
+El n\'ucleo fundamental de la idea radica en que los sistemas AutoML trabajan sobre dos espacios distintos. Las soluciones encontradas por el problema pertenecen al espacio de decisi\'on $\mathcal{X}$ y la evaluaci\'on de esta respecto a un conjunto de m\'etricas representan el espacio objetivo $\matchcal{Y}$, donde $\mathcal{Y} \subseteq \mathbb{R}^m$ y  $m$ representa la cantidad de m\'etricas a evaluar. 
+Luego es posible separar la creaci\'on de soluciones y su evaluaci\'on: 
+\begin{itemize}
+    \item el sistema AutoML se puede ver como una funcion $\mathcal{A}(D, M, P): \mathcal{X} \rightarrow \mathcal{Y}$ que genera y evalua las soluciones.
+    \item el algoritmo de ordenaci\'on $\mathcal{H(V) = V'^}$ que dado la evaluaci\'on de cada soluci\'on ordena las soluciones de acuerdo a su rendimiento. Cuando $m = 1$ la l\'ogica de $\mathcal{H}$ es sencilla, pero cuando $m \geq 2$  se requiere un algoritmo m\'as complejo.
+\end{itemize}
+
+
 Las soluciones del problema pertencen al espacio de decisi\'on $\mathcal{X}$. La evaluaci\'on de estos pertencen a $\mathcal{Y}$ donde $\mathcal{Y} \subseteq \mathbb{R}^m$, donde $m$ es la cantidad de m\'etricas a evaluar. El sistema de AutoML trabaja sobre $\mathcal{X}$ y hace un relaci\'on uno a uno en $\mathcal{Y}$ al evaluarlas. Luego en $\mathcal{Y}$ se escogen los mejores valores de acuerdo al algoritmo multiobjetivo escogido. Estas mejores soluciones se le pasan al sistema AutoML. Por tanto es posible separar adecuadamente a esto entes.
 
 % Como ambos trabajan en espacios distintos entonces se puede crear esta separacion que permite que optimizar simultanemanete utilizando a AutoGOAL como caja negra
