@@ -26,8 +26,10 @@ Tambi\'en hay situaciones donde se desea obtener un modelo que sea relevante a l
 La adici\'on de optimizaci\'on multibojetivo en AutoML abr\'e las puertas tambi\'en a m\'etricas que no tienen sentido usarlas individualemente como \textit{precisi\'on} y \textit{recobrado}. 
  \textit{Precisi\'on} mide la proproci\'on entre los valores relevantes identificados y todos los valores identificados
  mientras que \textit{recobrado} mide la proporci\'on entre los valores relevantes identificados y todos los valores relevantes;
- m\'etircas que usadas por separado no son represantivas pues basta para tener un recobrado perfecto seleccionar todos los elementos del conjunto de datos, y una precisi\'on casi perfecta escogiendo un pequeño conjunto de elementos.
- Para lograr un balance entre estas se utiliza \textit{f-score}, que relaciona ambas medidas y permite el uso  param\'etros para darle m\'as importancia a una o a otra seg\'un el investigador determine.  Un sistema AutoML Multiobjetivo que pueda realizar una b\'usqueda optimizando en paralelo para ambos criterios y obtener soluciones que representen todas las maneras de parametrizar \textit{f-score} en una solo ciclo de ejecuci\'on.
+m\'etricas que usadas por separado no son represantivas pues basta para tener un recobrado perfecto seleccionar todos los elementos del conjunto de datos, y una precisi\'on casi perfecta escogiendo un pequeño conjunto de elementos.
+\textit{F-score} relaciona ambas medidas y permite el uso de  param\'etros para priorizar una o la otra seg\'un el investigador determine. 
+Un sistema AutoML Multiobjetivo puede prescindir de m\'etricas como \textit{f-score} pues es capaz de optmizar en paralelo para todos los criterios que los componen.
+%que pueda realizar una b\'usqueda optimizando en paralelo para ambos criterios y obtener soluciones que representen todas las maneras de parametrizar \textit{f-score} en una solo ciclo de ejecuci\'on.
 %puede producir soluciones variadas cada una representativa de ejecutar el problema con el f-score variando los parametros.
 
 
@@ -39,16 +41,20 @@ La adici\'on de optimizaci\'on multibojetivo en AutoML abr\'e las puertas tambi\
 
 En el entorno del grupo de Inteligencia Artificial de la facultad de Matem\'aticas y Computaci\'on de la Universidad de La Habana se desarrolla diversas l\'ineas de investigaci\'on centradas en el Aprendizaje de M\'aquina Automatizado. AutoGOAL (\cite{estevez2020solving}) es una herramienta creada por el colectivo con el objetivo de resolver el problema AutoML heter\'ogeneo. 
 
-El colectivo tambi\'en desarrolla otras l\'neas donde se estudia la posible mitigaci\'on de sesgos en flujos producidos en los sistemas de AutoML.
+La entidad tambi\'en desarrolla otras l\'neas donde se estudia la posible mitigaci\'on de sesgos en flujos producidos por sistemas AutoML.
 
-Este trabajo es una propuesta que pretende mejorar la expresividad que tienen los usuarios para la b\'usqueda de sus soluciones a trav\'es de la utilizaci\'on de varias m\'etricas
+Este trabajo es una propuesta que pretende mejorar la expresividad que tienen los usuarios para la b\'usqueda de sus soluciones a trav\'es de la utilizaci\'on de varias m\'etricas.
 %AutoGOAL una herramienta de AutoML que utilza algoritmos gen\'eticos y permite genera 
 
 \section*{Problem\'atica}
 % No darle la vuelta al pollo
 % Decir cual es el problema: Poder utilizar optimizacion mulitobjetivo dentro de AutoGOAL
 Resolver el problema multiobjetivo en AutoML es un tema poco estudiado y con aplicaciones pr\'acticas en la actualidad.
-Los sistemas AutoML m\'as reconocidos por la literatura solo son capaces de optimizar para una sola m\'etrica. Puede resultar complejo la integraci\'on de optimizaci\'on multobjetivo pues los espacios de decision son caoticos y no diferenciables. La capacidad de optimizar paralelamente para varios objetivos no resulta trivial y es necesario la integraci\'on de un algoritmo que sea lo m\'as resistente a este espacio sin sacrificar la obtenci\'on de buenos resultados. En la literatura hay varios ejemplos de optimizaci\'on multiobjetivo pero ninguno aplicado directamente al campo del AutoML. Los algoritmos evoluacionarios han resultado ser los mejores para la optimizaci\'on multiobjetivo pues cumplen con estas caracter\'isticas.
+Los sistemas AutoML m\'as reconocidos por la literatura solo son capaces de optimizar para una sola m\'etrica. 
+
+Integrar optimizaci\'on multobjetivo a los sistemas AutoML puede ser complicado porque los espacios de b\'usqueda  son caoticos y no diferenciables. Es necesario poder integrar algoritmos evolucionarios multiobjetivo a sistemas de AutoML por ser agn\'osticos al espacio de decisi\'on y resistentes a cualquier forma del frente de Pareto.
+
+% La capacidad de optimizar paralelamente para varios objetivos no resulta trivial y es necesario la integraci\'on de un algoritmo que sea lo m\'as resistente a este espacio sin sacrificar la obtenci\'on de buenos resultados. En la literatura hay varios ejemplos de optimizaci\'on multiobjetivo pero ninguno aplicado directamente al campo del AutoML. Los algoritmos evoluacionarios han resultado ser los mejores para la optimizaci\'on multiobjetivo pues cumplen con estas caracter\'isticas.
 
 %Los sistema de Aprendizaje de M\'aquina Automatizado basados en algoritmos evolutivos son los que pueden tener el espacio de decision m\'as amplio.
 %Se propone añadir multi objetivo para optimizar respecto a varias m\'etricas de evaluaci\'on simult\'aneamente. Se quiere utilizar una implementaci\'on de algoritmos gen\'etico ya que han demostrado ser los mejores en la literatura.

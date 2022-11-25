@@ -10,7 +10,7 @@ En la secci\'on \ref{background:automl} se  hace un estudio del estado del arte 
 % Que es AutoML
 El Aprendizaje de M\'aquina Automatizado (Automated Machine Learning, AutoML) consiste en la generaci\'on autom\'atica de flujos, algoritmos o par\'amteros que resuelven un problema determinado minimizando la dependencia del usuario. 
 
-Actualmente los sistemas AutoML se pueden en separar en dos conjuntos dependiendo del problema a resolver. Se encuentran los sistemas orientados a aprendizaje profundo que proponen resolver el problema de B\'usqueda de Arquitecturas Neuronales (\textit{Neural Arquitectural Search}, NAS) y  sistemas AutoML basado en selecci\'on y combinaci\'on; este \'ultimo puede incluir la soluci\'on a problemas NAS. El segundo conjunto intenta resolver el problema de combinaci\'on, selecci\'on y optimizaci\'on de hiperpar\'ametros (\textit{Combined Algorith Selection and Hyperparameter Optimization}, CASH) acuñado por Auto-Weka (\cite{thornton2013auto}). M\'as formalmente:
+Actualmente los sistemas AutoML se pueden en separar en dos conjuntos dependiendo del problema a resolver. Se encuentran los sistemas orientados a aprendizaje profundo que proponen resolver el problema de B\'usqueda de Arquitecturas Neuronales (\textit{Neural Arquitectural Search}, NAS) y  sistemas AutoML basado en selecci\'on y combinaci\'on; este \'ultimo puede solucionar o no el problema NAS. El segundo conjunto intenta resolver el problema de combinaci\'on, selecci\'on y optimizaci\'on de hiperpar\'ametros (\textit{Combined Algorith Selection and Hyperparameter Optimization}, CASH) acuñado por Auto-Weka (\cite{thornton2013auto}). M\'as formalmente:
 \begin{definition}
     Sea $A = \{a^1, ..., a^k\}$  un conjunto de algoritmos con espacios de configuraci\'on asociados $\Lambda^1, ..., \lambda^k$.
     Sea $D$ un conjunto de datos  que se divide en $\{D_{t}^{(1)},..., D_{t}^{(k)}\}$ y $\{D_{v}^{(1)},..., D_{v}^{(k)}\}$ 
@@ -25,7 +25,7 @@ Actualmente los sistemas AutoML se pueden en separar en dos conjuntos dependiend
 
 % El objetivo es transferir el problema de combinaci\'on, selcci\'on y optimizaci\'on de hiperpar\'ametros(\textit{Combined Algorithm Selection and Hyperparameter Optimization}, CASH por sus siglas en ingl\'es) del investigador al sistema, permitiendole a este enfocarse en otras tareas como la validaci\'on de los datos o ingenier\'ia de caracter\'istcas.
 
-En el campo del Aprendizaje de M\'aquina Automatizado cuenta numerosas propuestas de distintos dominios: 
+En el campo del Aprendizaje de M\'aquina Automatizado cuenta con numerosas propuestas de distintos dominios: 
 \begin{itemize}
     \item Optimizaci\'on Bayesiana%(\cite{hutter2019automated})
     \item Programaci\'on Evolutiva%(\cite{chen2018autostacker})
@@ -195,10 +195,9 @@ Recientemente escalarizaci\'on ha encontrado uso en algoritmos gene\'eticos por 
 En principio todos los algoritmos de escalarizaci\'on se pueden resolver utilzando m\'etodos n\'umericos. Adem\'as existen otros m\'etodos  que intentan resolver el problema haciendo cumplir las condiciones de Karush-Kuhn-Tucker (KKT) definidas por \cite{kuhn2014nonlinear}.
 
 La idea va de encontrar al menos una soluci\'on al sistema de ecuaciones creado tras intentar resolver el problema KKT. Luego se utilizan m\'etodos de continuaci\'on y homotop\'ia para añadir al conjunto soluci\'on soluciones cercanas a esta. 
-Este tipo de enfoque no es ideal para espacios de b\'usqueda complejos pues requiere que las soluciones satisfagan las condiciones de convexidad local y diferenciabilidad. se puede obtener mas infomraci\'on en \cite{hillermeier2001nonlinear} y \cite{schutze_et_al:DagSemProc.04461.16}.
+Este tipo de enfoque no es ideal para espacios de b\'usqueda complejos pues requiere que las soluciones satisfagan las condiciones de convexidad local y diferenciabilidad (\cite{hillermeier2001nonlinear} y \cite{schutze_et_al:DagSemProc.04461.16}).
 
-Tambien existen otros metodos para la b\'usqueda de m\'inimos globales como \textit{T\'ecnicas de Subdivisi\'on} por \cite{dellnitz2005covering}, \textit{Optimizaci\'on Global Bayesiana} por \cite{emmerich2016multicriteria} y \textit{Optimizaci\'on de Lipschitz} por \cite{vzilinskas2013worst}. % Estas requiren de que el espacio de decisi\'on tenga una baja dimensionalidad.
-
+Existen otros metodos para la b\'usqueda de m\'inimos globales como \textit{T\'ecnicas de Subdivisi\'on} por \cite{dellnitz2005covering}, \textit{Optimizaci\'on Global Bayesiana} por \cite{emmerich2016multicriteria} y \textit{Optimizaci\'on de Lipschitz} por \cite{vzilinskas2013worst}. % Estas requiren de que el espacio de decisi\'on tenga una baja dimensionalidad.
 Adem\'as  se investiga  m\'etodos n\'umericos que no necesiten diferenciar para su resoluci\'on utilizando t\'ecnicas de b\'usquedas directas. Se pueden encontrar ejemplos de estos algoritmos en \cite{custodio2011direct} y \cite{audet2010mesh}.
 
 \subsection{Algoritmos Evolucionarios Multiobjetivos }

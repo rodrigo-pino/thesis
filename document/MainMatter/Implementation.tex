@@ -32,7 +32,7 @@ Se a\~nade a AutoGOAL la clase NSPGE, un m\'etodo de b\'usqueda inspirado en NSG
 En NSPGE, dentro de \textit{\_inidices\_of\_the\_fittest\_} se aplica la ordenaci\'on definida por \cite{deb2002fast}. Dado $n$ soluciones se  agrupan seg\'un su \'indice de dominaci\'on (i.e. Non Dominated Sorting), donde cada agrupamiento se le llama frente de rango $i$, donde $i$ representa la cantidad de soluciones que dominan a cada una de estas. Una vez establecidos estos frentes se extraen las primeras $k$ soluciones, en caso de que no se pueda seleccionar un frente completo, se aplica Crowding Distance para seleccionar la muestra m\'as representativa de este.
 
 
-\begin{lstlisting}[language=Python]
+\begin{lstlisting}[caption=Nueva ordenaci\'on, language=Python]
 def _indices_of_fittest(self, fns: List[List[float]]):
   # Se ordenan todas las soluciones segun su orden
   # de dominacion
@@ -63,7 +63,7 @@ La ordenaci\'on se conforma por dos pasos l\'ogicos fundamentales:
     \item Se recorre DAG utilizando una versi\'on de BFS ($Breadth First Search$) donde los soluciones visitadas se les reduce el \'indice de domianci\'on en uno. Si llega a 0 se a\~nade al frente de Pareto que se est\'a formando.
 \end{enumerate}
 
-\begin{lstlisting}[language=Python]
+\begin{lstlisting}[caption=Non Dominated Sorting, language=Python]
 def non_dominated_sort(self, scores: List[List[float]]):
   # fronts almacena los frentes 
   #(i.e. fronts[i] es el frente de rango i)
@@ -107,7 +107,7 @@ def non_dominated_sort(self, scores: List[List[float]]):
 \subsubsection{Crowding Distance}
 Se sigue la idea del algoritmo propuesto en (\ref{proposal:alg:cd}). Dado $m$ m\'etricas a evaluar se realizan $m$ iteraciones, donde en cada una se ordena alg\'un frente de rango $k$ de acuerdo a la metrica $m_i$. A la soluciones que con respecto a la m\'etrica $m_i$ tienen el m\'inimo y mayor valor se les asigna distancia infinita y luego se c\'alculan los valores intermedios. En \cite{deb2002fast} requiren que los valores de las m\'etricas esten normalizados, en nuestra implementaci\'on utilizamos \textit{feature scaling} para normalizar los valores entre 0 y 1.
 
-\begin{lstlisting}[language=Python]
+\begin{lstlisting}[caption=Crowding Distance Sorting, language=Python]
 def crowding_distance(
     self, scores: List[List[float]], front: List[int], index: int
 ) -> float:
@@ -139,14 +139,35 @@ def crowding_distance(
 
 \section{Utilizar la Implementaci\'on}
 
-Hablar de como se inicializa autogoal
+La soluci\'on representa la adici\'on de un nuevo m\'etodo de b\'usqueda. Para utilizarla es necesaria especificarla como un par\'ametro de la b\'usqueda.
 
-Los par\'ametros de AutoGOAL
+Para especificar las m\'etricas multiobjetivo la funci\'on de puntuaci\'on se define el retorno como una tupla de elementos.
 
-Como se especifica la busqueda utilizando MultiObjetivo
+Adem\'as se le pasa al algoritmo una tupla de tama\~no similar a la cantidad de metricas que indique por cada posicion $i$ si la m\'etrica $i$ es de minimizar o maximizar
 
-Como se define una m\'etrica multiobjetivo
+\begin{lstlisting}[caption=Utilizando NPSGE, language=Python]
+from autogoal.datasets import cars
+from autogoal.kb import MatrixContinuousDense, Supervised, VectorCategorical
+from autogoal.ml import AutoML
+from autogoal.utils import Gb, Hour, Min
+from autogoal.search import NSPESearch
+from utils import plot_and_save, print_and_save
 
-Como se define \textit{maximize}
+automl = AutoML(
+    input=(MatrixContinuousDense, Supervised[VectorCategorical]),
+    output=VectorCategorical,
+    pop_size=40,
+    score_metric=accuracy_vs_time,
+    search_algorithm=NSPESearch,
+    maximize=(True, True),
+    random_state=2,
+    number_of_solutions=100,
+    memory_limit=16 * Gb,
+    search_timeout=1 * Hour,
+)
 
-Ense\~nar un ejemplo en c\'odigo 
+x, y = cars.load()
+automl.fit(x, y)
+
+
+\end{lstlisting}
