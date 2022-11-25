@@ -17,8 +17,8 @@ La soluci\'on propuesta (ver \ref{proposal:fig:flux}) recibe como entrada un sis
 
 M\'as formalmente, 
 el sistema toma como entrada un sistema de Aprendizaje de M\'aquina Automatizado $\mathcal{A}$ tal que $\mathcal{A}(D, M, P) = TP$ donde $D = \{(x_1, y_1), ..., (x_n, y_n)\}$ representa el conjunto de datos de entrada, $M = \{f_1, f_2, ..., f_m\}$ un conjunto de m\'etricas a evaluar y $P = \{p_1, p_2, ..., p_k\}$ una serie de modelos de Aprendizaje Autom\'atico los cuales utiliza $\mathcal{A}$ para producir una nueva poblaci\'on de modelos $TP$. 
-Los flujos producidos $TP$ son organizados por una funci\'on de ordenaci\'on $\mathcal{H}$ tal que $\mathcal{H}(TP) = P^'$. 
-El objetivo final del sistema es producir una conjunto de soluciones de Aprendizaje Autom\'atico $P^'$ que sean una muestra representativa del frente de Pareto (\ref{background:def:pareto_front}) utilizando un algoritmo multiobjetivo  $\mathcal{H}$ tal que $\mathcal{H}(TP) = P^'$ en cierto n\'umero de iteraciones determinado por un criterio de parada. 
+Los flujos producidos $TP$ son organizados por una funci\'on de ordenaci\'on $\mathcal{H}$ tal que $\mathcal{H}(TP) = P'$. 
+El objetivo final del sistema es producir una conjunto de soluciones de Aprendizaje Autom\'atico $P'$ que sean una muestra representativa del frente de Pareto (\ref{background:def:pareto_front}) utilizando un algoritmo multiobjetivo  $\mathcal{H}$ tal que $\mathcal{H}(TP) = P'$ en cierto n\'umero de iteraciones determinado por un criterio de parada. 
 \begin{algorithm}[ht]\caption{}
     \KwIn{$\mathcal{A}$, D, M}
     \KwOut{P}
@@ -31,11 +31,11 @@ El objetivo final del sistema es producir una conjunto de soluciones de Aprendiz
 \end{algorithm}
 
 % Despues aqui hablo sobre como se puede crear una separacion entre sistema AutoML y Algoritmo de Ordenacion
-El n\'ucleo fundamental de la idea radica en que los sistemas AutoML trabajan sobre dos espacios distintos. Las soluciones encontradas por el problema pertenecen al espacio de decisi\'on $\mathcal{X}$ y la evaluaci\'on de esta respecto a un conjunto de m\'etricas representan el espacio objetivo $\matchcal{Y}$, donde $\mathcal{Y} \subseteq \mathbb{R}^m$ y  $m$ representa la cantidad de m\'etricas a evaluar. 
+El n\'ucleo fundamental de la idea radica en que los sistemas AutoML trabajan sobre dos espacios distintos. Las soluciones encontradas por el problema pertenecen al espacio de decisi\'on $\mathcal{X}$ y la evaluaci\'on de esta respecto a un conjunto de m\'etricas representan el espacio objetivo $\mathcal{Y}$, donde $\mathcal{Y} \subseteq \mathbb{R}^m$ y  $m$ representa la cantidad de m\'etricas a evaluar. 
 Luego es posible separar la creaci\'on de soluciones y su evaluaci\'on: 
 \begin{itemize}
     \item el sistema AutoML se puede ver como una funcion $\mathcal{A}(D, M, P): \mathcal{X} \rightarrow \mathcal{Y}$ que genera y evalua las soluciones.
-    \item el algoritmo de ordenaci\'on $\mathcal{H(V) = V'^}$ que dado la evaluaci\'on de cada soluci\'on ordena las soluciones de acuerdo a su rendimiento. Cuando $m = 1$ la l\'ogica de $\mathcal{H}$ es sencilla, pero cuando $m \geq 2$  se requiere un algoritmo m\'as complejo.
+    \item el algoritmo de ordenaci\'on $\mathcal{H(V) = V'}$ que dado la evaluaci\'on de cada soluci\'on ordena las soluciones de acuerdo a su rendimiento. Cuando $m = 1$ la l\'ogica de $\mathcal{H}$ es sencilla, pero cuando $m \geq 2$  se requiere un algoritmo m\'as complejo.
 \end{itemize}
 
 

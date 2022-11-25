@@ -147,17 +147,17 @@ Otra de las cosas a notar es que hay algoritmos que toman 10 segundos para ejecu
     \centering
     \includegraphics[scale=0.65]{Pictures/haha_fscore_vs_time_3min.jpg}
     \caption{HAHA: F-score contra Tiempo de Entrenamiento (3 minutos m\'ax)}
-    \label{impl:fig:haha:fscore_vs_time}
+    \label{impl:fig:haha:fscore_vs_time_3min}
 \end{figure}
 
 \subsubsection{Precisi\'on contra Recobrado}
-Contrario a lo que muestra la evaluaci\'on de Cars con respecto a precision y recobrado, durante esta prueba no es posible encontrar un flujo que maximice ambas m\'etricas y es necesario hacer concesiones entre una y la otra. El frente como se observa en la figura \ref{impl:fig:HAHA:precision_vs_recall} tiene una forma c\'onvexa, consecuencia del conflicto que se crea al optimizar para varias m\'etricas en este conjunto de datos.
+Contrario a lo que muestra la evaluaci\'on de Cars con respecto a precision y recobrado, durante esta prueba no es posible encontrar un flujo que maximice ambas m\'etricas y es necesario hacer concesiones entre una y la otra. El frente como se observa en la figura \ref{impl:fig:haha:precision_vs_recall} tiene una forma c\'onvexa, consecuencia del conflicto que se crea al optimizar para varias m\'etricas en este conjunto de datos.
 
 \begin{figure}[ht]
     \centering
     \includegraphics[scale=0.65]{Pictures/haha_precision_vs_recall.jpg}
     \caption{HAHA: Precisi\'on contra Recobrado (10 segundos m\'ax)}
-    \label{impl:fig:HAHA:precision_vs_recall}
+    \label{impl:fig:haha:precision_vs_recall}
 \end{figure}
 
 Cuando se optimza con tiempo m\'aximo de tres minutos no se muestra ning\'un cambio notable con respecto a la anterior prueba. 
@@ -166,7 +166,7 @@ Cuando se optimza con tiempo m\'aximo de tres minutos no se muestra ning\'un cam
     \centering
     \includegraphics[scale=0.65]{Pictures/haha_precision_vs_recall_3min.jpg}
     \caption{HAHA: Precisi\'on contra Recobrado (3 minutos m\'ax)}
-    \label{impl:fig:HAHA:precision_vs_recall}
+    \label{impl:fig:haha:precision_vs_recall_3min}
 \end{figure}
 
 \subsection{MEDDOCAN}
