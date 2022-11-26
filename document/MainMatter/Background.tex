@@ -1,5 +1,5 @@
 \chapter{Estado del Arte}\label{chapter:state-of-the-art}
-El proceso de investigaci\'on para dise\~nar un flujo de Aprendizaje Autom\'atico requiere una experemintaci\'on variada donde se combinan m\'ultiples t\'ecnicas como redes neuronales, clasificadores supervisados, algoritmos de agrupamientos, entre otras. Adem\'as por cada selecci\'on de las anteriores se deben optimzar adecaudamente los hiperpar\'ametros que la componen.
+El proceso de investigaci\'on para dise\~nar un flujo de Aprendizaje Autom\'atico requiere una experimentaci\'on variada donde se combinan m\'ultiples t\'ecnicas como redes neuronales, clasificadores supervisados, algoritmos de agrupamientos, entre otras. Adem\'as por cada selecci\'on de las anteriores se deben optimzar adecuadamente los hiperpar\'ametros que la componen.
 
 Con el uso de un sistema AutoML el investigador ya no tiene que crear el flujo de Aprendizaje Autom\'atico manualmente y puede dedicarse a realizar otras tareas como el adecuado preprocesamiento de los datos o ingenier\'ia de caracter\'istcas, no obstante, el proceso de automatizaci\'on viene con un costo. Cuando al experto necesita m\'as que modelos que produzcan resultados relevantes los sistemas AutoML actuales se tornan insuficientes pues no posee el suficiente control para comunicarle al sistema su intenci\'on de gu\'iar la b\'usqueda en otros sentidos.
 % de controlar el espacio de decsi\'on  desea un mayor control sobre los flujos producidos tal que tengan un buen desempe\~no con respecto a alguna m\'etrica adicional, los sistmeas AutoML dejan de ser de \'utiles pu\'es en el estado del arte actual del Aprendizaje Automatizado no existe el soporte para esto.
@@ -51,7 +51,7 @@ Las propuestas basadas en optimizaci\'on bayesiana est\'an divididas en dos comp
 \paragraph*{autogxgboost (\cite{thomas2018automatic})} Se cat\'aloga como un sistema AutoML \textit {single-learner} debido a que solo utiliza un algoritmo de aprendizaje y optimiza los hiperpar\'ametros para este utilizando optimizaci\'on bayesiana. Requiere que el algoritmo sea un metodo de aumento de gradiente con \'arboles (\textit{Gradient Boosting with Trees}, GBT) como \textit {xgboost} (\cite{chen2016xgboost}) debido a su prometedor rendimiento con los param\'etros adecuados.   
     
 \subsection{Programaci\'on Evolutiva}
-     Los sistemas AutoML bas\'ados en programaci\'on evolutiva funcionan creando una poblaci\'on inicial de flujos v\'alidos para luego seleccionar los de mejor rendmiento respecto a cierta m\'etrica. Los m\'as aptos son utilizados para crear la poblaci\'on de la pr\'oxima iteraci\'on. Las propuestas difieren principalmente en como modelan el espacio de b\'usqueda y que estrategias usan para crear los nuevos individuos.
+     Los sistemas AutoML basados en programaci\'on evolutiva funcionan creando una poblaci\'on inicial de flujos v\'alidos para luego seleccionar los de mejor rendmiento respecto a cierta m\'etrica. Los m\'as aptos son utilizados para crear la poblaci\'on de la pr\'oxima iteraci\'on. Las propuestas difieren principalmente en como modelan el espacio de b\'usqueda y que estrategias usan para crear los nuevos individuos.
      
 \paragraph*{TPOT (\cite{pmlr-v64-olson_tpot_2016})} Utiliza algoritmos de aprendizaje de la biblioteca scikit-learn (\cite{pedregosa2011scikit}) junto con el algoritmo xgboost (\cite{chen2016xgboost}), es uno de los sistemas AutoML evolutivos m\'as reconocidos. Cada algoritmo de Aprendizaje Autom\'atico a su disposici\'on se le considera un operador, adem\'as de tener un operador especial de cruce. Permite tener varias copias del dataset y aplicar operadores sobre ellos simult\'aneamente para luego recombinarlos y crear flujos con los operadores que hayan tenido mejor rendimiento. TPOT adem\'as realiza una b\'usqueda multiobjetivo sobre las soluciones encontradas utilizando NSGA-II (\cite{deb2002fast}) optimzando simultaneamente la relevancia de los resultados y minimizando la cantidad de operadores aplicados sobre los flujos de Aprendizaje Autom\'atico para mantener las soluciones simples y evitar el sobreajuste a los datos.
 
@@ -102,7 +102,7 @@ Estos m\'etodos exploran el espacio de b\'usqueda con una forma estructurada pue
 \subsection{Monte Carlo}
  Esta estrategia se emplea en espacios de b\'usquedas jer\'arquicos para explorar eficientemente el \'arbol que describe todas las  posibles soluciones. En cada iteraci\'on se deciende por una rama del \'arbol hasta llegar a un nodo hoja, el camino representa una posible soluci\'on. Como todo algoritmo de Monte Carlo requiere de una definici\'on adecuada de una funci\'on que permita un balance entre exploraci\'on y explotaci\'on. Esta estrategia require un espacio de b\'usequda donde las decisiones m\'as importantes est\'en posicionadas al principio en el \'arbol para ser efectiva.
 
- \paragraph{ML-Plan (\cite{mohr2018ml})} Un sistema novedoso basado en redes de tareas jer\'arquicas (HTN, \cite{erol1994umcp}). La b\'usqueda es aleatoria, construyendo flujos parciales junto con un mecanismo que evita el sobreajuste. Cuenta con con dos tipos de algoritmos:  preprocesadores de datos y de aprendizaje. Sus flujos son un par compuestos por un procesador parametrizado y por un algoritmo de aprendizaje.
+ \paragraph{ML-Plan (\cite{mohr2018ml})} Un sistema novedoso basado en redes de tareas jer\'arquicas (HTN, \cite{erol1994umcp}). La b\'usqueda es aleatoria, construyendo flujos parciales junto con un mecanismo que evita el sobreajuste. Cuenta con con dos tipos de algoritmos:  preprocesadores de datos y de aprendizaje. Sus flujos son un par compuestos por un procesador parametrizado y un algoritmo de aprendizaje.
     
 
 
@@ -116,10 +116,10 @@ Optimizaci\'on Multiobjetivo es la rama de la Ciencia y la Matem\'atica que se d
     \item La distribuci\'on adecuada de recursos de radio para satisfacer eficientemente el requerimiento de sus usuarios (\cite{bjornson2013optimal}).
 \end{itemize}
 
-El problema multiobjetivo consiste en optimizar varias funciones y lograr soluciones que hagan consesiones adecuadas entre los criterios que tengan conflictos entre si.
+El problema multiobjetivo consiste en optimizar varias funciones y lograr soluciones que hagan las consesiones pertinentes entre los criterios que tengan conflictos entre si.
 \begin{definition}{Optimizaci\'on Multibojetivo:}
     \label{background:def:moo}
-     Dado $m$ funciones objetivos: $f_1: \mathcal{X} \rightarrow \mathbb{R}, ..., f_m: \mathcal{X} \rightarrow \mathbb{R}$ que transforman un vector $x$ en el espacio de decisi\'on $\mathcal{X}$ a un valor de $\mathbb{R}$. Se define el problema multiobjetivo como:
+     Dado $m$ funciones objetivos: $f_1: \mathcal{X} \rightarrow \mathbb{R}, ..., f_m: \mathcal{X} \rightarrow \mathbb{R}$ que transforman un vector $x$ del espacio de decisi\'on $\mathcal{X}$ a un valor de $\mathbb{R}$. Se define el problema multiobjetivo como:
     \begin{equation*}
         \min f_1(x), ..., f_m(x), x \in \mathcal{X}
     \end{equation*}
@@ -128,7 +128,7 @@ El problema multiobjetivo consiste en optimizar varias funciones y lograr soluci
 Cuando se optimizan varias funciones, la mejor soluci\'on  no es un escalar, sino un vector y no necesariamente \'unico pues al haber m\'as de dos medidas de evaluaci\'on un vector puede ser superior a otro sobre ciertas componentes pero no en todas. Un vector se dice mejor o que \textit{Pareto domina} a otro cuando es superior en al menos una componente y no peor en las restantes. Se conoce formalmente en la literatura como \textit{Pareto dominaci\'on}.
 \begin{definition}{Pareto Dominaci\'on:}
     \label{background:def:domintation}
-    Dado dos vectores en el el espacio objetivo, $x \in \mathbb{R}^m$ y $z \in \mathbb{R}^m$, se dice que $x$ Pareto domina a $z$ (i.e. $x \prec z$), si y solo si:
+    Dado dos vectores en el el espacio objetivo, $x, z \in \mathcal{Y}$, se dice que $x$ Pareto domina a $z$ (i.e. $x \prec z$), si y solo si:
     \begin{equation*}
         \forall i \in \{1, ..., m\}: x_i \leq z_i \text{ y } \exists j \in \{1, ..., m\}: x_j < z_j
     \end{equation*}
@@ -169,7 +169,7 @@ Las t\'ecincas de escalarizaci\'on han sido las m\'as utilizadas para resolver e
     \begin{equation*}
         \min \sum w_i f_i(x), \space x \in X
     \end{equation*}
-    Se garantiza que una soluci\'on de esta nueva funci\'on objetivo siempre est\'a sobre el frente de Pareto  y si este es convexo se puede hallar cualquier punto de este con el correcto vector de peso(\cite{emmerich2018tutorial}). El problema yace cuando el frente de Pareto tiene forma c\'oncava donde \textit{Linear Weighting} resulta insuficiente por no ser capaz obtener los puntos de esta secci\'on del frente.
+    Se garantiza que una soluci\'on de esta nueva funci\'on objetivo siempre est\'a sobre el frente de Pareto  y si este es convexo se puede hallar cualquier punto de este con el correcto vector de peso (\cite{emmerich2018tutorial}). El problema yace cuando el frente de Pareto tiene forma c\'oncava donde \textit{Linear Weighting} resulta insuficiente por no ser capaz obtener los puntos de esta secci\'on del frente.
 
     \item $\epsilon$-constrain: Se selecciona una funci\'on objetivo como principal y las dem\'as se establecen como restricciones de esta tal que sean menor que cierto $\epsilon_i$  por cada funci\'on objetivo.
     \begin{align*}
@@ -241,7 +241,7 @@ Definimos el problema multiobjetivo aplicado a sistemas AutoML de la siguiente m
     \end{equation*}
 \end{definition}
 
-TPOT (\cite{pmlr-v64-olson_tpot_2016}) es un ejemplo de Sistema AutoML que aplica multiobjetivo para su resoluci\'on. Despu\'es de cada iteraci\'on ordena los algoritmos utilizando NSGA-II (\cite{deb2002fast}) gu\'iandose por exactitud de las predicciones y n\'umero de operadores (i.e. algoritmos de aprendizaje). No obstante el resultado de TPOT no es un conjunto soluciones representativas del frente de Pareto, sino la soluci\'on que mejor rendimiento tuvo respecto a una m\'etrica de relevancia durante las pruebas de validaci\'on. El uso de optimizaci\'on multiobjetivo en TPOT se utiliza principalmente como medida para evitar el sobre ajuste del modelo a los datos.
+TPOT (\cite{pmlr-v64-olson_tpot_2016}) es un ejemplo de Sistema AutoML que aplica multiobjetivo para su resoluci\'on. Despu\'es de cada iteraci\'on ordena los algoritmos utilizando NSGA-II (\cite{deb2002fast}) gu\'iandose por exactitud de las predicciones y n\'umero de operadores utilizados (i.e. algoritmos de aprendizaje). No obstante el resultado de TPOT no es un conjunto soluciones representativas del frente de Pareto, sino la soluci\'on que mejor rendimiento tuvo respecto a una m\'etrica de relevancia durante las pruebas de validaci\'on. El uso de optimizaci\'on multiobjetivo en TPOT se utiliza principalmente como medida para evitar el sobre ajuste del modelo a los datos.
 
 \cite{pfisterer2019multi} propone una soluci\'on al problema multiobjetivo bas\'andose en \textit{autoxgboost} (\cite{thomas2018automatic}) y utilizando  parEgo (\cite{knowles2006parego}), un sistema de escalarizaci\'on multiobjetivo utilizando CSP con un vector de peso uniforme. La funci\'on restultante tras aplicar CSP sobre las m\'utiples m\'etricas  es optimizada utilizando optimizaci\'on bayesiana est\'andar de un s\'olo objetivo.
 El algoritmo se beneficia de un humano en el proceso de optimizaci\'on que ayuda a gu\'iar la b\'usqueda aplicando restricciones sobre el espacio de b\'usqueda interactivamente.
