@@ -4,7 +4,7 @@
 
 \chapter{AutoML Heter\'ogeneo Multiobjetivo}\label{chapter:proposal}
 
-AutoML Heter\'ogeneo Multibojetivo es una propuesta aplicable a cualquier sistema AutoML y permite resolver el problema definido en \ref{background:def:moo-automl-problem}. El n\'ucleo fundamental de la idea radica en trabajar sobre dos espacios bien definidos. El sistema busca y obtiene soluciones en el espacio de decisi\'on $\mathcal{X}$ y el resultado  de evaluar cada una de ellas se representa como un vector num\'erico donde cada una de sus componentes es la evaluaci\'on con respecto a cierta m\'etrica. Este vector representa un punto en el espacio objetivo $\mathcal{Y}$ con $\mathcal{Y} \subseteq \mathbb{R}^m$ donde $m$ representa el n\'umero de m\'etricas a evaluar. Cuando $m = 1$ es trivial saber cual es, basta encontrar el de mejor rendimiento. Cuando $m \ge 2$ ya no es tan f\'acil hablar del mejor pues pueden existir m\'as de uno; se habla en cambio de \textit{Pareto dominaci\'on} definido en (\ref{background:def:domintation}). Para establecer los vectores  m\'as aptos del espacio de decisi\'on se utiliza un algoritmo evolutivo multiobjetivo pues adem\'as de ser agn\'osticos al espacio de decisi\'on han demostrado ser los m\'as resistentes al frente de Pareto cuando tiene formas extra\~nas.
+AutoML Heter\'ogeneo Multibojetivo es una propuesta aplicable a cualquier sistema AutoML y permite resolver el problema definido en \ref{background:def:moo-automl-problem}. El n\'ucleo fundamental de la idea radica en trabajar sobre dos espacios bien definidos. El sistema busca y obtiene soluciones en el espacio de decisi\'on $\mathcal{X}$ y el resultado  de evaluar cada una de ellas se representa como un vector num\'erico donde cada una de sus componentes es la evaluaci\'on con respecto a cierta m\'etrica. Este vector representa un punto en el espacio objetivo $\mathcal{Y}$ con $\mathcal{Y} \subseteq \mathbb{R}^m$ donde $m$ representa el n\'umero de m\'etricas a evaluar. Cuando $m = 1$ es trivial saber cual es, basta encontrar el de mejor rendimiento. Cuando $m \ge 2$ ya no es tan f\'acil hablar del mejor pues pueden existir m\'as de uno; se habla en cambio de \textit{Pareto dominaci\'on} definido en (\ref{background:def:domintation}). La selecci\'on de los vectores  m\'as aptos del espacio de decisi\'on se realiza utilizando un algoritmo evolutivo multiobjetivo pues adem\'as de ser agn\'osticos al espacio de decisi\'on han demostrado ser los m\'as resistentes al frente de Pareto cuando tiene formas extra\~nas.
 
 \section{Descripci\'on General}
 \begin{figure}[ht]
@@ -17,8 +17,8 @@ AutoML Heter\'ogeneo Multibojetivo es una propuesta aplicable a cualquier sistem
 
 La soluci\'on propuesta (ver \ref{proposal:fig:flux}) est\'a compuesta por dos elementos fundamentales:
 \begin{enumerate}
-    \item un sistema AutoML capaz de generar y evaluar m\'ultiples soluciones basado en un corpus de datos y un conjunto de m\'etricas. Las nuevas soluciones generadas deben poder tener en cuenta un conjunto de soluciones considerada las m\'as aptas; %m\'as aptas  partiendo de soluciones pasadas que se han considerado como las m\'as aptas;
-    \item un algoritmo de ordenaci\'on multiobjetivo capaz de funcionar solamente con el espacio objetivo y obtenga soluciones igualmente distribuidas a lo largo del frente de Pareto.
+    \item Un sistema AutoML capaz de generar y evaluar m\'ultiples soluciones basado en un corpus de datos y un conjunto de m\'etricas. Las nuevas soluciones generadas deben poder tener en cuenta un conjunto de soluciones considerada las m\'as aptas. %m\'as aptas  partiendo de soluciones pasadas que se han considerado como las m\'as aptas;
+    \item Un algoritmo de ordenaci\'on multiobjetivo capaz de funcionar solamente con el espacio objetivo y obtenga soluciones igualmente distribuidas a lo largo del frente de Pareto.
 \end{enumerate}
 
 La propuesta en cada iteraci\'on utiliza la evaluaci\'on de las soluciones generadas por el sistema de AutoML. La evaluaci\'on de una soluci\'on se representa como un vector $v$ de $m$ componentes donde $v_i$ es la evaluaci\'on de la soluci\'on con respecto a la m\'etrica $i$. El algoritmo ordena estos vectores utilizando alg\'un MOEA y retorna una lista ordenada de estos. Este proceso se repite hasta que se cumpla alg\'un criterio de parada.
@@ -26,7 +26,7 @@ La propuesta en cada iteraci\'on utiliza la evaluaci\'on de las soluciones gener
 % En su primera iteraci\'on el sistema AutoML debe producir una serie de soluciones y sus evaluaciones respectivas frente a las criterios de entrada. El algoritmo multiobjetivo debe ser capaz de ordenar efectivamente las soluciones de acuerdo a su evaluaci\'on tal que que los primeros $k$ elementos sean los m\'as aptos de para resolver el problema. Estas soluciones de mejor rendimiento se utilizan como entrada al sistema AutoML para que produzca una nueva generaci\'on de soluciones tomando la soluciones de entrada como referencia. El proceso se repite hasta que se cumpla el criterio de parada en donde se retornan los mejores individuos encontrados hasta el momento.
 
 \subsection{Descripci\'on Formal}
-El sistema propuesta est\'a compuesto por un sistema de Aprendizaje de M\'aquina Automatizado $\mathcal{A}(D, M, P)$  y un algoritmo evolutivo multiobjetivo $\mathcal{H}(TP)$. Los par\'ametros de entrada $D = \{(x_1, y_1), ..., (x_n, y_n)\}$ representa el conjunto de datos de entrada, $M = \{f_1, f_2, ..., f_m\}$ un conjunto de m\'etricas a evaluar, $P = \{p_1, p_2, ..., p_k\}$ el conjunto de soluciones de mejor rendimiento producidas por  $\mathcal{A}$ en la iteraci\'on anterior. $\mathcal{H}$ toma como entrada $TP$ que representa el conjunto de soluciones producidas en la iteraci\'on actual tras aplicar $\mathcal{A}(D, M, P)$. 
+El sistema propuesto est\'a compuesto por un sistema de Aprendizaje de M\'aquina Automatizado $\mathcal{A}(D, M, P)$  y un algoritmo evolutivo multiobjetivo $\mathcal{H}(TP)$. Los par\'ametros de entrada $D = \{(x_1, y_1), ..., (x_n, y_n)\}$ representa el conjunto de datos de entrada, $M = \{f_1, f_2, ..., f_m\}$ un conjunto de m\'etricas a evaluar, $P = \{p_1, p_2, ..., p_k\}$ el conjunto de soluciones de mejor rendimiento producidas por  $\mathcal{A}$ en la iteraci\'on anterior. $\mathcal{H}$ toma como entrada $TP$ que representa el conjunto de soluciones producidas en la iteraci\'on actual tras aplicar $\mathcal{A}(D, M, P)$. 
  %El objetivo final del sistema es producir una conjunto de soluciones de Aprendizaje Autom\'atico $P'$ que sean una muestra representativa del frente de Pareto (\ref{background:def:pareto_front}) utilizando un algoritmo multiobjetivo  $\mathcal{H}$ tal que $\mathcal{H}(TP) = P'$ en cierto n\'umero de iteraciones determinado por un criterio de parada. 
 \begin{algorithm}[ht]\caption{Soluci\'on a AutoML Heter\'ogeneo Multiobjetivo}
     \KwIn{$\mathcal{A}$, D, M}
@@ -42,11 +42,12 @@ La separaci\'on  por espacios existente entre ambas componentes de la propuesta 
 % Tambi\'en debe ser capaz de entender las carectr\'isticas que componen las soluciones m\'as aptas tal que en las subsecuentes iteraciones estas se conserven. Lograr esto \'ultimo requiere que el sistema tenga en cierta medida una implementaci\'on de algoritmos gen\'eticos para construir sus soluciones, por ende, la propuesta se adapta mejor a sistemas AutoML que utilizen programaci\'on evolutiva.
 
 \section{MOEA}
-El algoritmo trabaja con vectores debido a que optimiza para varias m\'etricas, y no con un escalar que es trivial organizar. Como se meciona en \ref{background:def:moo} se hablar ahora de dominaci\'on y el adecuado ordenamiento es vital para escoger puntos del espacio que: (i) pertenzcan a los mejores frentes, (ii) que sean los elementos representativos del frente
+%El algoritmo trabaja con vectores debido a que optimiza para varias m\'etricas, y no con un escalar que es trivial organizar. Como se meciona en \ref{background:def:moo} se hablar ahora de dominaci\'on y el adecuado ordenamiento es vital para escoger puntos del espacio que: (i) pertenzcan a los mejores frentes, (ii) que sean los elementos representativos del frente
 
-Esencialmente cualquier tipo de ordenaci\'on que con la que sea suficiente el espacio objetivo se puede utilizar. Esta propuesta se ideo con los MOEA basados en dos fases de ranking. Utilizamos NSGA-II para mostrar un ejemplo de su funcionamiento a m\'as detalles.
+Esencialmente cualquier tipo de ordenaci\'on para la que sea suficiente informaci\'on sobre espacio objetivo se puede utilizar. Especif\'icamente para esta propuesta utilizamos NSGA-II (\cite{deb2002fast}) por ser un algoritmo que sigue una idea intuitiva y tener un buen rendimiento general, suficiente para demostrar la efectividad de la propuesta.
 
-%Con este objetivo en mente se utiliza NSGA-II (\cite{deb2002fast}) como mecanismo a utilizar. Un algoritmo popular en el campo de la optimizaci\'on multiobjetivo, estar ampliamente probado y tener un buen rendimiento general. 
+\subsection{NSGA-II}
+NSGA-II (\cite{deb2002fast}) es un algoritmo multiobjetvo basados en el frente de Pareto caracter\'isticos por dividir el proceso de ordenaci\'on en dos etapas (ver figura \ref{proposal:fig:nsga2}).
 
 \begin{figure}[ht]
     \centering
@@ -55,30 +56,37 @@ Esencialmente cualquier tipo de ordenaci\'on que con la que sea suficiente el es
     \label{proposal:fig:nsga2}
 \end{figure}
 
-El funcionamiento general de NSGA-II (ver figura \ref{proposal:fig:nsga2}) divide el proceso de ordenaci\'on en dos etapas.
 
-Una primera etapa llamada \textit{Non Dominated Sort} donde se agrupan las soluciones de acuerdo a su \'indice de dominaci\'on. El \'indice de dominaci\'on de una soluci\'on est\'a determinado por la cantidad de diferentes soluciones que la dominan.
+La primera etapa llamada \textit{Non Dominated Sorting} agrupa las soluciones de acuerdo a su \'indice de dominaci\'on. El \'indice de dominaci\'on de una soluci\'on est\'a determinado por la cantidad de soluciones diferentes que la dominan.
 \begin{definition}
     \label{proposal:def:domination_index}
     Dado un vector $x$ y un conjunto $Y$ de vectores en el espacio objetivo $\mathcal{Y}$ tal que los vectores en $Y$ dominan a $x$ (i.e. $Y = \{y | y \succ x\}$) se dice que $Ind(x) = |Y|$.
 \end{definition}
-% (Explicar como es el non dominated sort, es el naive o el bueno)
-El resultado de esta primera etapa es una lista de elementos $P = \{P^0, ..., P^k\}$ donde cada elemento $P^i = \{x | Ind(x) = i\}$ representa un conjutno de vectores con rango de dominaci\'on $i$. $P^0$ contiene las mejores vectores a los cuales nadie domina e idealmente ser\'ia una aproximaci\'on al frente de Pareto.
+\begin{definition}
+    \label{proposal:def:rank_front}
+    El conjunto de todas la soluciones con un mismo \'indice de dominaci\'on $i$ se les dice frente de rango $i$:
+    \begin{equation*}
+         F^i = \{x | x \in \mathcal{Y}, Ind(x) = i\}
+    \end{equation*}
+\end{definition}
 
-Es importante entender para la correctitud del aloritmo  que las soluciones que conforman un frente de rango $i$ no se \textit{Pareto dominan} ($\prec$) entre si.
+El primer paso de \textit{Non Dominated Sorting} es calcular el \'indice de dominaci\'on de todas las soluciones. Revisa todos los pares de vectores $x, y \in \mathcal{Y}$ y calcula el \'indice  de cada uno mientras crea un grafo dirigido entre estos tal que existe una arista entre las soluciones $x$ y $y$ si $x \prec y$. Luego partiendo de las soluciones con \'indice de dominaci\'on 0, visita todas las soluciones que estas dominan y le reduce el \'indice de dominaci\'on en uno. El proceso se repite hasta que no queden soluciones por analizar.
+El resultado de esta primera etapa es una lista ordenada  $F = \{F^0, ..., F^k\}$ de todos los frentes de distinto rango obtenidos. 
+%$F^0$ contiene las mejores vectores a los cuales nadie domina e idealmente ser\'ia una aproximaci\'on al frente de Pareto.
+
+%Es importante entender para la correctitud del aloritmo anterior  que las soluciones que conforman un frente de rango $i$ no se \textit{Pareto dominan} ($\prec$) entre si.
 %Es f\'acilmente demostrable que la \texit{Pareto dominacion (i.e. $\prec$)} cumple con la propiedad de transitividad (i.e. si $x \prec y$, $y \prec z$, entonces $x \prec z$) 
-\begin{theorem}
-Dado $P^i$, frente de rango $i$, resultado de efectuar obtenido por Non Dominated Sort sobre una conjutno soluci\'on entonces $\neg \exists x, y \in P^i$ tal que $x \prec y$
-\end{theorem}
-% Definir correctamente la prueba
-Dado un frente de rango $i$ $F_i$, tal que existen soluciones $x, y \in F_i$ se asume que $x \prec y$. Como el \'inidice de dominaci\'on de $x$ es $i$ y $x \prec y$ y ($\prec$) es una operador transitivo entonces todos los que dominan a $x$ dominan a $y$, adem\'as del propio $x$, por tanto el inidice de dominaci\'on de $y$ ser\'ia $i+1$ lo que es una contradicci\'on porque $y \in F_i$. 
+%\begin{theorem}
+%Dado $P^i$, frente de rango $i$, resultado de efectuar obtenido por Non Dominated Sort sobre una conjunto soluci\'on entonces $\neg \exists x, y \in P^i$ tal que $x \prec y$
+%\end{theorem}
+%% Definir correctamente la prueba
+%Dado un frente de rango $i$ $F_i$, tal que existen soluciones $x, y \in F_i$ se asume que $x \prec y$. Como el \'inidice de dominaci\'on de $x$ es $i$ y $x \prec y$ y ($\prec$) es una operador transitivo entonces todos los que dominan a $x$ dominan a $y$, adem\'as del propio $x$, por tanto el inidice de dominaci\'on de $y$ ser\'ia $i+1$ lo que es una contradicci\'on porque $y \in F_i$. 
 
-En la segunda etapa que los autores llaman \textit{crowding distance} (CD) se ordenan todos los conjuntos de $P$ con el objetivo de que los primeros elementos de estos sean lo m\'as representativo de dicho conjunto. La importancia de esta ordenaci\'on radica en el segundo paso, donde se escogen $k$ elementos mejores, y es necesario en muchas ocasiones que los primeros $p$ frentes no quepan completos. Entonces hay que picar un frente y se prefiere que se cojan los m\'as representativos de este.
-
+La segunda etapa llamada \textit{Crowding Distance Sorting} (CD),uno de los aportes claves hechos por \cite{deb2002fast}, ordena todos los frentes en $F$ con el objetivo de que los elementos con un ranking superior sean los elementos m\'as representativos del conjunto. Esta parte es vital pues permite en los casos donde haya que utilizar solo la porci\'on de un frente, se utilize la m\'as representativa de este. 
 %En la segunda etapa los vectores de cada frente obtenido se organizan utilizando \textit{crowding distance} (CD), uno de las contribuciones claves de NSGA-II (\cite{deb2002fast}). El prop\'osito de \textit{crowding distance} es estimar la densidad de las soluciones con respecto sus soluciones vecinas de tal manera que los primeros lugares pertenezcan a los elementos m\'as representativos de dicho frente.
 
 % Imagen de crowding distance
-Calcular el CD de cada soluci\'on require ordenarlas seg\'un su valor normalizado por cada funci\'on objetivo y calcular el promedio de la distancia entre una soluci\'on y sus dos adyacentes respecto a dicha funci\'on objetivo. Esta distancia resulta siendo el per\'imetro del cuboide formado usando los vecinos m\'as cercanos como v\'ertices. Los puntos que representan el m\'inimo y m\'aximo de al menos alguna funci\'on objetivo se les asigna \textit{crowiding distance} infinita. En \ref{proposal:alg:cd} se puede ver una representaci\'on del pseudoc\'odigo de esta ordenaci\'on.
+Calcular el CD de cada soluci\'on require ordenarlas seg\'un su valor normalizado por cada funci\'on objetivo y calcular el promedio de la distancia entre una soluci\'on y sus dos adyacentes respecto a dicha funci\'on objetivo. Esta distancia es el per\'imetro del cuboide formado usando los vecinos m\'as cercanos como v\'ertices. Los puntos que representan el m\'inimo y m\'aximo de al menos alguna funci\'on objetivo se les asigna \textit{crowiding distance} infinita. El  algoritmo queda descrito en \ref{proposal:alg:cd}.
 
 \begin{algorithm*}[ht]
     \caption{Crowding Distance Sorting}
@@ -106,8 +114,6 @@ Calcular el CD de cada soluci\'on require ordenarlas seg\'un su valor normalizad
     $SF \gets ordenar(F, dist)$ \tcp*{se ordena F respecto a CD}
 \end{algorithm*}
 
-
-%tiene una adaptacion dependiendo de los datos de entrada, donde se recorren todos los posibles caminos de la gram\'atica y se quitan todas las producciones que no tienen sentido segun el conjunto de datos inicial (e.g. si la entrada son numeros no hay porque aplicar un algoritmo de lematizaci\'on).
 
 % Se obtiene como resultado un Grafo Aciclico Dirigido (DAG), donde cada arista representa una la expansi\'on de alg\'un no terminal de la gram\'atica. Un camino recorrido por dicho DAG es una posible soluci\'on de autogoal, referido como flujo o \textit{pipeline} de Aprendizaje Autom\'atico. A las aristas del DAG mantienen las probabilidades contenidas en $Prob$. Para recorrer cada camino se lanza utiliza una variable aleatoria uniforme y seg\'un su valor se escoge una producci\'on. Esto se realiza hasta obtener nuevas soluciones, hasta obtener una gran poblaci\'on.
 
