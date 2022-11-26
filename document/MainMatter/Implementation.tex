@@ -136,6 +136,16 @@ def crowding_distance(
   return crowding_distances[index]
 \end{lstlisting}
 
+\subsection{Otros cambios}
+Adem\'as de la adici\'on de la clase NSPGE, la infraestructura interna de AutoGOAL sufri\'o ciertos cambios para permitir la optimizaci\'on multiobjetivo:
+\begin{itemize}
+    \item La clase AutoML retorna el conjunto de mejores soluciones encontradas y su evaluaci\'on en vez de la mejor.
+    \item El algoritmo base que explora el espacio de b\'usqueda utiliza el concepto de \textit{Pareto dominaci\'on} para comparar la evaluaci\'on de las soluciones.
+    \item En cada  iteraci\'on se almacena los $k$ mejores individuos encontrados y no el m\'as apto respecto a una s\'ola m\'etrica.
+    \item El algoritmo se detiene cuando no encuentra ninguna soluci\'on mejor que alguna de las $k$ mejores.
+    \item La respuesta del algoritmo es $F^0$ el frente de rango $0$ de las mejores soluciones encontradas durante todo el ciclo de ejecuci\'on.
+\end{itemize}
+
 \section{Aplicaci\'on de Autogoal Multiobjetivo}
 AutoGOAL Multiobjetivo mantiene la misma interfaz que AutoGOAL. Para utilizar esta nueva ordenaci\'on se necesita  se\~nalar el algoritmo de b\'usqueda a utilizar con el par\'ametro \textbf{search\_algorithm}.Adem\'as es necesario definir una m\'etrica que retorne 2 o m\'as valores en \textbf{score\_metric} y especificar por cada una si se desea maximizar o minimizar utilizando el par\'ametro  \textbf{maximize}. 
 

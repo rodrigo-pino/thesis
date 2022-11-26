@@ -117,7 +117,7 @@ L.os algoritmos que logran una puntuaci\'on de 1.0 tiene en com\'un que todos ut
 \subsubsection{Precisi\'on contra Recobrado}
 Durante esta prueba ocurre un hecho interesante, ni precisi\'on ni recobrado entr\'an en conflicto y por tanto no es necesario hacer concesiones entre una o la otra durante la optimizaci\'on. Se puede observar en la figura \ref{impl:fig:cars:precision_vs_recall} que el frente de Pareto esta consituido por un s\'olo punto donde se maximizan precisi\'on y recobrado. Tambi\'en se nota como las soluciones van mejorando con el transcurso de las iteraciones.
 
-AutoGOAL encontr\'o 5 soluciones distintas con un rendimiento perfecto todas compuestas por SVC. En este caso se producen soluciones m\'as complejas con respecto a la prueba anterior pues no se discrimina por tiempo de entrenamiento.
+AutoGOAL encontr\'o 5 soluciones compuestas entre otras t\'ecincas por SVC con un rendimiento perfecto. En este caso hay flujos m\'as complejos con respecto a la prueba anterior pues no se discrimina por tiempo de entrenamiento.
 
 \begin{figure}[ht]
     \centering
@@ -132,9 +132,9 @@ HAHA es un problema de clasificaci\'on binario y las m\'etricas \textit{f-score}
 
 \subsubsection{F-Score contra Tiempo de Entrenamiento}
 
-En esta prueba el frente obtenido (\ref{impl:fig:haha:fscore_vs_time}) posee una forma aparentemente similar a \ref{impl:fig:cars:fscore_vs_time}. Los soluciones de AutoGOAL  est\'an conformados por dos algoritmos principales. Los que contienen una precisi\'on sobre los 0.5 pero son m\'as rapidos est\'an conformados utilizando t\'ecnicas de \textit{Hashing Vectorizer} y \textit{Nearest Centroid} mientras que los de mayor precisi\'on est\'an compuestos por \textit{CountVectorizer}  y regresores log\'isticos.
+En esta prueba el frente obtenido (fig. \ref{impl:fig:haha:fscore_vs_time}) posee una forma aparentemente similar al de Cars (fig. \ref{impl:fig:cars:fscore_vs_time}). Los soluciones de AutoGOAL  est\'an conformados por dos algoritmos principales. Los que contienen una precisi\'on sobre los 0.5 pero son m\'as rapidos est\'an conformados utilizando t\'ecnicas de \textit{Hashing Vectorizer} y \textit{Nearest Centroid} mientras que los de mayor precisi\'on est\'an compuestos por \textit{CountVectorizer}  y regresores log\'isticos.
 
-En la esquina superior izquierda se ve como AutoGOAL busca soluciones que tiene f-score 0, un desperdicio de tiempo de c\'omputo pues el sistema es agn\'ostico al significado de las m\'etricas. Una posible mitigaci\'on a esto es definir no solo las m\'etricas a evaluar si no establecer relaciones entre estas tal como: \textit{if f-score} $== 0 \rightarrow $ \textit{retorna} $-\infty$. Estas restricciones reducen el espacio objetivo y tienen un impacto directo en la b\'usqueda dando a\'un m\'as expresividad a los usuarios de AutoGOAL.
+En la esquina superior izquierda se ve como AutoGOAL busca soluciones que tienen f-score 0, un desperdicio de tiempo de c\'omputo pues el sistema es agn\'ostico al significado de las m\'etricas. Una posible mitigaci\'on a esto es definir no solo las m\'etricas a evaluar si no establecer relaciones entre estas tal como: \textit{if f-score} $== 0 \rightarrow $ \textit{retorna} $-\infty$. Estas restricciones reducen el espacio objetivo y tienen un impacto directo en la b\'usqueda dando a\'un m\'as expresividad a los usuarios de AutoGOAL.
 
 \begin{figure}[ht]
     \centering
@@ -143,7 +143,7 @@ En la esquina superior izquierda se ve como AutoGOAL busca soluciones que tiene 
     \label{impl:fig:haha:fscore_vs_time}
 \end{figure}
 
-Otra de las cosas a notar es que hay algoritmos que toman 10 segundos para ejecutarse y posiblemente las soluciones del sistema se vean l\'imitadas por el tiempo m\'aximo asignado a cada \textit{pipeline}. Se realiza una segunda prueba extendiendo esta restricci\'on hasta 3 minutos con el fin de verificar si aumentando el espacio de objetivo se puede obtener una representaci\'on distinta del frente de Pareto. En este caso la estructura extra\~na del frente se mantiene excepto por la aparici\'on de una nueva soluci\'on que destaca sobre el resto donde se obtiene un \textit{f-score} de 0.76 pero con un tiempo de entrenamiento de 31 segundos utilizando un \textit{Count Vectorizer} sin tokenizar y un  clasificador SGD.
+Otra de las cosas a notar es que hay algoritmos que toman 10 segundos para ejecutarse y posiblemente las soluciones del sistema se vean l\'imitadas por el tiempo m\'aximo asignado a cada \textit{pipeline}. Se realiza una segunda prueba extendiendo esta restricci\'on hasta 3 minutos con el fin de verificar si aumentando el espacio de objetivo se puede obtener una representaci\'on distinta del frente de Pareto. En este caso la estructura extra\~na del frente se mantiene excepto por la aparici\'on de una nueva soluci\'on que destaca sobre el resto con un \textit{f-score} de 0.76 pero con un tiempo de entrenamiento de 31 segundos utilizando un \textit{Count Vectorizer} sin tokenizar y un  clasificador SGD.
 
 \begin{figure}[ht]
     \centering
@@ -155,7 +155,7 @@ Otra de las cosas a notar es que hay algoritmos que toman 10 segundos para ejecu
 \subsubsection{Precisi\'on contra Recobrado}
 Contrario a lo que muestra la evaluaci\'on de Cars con respecto a precisi\'on y recobrado, durante esta prueba no es posible encontrar un flujo que maximice ambas m\'etricas y es necesario hacer concesiones entre una y la otra. El frente, como se observa en la figura \ref{impl:fig:haha:precision_vs_recall} tiene una forma c\'onvexa, consecuencia del conflicto que se crea al optimizar para estas m\'etricas en este conjunto de datos.
 
-Los flujos obtenidos durante la ejecuci\'on de esta fase presentan mucha mayor diversidad con respecto a todas las pruebas anteriores. Los flujos est\'an compuesto en su mayor\'ia por una tupla de t\'ecnicas: un m\'etodo de vectorizaci\'on y un clasificador.
+Los flujos obtenidos durante la ejecuci\'on de esta fase presentan mucha mayor diversidad con respecto a todas las pruebas anteriores. Los flujos est\'an compuesto en su mayor\'ia por una tupla de t\'ecnicas de Aprendizaje: un m\'etodo de vectorizaci\'on y un clasificador.
 
 \begin{figure}[ht]
     \centering
