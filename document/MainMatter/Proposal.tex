@@ -46,7 +46,7 @@ El sistema propuesto est\'a compuesto por un sistema de Aprendizaje de M\'aquina
 \section{MOEA}
 %El algoritmo trabaja con vectores debido a que optimiza para varias m\'etricas, y no con un escalar que es trivial organizar. Como se meciona en \ref{background:def:moo} se hablar ahora de dominaci\'on y el adecuado ordenamiento es vital para escoger puntos del espacio que: (i) pertenzcan a los mejores frentes, (ii) que sean los elementos representativos del frente
 
-Esencialmente cualquier tipo de ordenaci\'on para la que sea suficiente informaci\'on sobre espacio objetivo se puede utilizar. Especif\'icamente para esta propuesta utilizamos una adaptaci\'on de NSGA-II (\cite{deb2002fast}) por ser un algoritmo que sigue una idea intuitiva y tiene un buen rendimiento general, suficiente para demostrar la efectividad de la propuesta.
+Esencialmente cualquier tipo de MOEA que sea suficiente informaci\'on sobre espacio objetivo se puede utilizar. Especif\'icamente para esta propuesta utilizamos una adaptaci\'on de NSGA-II (\cite{deb2002fast}) por ser un algoritmo que sigue una idea intuitiva y tiene un buen rendimiento general, suficiente para demostrar la efectividad de la propuesta.
 
 \subsection{NSGA-II}
 NSGA-II (\cite{deb2002fast}) es un algoritmo multiobjetvo basados en el frente de Pareto caracter\'isticos por dividir el proceso de selecci\'on de los individuos m\'as aptos en dos etapas:
@@ -134,9 +134,9 @@ La nueva poblaci\'on $P_{t+1}$ se utiliza para producir una poblci\'on $Q_{t+1}$
 
 \subsection{NSGA-II Generalizado}
 
-NSGA-II realiza una serie de asumciones sobre las poblaciones que trabajan que no lo hacen perfectamente integrable con nuestra propuesta. Proponemos una adaptaci\'on del algoritmo que conserva sus dos etapas de ranking fundamentales pero con un ciclo principal m\'as sencillo que no aplica operadores gen\'eticos ni modificaciones sobre la poblaci\'on limit\'andolo al espacio objetivo $\mathcal{Y}$.
+NSGA-II realiza una serie de asunciones sobre las poblaciones con las que trabajan que no lo hacen perfectamente integrable con nuestra propuesta. Proponemos una adaptaci\'on del algoritmo que conserva sus dos etapas de ranking fundamentales pero con un ciclo principal m\'as sencillo que no aplica operadores gen\'eticos ni modificaciones sobre la poblaci\'on limit\'andolo al espacio objetivo $\mathcal{Y}$.
 
 \subsubsection{Ciclo Prinicipal}
-El ciclo de nuestra propuesta recibe una poblaci\'on inicial $P$ de tama\~no N y pasa directamente a aplicar \textit{Non Dominated Sorting} con los que se obtiene una lista de frentes de distinto rango $F = \{F^0, ..., F^l\}$ con el objetivo de formar un conjunto $P'$ de tama\~no $k$ que representen los mejores elementos de $P$. Las soluciones que pasan a formar parte de $P'$ se escojen a\~nadiendo en grupos por cada frente $F^i$ hasta que un frente $F^q$ que no pueda a\~nadirse completo. Los puestos restantes se llenan con los elementos de mayor distanica de $F^q$ tras aplicar \textit{Crowding Distance}.
+El ciclo de nuestra propuesta recibe una poblaci\'on inicial $P$ de tama\~no N y pasa directamente a aplicar \textit{Non Dominated Sorting} con los que se obtiene una lista de frentes de distinto rango $F = \{F^0, ..., F^l\}$ con el objetivo de formar un conjunto $P'$ de tama\~no $k$ que representen los mejores elementos de $P$. Las soluciones que pasan a formar parte de $P'$ se escojen a\~nadiendo en grupos por cada frente $F^i$ hasta que cierto frente $F^q$ que no pueda a\~nadirse completo. Los puestos restantes se llenan con los elementos de mayor distanica de $F^q$ tras aplicar \textit{Crowding Distance}.
 
-Se simplifica el ciclo para respetando la idea de la propuesta general y permitir mantener a los sistemas AutoML, la otro componente principal de nuestra propuesta, como una caja negra intercambiable ya que ellos son los que deciden sobre las soluciones que se generan y como se utiliza la informaci\'on sobre los individuos m\'as aptos.
+Se simplifica el ciclo respetando la idea de la propuesta general.  Los sistemas AutoML son los que deciden como generar soluciones y que hacer con la informaci\'on de los m\'as aptos, permitiendo que se puedan utilizar como una caja negra intercambiable.
