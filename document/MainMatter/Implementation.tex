@@ -1,11 +1,11 @@
 % Picar el capitulo entre Implementacion y Experimentos
 % Añadir un p\'arrafo al final de Implementacion de como se utilza el nuevo sistema
 \chapter{AutoGOAL Multiobjetivo}\label{chapter:implementation}
-AutoGOAL (\cite{estevez2020solving}) es un sistema AutoML Heter\'ogeneo modular y f\'acilemente extensible. Modela su espacio de b\'usqueda utilzando Gram\'aticas Probabil\'istica  Libre del Contexto (PCFG, \cite{megane2021probabilistic}), una extensi\'on de las Gram\'aticas Libres del Contexto al asignar a cada producci\'on una probabilidad. Con el fin de dirigir la b\'usqueda utiliza \textit{Probabilistic Grammatic Evolution} (PGE), una modificaci\'on de \textit{Grammatical Evolution}
+AutoGOAL \brackcite{estevez2020solving} es un sistema AutoML Heterog\'eneo modular y f\'acilmente extensible. Modela su espacio de b\'usqueda utilizando Gram\'aticas Probabil\'istica  Libre del Contexto (PCFG) \brackcite{megane2021probabilistic}, una extensi\'on de las Gram\'aticas Libres del Contexto al asignar a cada producci\'on una probabilidad. Con el fin de dirigir la b\'usqueda utiliza \textit{Probabilistic Grammatic Evolution} (PGE) \brackcite{megane2021probabilistic}, una modificaci\'on de \textit{Grammatical Evolution} \brackcite{o2001grammatical}
 %basada en Algoritmos de Estimaci\'on de Distribuci\'on (EDAs)
 para ser usada con PCFG.
 
-PGE est\'a basado en Algoritmos de Estimaci\'on de Distribuci\'on (EDAs) una t\'ecnica evolutiva que remplaza las operaciones de mutaci\'on y cruce por un muestrado sobre las probabilidaes de las producciones de PCFG. Dado una gram\'atica $G$ y una cadena $c \in G$, PGE modifica las probabilidades asociadas a cada producci\'on de $G$ para que las proximas generaciones que utilizen $G$ tengan mayor probabilidad de utilizar las mismas producciones que $c$. Cuando $c$ representa el individuo m\'as aptos entonces las pr\'oximas generaciones tienen mayor probabilidad de conservar sus caracter\'isticas.
+PGE est\'a basado en Algoritmos de Estimaci\'on de Distribuci\'on (EDAs) \brackcite{larranaga2001estimation} una t\'ecnica evolutiva que remplaza las operaciones de mutaci\'on y cruce por un muestreado sobre las probabilidades de las producciones de PCFG. Dado una gram\'atica $G$ y una cadena $c \in G$, PGE modifica las probabilidades asociadas a cada producci\'on de $G$ para que las pr\'oximas cadenas generadas con $G$ tengan mayor probabilidad de utilizar las mismas producciones que $c$. Cuando $c$ representa el individuo m\'as aptos entonces las pr\'oximas generaciones tienen mayor probabilidad de conservar sus caracter\'isticas.
 Este es un algoritmo sencillo pero efectivo que logra un balance entre exploraci\'on y explotaci\'on local haci\'endolo resistente a m\'inimos locales y a la generaci\'on de soluciones iguales.
 
 \section{Implementaci\'on}
@@ -18,16 +18,18 @@ Este es un algoritmo sencillo pero efectivo que logra un balance entre exploraci
 \end{figure}
 
 
-La manera de AutoGOAL de representar su PCFG utilizada para modelar su espacio de decisi\'on es utilizando un grafo ac\'iclico dirigido (DAG) donde cada nodo representa una posible cadena de la gram\'atica y sus aristas apuntan a todas las posibles cadenas a las que se puede expandir sustituyendo alg\'un No Terminal por una producci\'on de la Gram\'atica correspondiente. Cuando una cadena se encuentra completamente expandida, i.e. compuesta por solo simbolos terminales, se tiene una soluci\'on v\'alida del sistema. 
+La manera de AutoGOAL de representar la PCFG utilizada para modelar su espacio de decisi\'on es utilizando un grafo ac\'iclico dirigido (DAG) donde cada nodo representa una posible cadena de la gram\'atica y sus aristas apuntan a todas las posibles cadenas a las que se puede expandir sustituyendo un No Terminal por una producci\'on 
+%de la Gram\'atica
+correspondiente. Cuando una cadena se encuentra completamente expandida, i.e. compuesta por solo s\'imbolos terminales, se tiene una soluci\'on v\'alida del sistema. 
 
-Inicialmente cada arista del DAG se inicializa con una probabilidad igual a todas sus aristas hermanas (i.e. todas las aristas que salen de su mismo nodo) tal que la suma de sus probabilidades sea 1. Un camino se escoge utilizando una variable uniforme donde su valor determina la arista a seleccionar.
+Cada arista del DAG se inicializa con una probabilidad igual a todas sus aristas hermanas (i.e. todas las aristas que salen de su mismo nodo) tal que la suma de sus probabilidades sea 1. Un camino se escoge utilizando una variable uniforme donde su valor determina la arista a seleccionar.
 Una vez que se tiene un individuo apto AutoGOAL aplica PGE sobre el grafo actualizando las probabilidades de todas las aristas seg\'un el camino utilizado por dicho individuo. Esta operaci\'on se realiza sobre los $k$ individuos m\'as aptos de la poblaci\'on generada. %PGE en AutoGOAL utiliza una lista de los $k$ individuos m\'as aptos para actualizar el grafo.
 % Cuando se tiene un individuo apto la manera de AutoGOAL de conservar sus ``genes'' es aplicando PGE sobre las aristas que conforman el camino que condujo a esa soluci\'on. M\'as especificamente, la implementaci\'on de AutoGOAL de PGE dado $n$ individuos, son evaluados respecto a un criterio de evaluaci\'on $f$ y se crea una lista de las $k$ mejores soluciones (encabezada por la m\'as apta) y las aristas de las probabilidades se actualizan de acuerdo a estas soluciones. 
 
 \subsection{NSPGE}
-NSPGE, un algoritmo de b\'usqueda basado en nuestra propuesta, define una nueva ordenaci\'on sobre las soluciones generadas por AutoGOAL. Se define como una clase que hereda directamente de PGE con el objetivo de extender la l\'ogica de PGE encargada de seleccionar los $k$ mejores individuos de acuerdo a $m$ m\'etricas, con $m \ge 2$. PGE define su simple l\'ogica de selecci\'on de individuos dentro del m\'etodo \textit{\_inidices\_of\_the\_fittest\_} el cual NSPGE sobreescribe.
+NSPGE, un algoritmo de b\'usqueda basado en la propuesta del cap\'itulo \ref{chapter:proposal}, define una nueva ordenaci\'on sobre las soluciones generadas por AutoGOAL. Se define como una clase que hereda directamente de PGE con el objetivo de extender la l\'ogica de PGE encargada de seleccionar los $k$ mejores individuos de acuerdo a $m$ m\'etricas, con $m \ge 2$. PGE define su l\'ogica de selecci\'on de individuos dentro del m\'etodo \textit{\_indices\_of\_the\_fittest\_} el cual NSPGE sobreescribe.
 
-La redefinici\'on \textit{\_inidices\_of\_the\_fittest\_} incluye las dos etapas de ordenaci\'on definida por \cite{deb2002fast}. Dado $n$ soluciones se  agrupan seg\'un su \'indice de dominaci\'on (i.e. Non Dominated Sorting), donde cada agrupamiento se le llama frente de rango $i$, donde $i$ representa la cantidad de soluciones que dominan a cada una de estas. Una vez establecidos estos frentes se extraen las primeras $k$ soluciones, en caso de que no se pueda seleccionar un frente completo, se aplica Crowding Distance para seleccionar los individuos m\'as representativa de este.
+La redefinici\'on \textit{\_indices\_of\_the\_fittest\_} incluye las dos etapas de ordenaci\'on definidas por NSGA-II \brackcite{deb2002fast}. Dado $n$ soluciones se  agrupan seg\'un su \'indice de dominaci\'on (i.e. Non Dominated Sorting), donde cada agrupamiento se le llama frente de rango $i$, donde $i$ representa la cantidad de soluciones que dominan a cada una de estas. Una vez establecidos estos frentes se extraen las primeras $k$ soluciones, en caso de que no se pueda seleccionar un frente completo, se aplica Crowding Distance para seleccionar los individuos m\'as representativa de este.
 
 
 \begin{lstlisting}[caption=Nueva ordenaci\'on, language=Python]
@@ -55,10 +57,10 @@ def _indices_of_fittest(self, fns: List[List[float]]):
 \end{lstlisting}
 
 \subsubsection{Non Dominated Sort}
-La ordenaci\'on se conforma por dos pasos l\'ogicos fundamentales:
+Se conforma por dos pasos l\'ogicos fundamentales:
 \begin{enumerate}
-    \item Se verifica todo par de soluciones $x, y$ encontradas y se aplica $x \prec y$ con el objetivo de calcular el \'inidice de dominaci\'on de cada soluci\'on. Adem\'as se construye un DAG conformado por las soluciones donde existe una arista entre las soluciones $x$ y $y$ si $x \prec y$. La ra\'iz de dicho DAG est\'a conformado por las soluciones que nadie domina.
-    \item Se recorre DAG utilizando una versi\'on de BFS (\textit{Breadth First Search}) partiendo por las soluciones que tienen \'indice de dominaci\'on 0. Todas las soluciones visitadas se le es reducido el \'indice de domianci\'on en uno. Si llega a 0 se a\~nade al frente de Pareto que se est\'a formando. Luego se comienza el proceso nuevamente partiendo por las soluciones a las cuales su \'indice se redujo a 0.
+    \item Se verifica todo par de soluciones $x, y$ encontradas y se aplica $x \prec y$ con el objetivo de calcular el \'indice de dominaci\'on de cada soluci\'on. Adem\'as se construye un DAG conformado por las soluciones donde existe una arista entre las soluciones $x$ y $y$ si $x \prec y$. La ra\'iz de dicho DAG est\'a conformado por las soluciones que nadie domina.
+    \item Se recorre DAG utilizando una versi\'on de BFS (\textit{Breadth First Search}) partiendo por las soluciones que tienen \'indice de dominaci\'on 0. Todas las soluciones visitadas se les reduce el \'indice de dominaci\'on en uno. Si llega a 0 se a\~nade al frente de Pareto que se est\'a formando. Luego se comienza el proceso nuevamente partiendo por las soluciones a las cuales su \'indice se redujo a 0.
 \end{enumerate}
 
 \begin{lstlisting}[caption=Non Dominated Sorting, language=Python]
@@ -103,7 +105,7 @@ def non_dominated_sort(self, scores: List[List[float]]):
 \end{lstlisting}
 
 \subsubsection{Crowding Distance}
-Se sigue la idea del algoritmo propuesto en (\ref{proposal:alg:cd}). Dado $m$ m\'etricas a evaluar se realizan $m$ iteraciones, donde en cada una se ordena un frente de rango $k$ de acuerdo a la metrica $m_i$. Las soluciones que con respecto a la m\'etrica $m_i$ tienen el m\'inimo y mayor valor se les asigna distancia infinita y luego se c\'alculan los valores intermedios. En \cite{deb2002fast} requiren que las componentes de los vectores soluci\'on esten normalizadas antes de ejecutar \textit{Crowding Distance}, en nuestra implementaci\'on utilizamos \textit{feature scaling} para normalizar los valores entre 0 y 1.
+Se sigue la idea del algoritmo propuesto en (\ref{proposal:alg:cd}). Dado $m$ m\'etricas a evaluar se realizan $m$ iteraciones, donde en cada una se ordena un frente de rango $k$ de acuerdo a la m\'etrica $m_i$. Las soluciones que con respecto a la m\'etrica $m_i$ tienen el m\'inimo y mayor valor se les asigna distancia infinita y luego se c\'alculan los valores intermedios. Las componentes de los vectores soluci\'on se normalizan antes de ejecutar \textit{Crowding Distance} aplicando \textit{feature scaling} para llevar tods los valores al rango [0, 1].
 
 \begin{lstlisting}[caption=Crowding Distance Sorting, language=Python]
 def crowding_distance(
@@ -141,13 +143,13 @@ Adem\'as de la adici\'on de la clase NSPGE, la infraestructura interna de AutoGO
 \begin{itemize}
     \item La clase AutoML retorna el conjunto de mejores soluciones encontradas y su evaluaci\'on en vez de la mejor.
     \item El algoritmo base que explora el espacio de b\'usqueda utiliza el concepto de \textit{Pareto dominaci\'on} para comparar la evaluaci\'on de las soluciones.
-    \item En cada  iteraci\'on se almacena los $k$ mejores individuos encontrados y no el m\'as apto respecto a una s\'ola m\'etrica.
+    \item En cada  iteraci\'on se almacena los $k$ mejores individuos encontrados y no el m\'as apto respecto a una sola m\'etrica.
     \item El algoritmo se detiene cuando no encuentra ninguna soluci\'on mejor que alguna de las $k$ mejores.
-    \item La respuesta del algoritmo es $F^0$ el frente de rango $0$ de las mejores soluciones encontradas durante todo el ciclo de ejecuci\'on.
+    \item La respuesta del algoritmo es el frente de rango $0$ de las mejores soluciones encontradas durante todo el ciclo de ejecuci\'on.
 \end{itemize}
 
 \section{Aplicaci\'on de Autogoal Multiobjetivo}
-AutoGOAL Multiobjetivo mantiene la misma interfaz que AutoGOAL. Para utilizar esta nueva ordenaci\'on se necesita  se\~nalar el algoritmo de b\'usqueda a utilizar con el par\'ametro \textbf{search\_algorithm}.Adem\'as es necesario definir una m\'etrica que retorne 2 o m\'as valores en \textbf{score\_metric} y especificar por cada una si se desea maximizar o minimizar utilizando el par\'ametro  \textbf{maximize}. 
+AutoGOAL Multiobjetivo mantiene la misma interfaz que AutoGOAL. Para utilizar esta nueva ordenaci\'on se necesita  se\~nalar el algoritmo de b\'usqueda a utilizar con el par\'ametro \textbf{search\_algorithm}. Adem\'as es necesario definir una m\'etrica que retorne 2 o m\'as valores en \textbf{score\_metric} y especificar por cada una si se desea maximizar o minimizar utilizando el par\'ametro  \textbf{maximize}. 
 
 \begin{lstlisting}[caption=Utilizando NPSGE, language=Python]
 from autogoal.datasets import cars

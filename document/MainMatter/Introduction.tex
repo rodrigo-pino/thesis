@@ -1,26 +1,32 @@
 \chapter*{Introducción}\label{chapter:introduction}
 \addcontentsline{toc}{chapter}{Introducción}
-Vivimos en una sociedad cada vez m\'as digitalizada donde algoritmos de inteligencia artificial se integran progresiva y gradualmente a nuestras vidas. En la medicina para la predicci\'on de enfermedades como el c\'ancer (\cite{kourou2015machine}), las noticias  recomendadas basadas en nuestros gustos online (\cite{liu2010personalized}), los carros inteligentes que se conducen a si mismos con m\'inima interacci\'on por parte del piloto (\cite{badue2021self}), detecci\'on de sentimientos de odio en un texto (\cite{fortuna2018survey}) e incluso en el arte, donde sistemas producen im\'agenes partiendo de descripciones textuales (\cite{xu2018attngan}).
+La sociedad moderna est\'a cada vez m\'as digitalizada donde algoritmos de inteligencia artificial se integran progresiva y gradualmente a nuestras vidas. En la medicina para la predicci\'on de enfermedades como el c\'ancer \brackcite{kourou2015machine}, las noticias  recomendadas basadas en nuestros gustos online \brackcite{liu2010personalized}, los carros inteligentes que se conducen a s\'i mismos con m\'inima interacci\'on por parte del piloto \brackcite{badue2021self}, detecci\'on de sentimientos de odio en un texto \brackcite{fortuna2018survey} e incluso en el arte, donde sistemas producen im\'agenes partiendo de descripciones textuales \brackcite{xu2018attngan}.
 
-El Aprendizaje Autom\'atico (\textit{Machine Learning} en ingl\'es) es una rama de la inteligencia artificial que compone el n\'ucleo de estas aplicaciones, no obstante, el n\'umero de expertos disponibles sobre el tema no es suficiente para la creciente demanda de programas de este tipo. Los modelos o flujos de aprendizaje de m\'aquina requieren para su correcto funcionamiento de un buen dise\~no determinado por la selecci\'on de t\'ecincas de aprendizaje e hiperpar\'ametros que lo componen. La modelaci\'on  es una ardua tarea que requiere conocimientos, experiencia y abundante prueba y error. Con el objetivo de mitigar est\'a insuficiencia nace el Aprendizaje de M\'aquina Automatizado, una l\'inea de investigaci\'on dirigida a automatizar esta parte del proceso.
+El Aprendizaje Autom\'atico (\textit{Machine Learning} en ingl\'es) es una rama de la inteligencia artificial que compone el n\'ucleo de estas aplicaciones, no obstante, el n\'umero de expertos disponibles sobre el tema no es suficiente para la creciente demanda de programas de este tipo. Los modelos o flujos de aprendizaje de m\'aquina requieren para su correcto funcionamiento de un buen dise\~no determinado por la selecci\'on de t\'ecnicas de aprendizaje e hiperpar\'ametros que lo componen. 
+La modelaci\'on  es una tarea que requiere conocimientos, experiencia y abundante prueba y error.
+% TODO: Mejorar escritura, cual es la insuficiencia  no queda claro
+Con el objetivo de mitigar est\'a insuficiencia nace el Aprendizaje de M\'aquina Automatizado, una l\'inea de investigaci\'on dirigida a automatizar esta parte del proceso.
 
-Los programas que resuelven el problema de Aprendizaje Automatizado se le conocen como sistemas AutoML y var\'ian en la parte de trabajo del experto que desean automatizar: desde la selecci\'on autom\'atica de hiperpar\'ametros (\cite{feurer2019hyperparameter}) a  la selecci\'on de modelos (\cite{thornton2013auto}) o ambos  simult\'anemante. El objetivo general de estos sistemas es producir una selecci\'on tal que el modelo final maximice lo m\'as posible respecto a cierta m\'etrica o criterio de evaluaci\'on. Usualmente esta m\'etrica representa la relevancia de los resultados obtenidos.
-% Estos sistemas en general reciben como entrada un conjunto de datos y una m\'etrica de evaluaci\'on y retornan un modelo de Aprendizaje Autom\'atico que tenga el mayor rendimiento de acuerdo a dicha m\'etrica. Normalmente los criterios de evaluaci\'on utilizados miden la relevancia de las respuestas del modelo. 
+Los programas que resuelven el problema de Aprendizaje Automatizado son conocidos como sistemas AutoML y var\'ian en la parte de trabajo del experto que desean automatizar: desde la selecci\'on autom\'atica de hiperpar\'ametros \brackcite{feurer2019hyperparameter} a la selecci\'on de modelos \brackcite{thornton2013auto} o ambos  simult\'aneamente. El objetivo general de estos sistemas es producir una selecci\'on tal que el modelo final maximice  respecto a cierta m\'etrica o criterio de evaluaci\'on. 
+% TODO: Esta oracion necesita cita?
+Usualmente esta m\'etrica representa la relevancia de los resultados obtenidos.
 
-En el contexto actual, existen problemas para los cuales ya no es suficiente que un modelo de Aprendizaje Autom\'atico obtenga resultados relevantes pues se requiere adem\'as un buen desempe\~no respecto a criterios adicionales. En el campo del Aprendizaje de M\'aquina Automatizado esto implica la necesidad de incrementar la expresividad para describir los problemas con tal de obtener mayor control sobre las soluciones que estos generan. Entre las propuestas  para lograr esto se encuentra la adici\'on  de optimizaci\'on sim\'ultanea de m\'ultipes criterios de evaluaci\'on a los sistemas AutoML  tal que los modelos de Aprendizaje Autom\'atico producidos tengan buen rendimiento en estos.   
+En el contexto actual, existen problemas para los cuales ya no es suficiente que un modelo de Aprendizaje Autom\'atico obtenga resultados relevantes pues se requiere adem\'as un buen desempe\~no respecto a criterios adicionales. En el campo del Aprendizaje de M\'aquina Automatizado esto implica la necesidad de incrementar la expresividad para describir los problemas con tal de obtener mayor control sobre las soluciones que estos generan. Entre las propuestas para lograr esto se encuentra la adici\'on de optimizaci\'on simult\'anea de m\'ultiples criterios de evaluaci\'on a los sistemas AutoML  tal que los modelos de Aprendizaje Autom\'atico producidos tengan buen rendimiento en estos.   
 
 \section*{Motivaci\'on}
 % Los modelos de Aprendizaje de M\'aquina forman cada vez m\'as y m\'as parte de la vida diaria, aplic\'andose en situaciones directamente  relacionadas con la vida de los seres humanos. 
-Un poblema conocido y estudiado es el sesgo en los flujos de Aprendizaje de M\'aquina. Existen casos donde ciertas caracter\'isticas de los datos pueden provocar que las predicciones de un modelo se encuentren parcializadas en favor de una mayor\'ia  (\cite{mehrabi2021survey}) afectando su capacidad de predicci\'on. Esto tiene mayor importancia cuando los datos representan seres humanos y la decisi\'on del modelo tiene un impacto directo o indirecto en la vida de un individuo o grupo. Se desea que el algoritmo no discrimine por el color de piel, g\'enero o regi\'on y a la vez sus resultados se mantengan relevantes. Es necesario entonces que el flujo sea capaz de poder optimizar tanto  relevancia como  nivel de justeza, un problema multiobjetivo.
+% TODO: Reescribir este parrafo para que se entienda que se sigue hablando de Multiobjetivo, y de xq es imortante
+Un problema conocido y estudiado es el sesgo en los flujos de Aprendizaje de M\'aquina. Existen casos donde ciertas caracter\'isticas de los datos pueden provocar que las predicciones de un modelo se encuentren parcializadas en favor de una mayor\'ia  \brackcite{mehrabi2021survey} afectando su capacidad de predicci\'on. Esto tiene mayor importancia cuando los datos representan seres humanos y la decisi\'on del modelo tiene un impacto directo o indirecto en la vida de un individuo o grupo. Se desea que el modelo no discrimine por el color de piel, g\'enero o regi\'on y a la vez sus resultados se mantengan relevantes. Es necesario entonces que el flujo sea capaz de poder optimizar tanto  relevancia como  nivel de justeza, un problema multiobjetivo.
 
-Tambi\'en hay situaciones donde se desea obtener un modelo que sea relevante a la par de \textit{interpretable}, que implica entender sin necesidad de ser un experto porque el flujo toma ciertas decisiones; o cuan \textit{robusto} es, tal que perturbaciones en los datos de entrada no cambien radicalmente el resultado de este.
+% TODO: Poner referencia  a situaciones de interpretabilidad y de robustez
+Tambi\'en hay situaciones donde se desea obtener un modelo que sea relevante a la par de \textit{interpretable}, que implica entender sin necesidad de ser un experto porque el flujo toma ciertas decisiones, o cu\'an \textit{robusto} es, tal que perturbaciones en los datos de entrada no cambien radicalmente el resultado de este.
 
-La adici\'on de optimizaci\'on multibojetivo en AutoML abr\'e las puertas tambi\'en a m\'etricas que no tienen sentido usarlas individualemente como \textit{precisi\'on} y \textit{recobrado}. 
- \textit{Precisi\'on} mide la proproci\'on entre los valores relevantes identificados y todos los valores identificados
- mientras que \textit{recobrado} mide la proporci\'on entre los valores relevantes identificados y todos los valores relevantes;
-m\'etricas que usadas por separado no son represantivas pues basta para tener un recobrado perfecto seleccionar todos los elementos del conjunto de datos, y una precisi\'on casi perfecta escogiendo un pequeño conjunto de elementos.
-\textit{F-score} relaciona ambas medidas y permite el uso de  param\'etros para priorizar una o la otra seg\'un el investigador determine. 
-Un sistema AutoML Multiobjetivo puede prescindir de m\'etricas como \textit{f-score} pues es capaz de optmizar en paralelo para todos los criterios que la componen.
+La optimizaci\'on multiobjetivo en AutoML permite el uso de m\'etricas que no tienen sentido usarlas individualemente como \textit{precisi\'on} y \textit{recobrado}. 
+ \textit{Precisi\'on} mide la proporci\'on entre los valores relevantes identificados y todos los valores identificados
+ mientras que \textit{recobrado} mide la proporci\'on entre los valores relevantes identificados y todos los valores relevantes.
+Estas m\'etricas cuando se usan por separado no representan la relevancia de un modelo pues basta para tener un recobrado perfecto seleccionar todos los elementos del conjunto de datos, y una precisi\'on casi perfecta escogiendo un pequeño conjunto de elementos.
+\textit{F-score} relaciona ambas medidas y permite el uso de  par\'ametros para priorizar una o la otra seg\'un el investigador determine. 
+Un sistema AutoML Multiobjetivo puede prescindir de m\'etricas como \textit{f-score} pues es capaz de optimizar en paralelo para todos los criterios que la componen.
 %que pueda realizar una b\'usqueda optimizando en paralelo para ambos criterios y obtener soluciones que representen todas las maneras de parametrizar \textit{f-score} en una solo ciclo de ejecuci\'on.
 %puede producir soluciones variadas cada una representativa de ejecutar el problema con el f-score variando los parametros.
 
@@ -31,20 +37,22 @@ Un sistema AutoML Multiobjetivo puede prescindir de m\'etricas como \textit{f-sc
 % - Partir de que hay un estudio sobre sesgos en inteligencia artificial
 % - Por ende, se quiere trabajar en una propuesta que permita multiobjetivo
 
-En el entorno del grupo de Inteligencia Artificial de la facultad de Matem\'aticas y Computaci\'on de la Universidad de La Habana se desarrolla diversas l\'ineas de investigaci\'on centradas en el Aprendizaje de M\'aquina Automatizado. AutoGOAL (\cite{estevez2020solving}) es una herramienta creada por el colectivo con el objetivo de resolver el problema AutoML heter\'ogeneo.
+% TODO: Es necesario especificar a que colectivo me refiero
+En el entorno del grupo de Inteligencia Artificial de la facultad de Matem\'aticas y Computaci\'on de la Universidad de La Habana se desarrolla diversas l\'ineas de investigaci\'on centradas en el Aprendizaje de M\'aquina Automatizado. AutoGOAL \brackcite{estevez2020solving} es una herramienta creada por el colectivo con el objetivo de resolver el problema AutoML Heterog\'eneo.
 
-La entidad tambi\'en desarrolla otras l\'ineas donde se estudia la posible mitigaci\'on de sesgos en flujos producidos por sistemas AutoML (\cite{consuegra2022intelligent}).
+La entidad tambi\'en desarrolla otras l\'ineas donde se estudia la posible mitigaci\'on de sesgos en flujos producidos por sistemas AutoML \brackcite{consuegra2022intelligent}. 
+%Esto requiere de poder optimizar para m\'etricas adicionales como justeza.
 
-Este trabajo es una propuesta que pretende mejorar la expresividad que tienen los usuarios para la b\'usqueda de sus soluciones permitendo la utilizaci\'on de varias m\'etricas.
+% Este trabajo es una propuesta que pretende incrementar la expresividad con que se pueden definir problema se AutoML. que tienen los usuarios para la b\'usqueda de sus soluciones permitendo la utilizaci\'on de varias m\'etricas.
 %AutoGOAL una herramienta de AutoML que utilza algoritmos gen\'eticos y permite genera 
 
 \section*{Problem\'atica}
 % No darle la vuelta al pollo
-% Decir cual es el problema: Poder utilizar optimizacion mulitobjetivo dentro de AutoGOAL
+% Decir cual es el problema: Poder utilizar optimizacion multiobjetivo dentro de AutoGOAL
 Resolver el problema multiobjetivo en AutoML es un tema poco estudiado y con aplicaciones pr\'acticas en la actualidad.
 Los sistemas AutoML de mayor reconocimento en el campo solo son capaces de optimizar para una sola m\'etrica. 
 
-Los sistemas de AutoML utilizan espacios de b\'usqueda ca\'oticos y no diferenciables para los cuales se necesitan algoritmos agn\'osticos a esos espacios y resistente a formas extra\~nas del frente de Pareto. Es necesario definir un algoritmo evolutivo multiobjetivo lo suficientemente general que resuelva el problema multiobjetivo y sea compatible con cualquier sistema de AutoML.
+Los sistemas de AutoML utilizan espacios de b\'usqueda ca\'oticos y no diferenciables para los cuales se necesitan algoritmos agn\'osticos a esos espacios y resistentes a formas extra\~nas del frente de Pareto. Es necesario definir un algoritmo evolutivo multiobjetivo lo suficientemente general que resuelva el problema multiobjetivo y que sea compatible con cualquier sistema de AutoML.
 
 % La capacidad de optimizar paralelamente para varios objetivos no resulta trivial y es necesario la integraci\'on de un algoritmo que sea lo m\'as resistente a este espacio sin sacrificar la obtenci\'on de buenos resultados. En la literatura hay varios ejemplos de optimizaci\'on multiobjetivo pero ninguno aplicado directamente al campo del AutoML. Los algoritmos evoluacionarios han resultado ser los mejores para la optimizaci\'on multiobjetivo pues cumplen con estas caracter\'isticas.
 
@@ -62,10 +70,11 @@ Optimizaci\'on Multiobjetivo para sistemas AutoML
 \subsection*{Objetivos Espec\'ificos}
 \begin{itemize}
     \item Estudiar el estado del arte sobre sistemas de Aprendizaje de M\'aquina Automatizado
-    \item Estudiar conceptos y principios de la optimizaci\'on mulitobjetivo y sus aplicaciones en el campo del Aprendizaje de M\'aquina Automatizado
+    \item Estudiar conceptos y principios de la optimizaci\'on multiobjetivo y sus aplicaciones en el campo del Aprendizaje de M\'aquina Automatizado
     \item Identificar e implementar un algoritmo multiobjetivo que aproveche la estructura de AutoGOAL y su implementaci\'on de Probabilistic Grammatic Evolution (PGE)
     \item Experimentar y analizar los resultados de aplicar AutoGOAL Multiobjetivo a problemas conocidos de la literatura.
 \end{itemize}
 
 \section*{Estructura de la Tesis}
-El resto del documenta se encuentra organizado de la siguiente manera. En el cap\'itulo 1 se estudia t\'ecinas de AutoML y optimizaci\'on multobjetivo que conforman el estado del arte, as\'i como ejemplos de sistemas AutoML que apliquen t\'ecnicas de optimizaci\'on multiobjetivo. En el cap\'itulo 2 se desarrolla una propuesta generalizada para resolver el problema de AutoML Heterog\'eneo utilizando optimizaci\'on mulitobjetivo. El cap\'itulo 3 muestra una implementaci\'on de la propuesta utilizando AutoGOAL. En el cap\'itulo 4 se muestran resultados obtenidos tras aplicar la propuesta en tres corpus de datos distintos utilizando otpimizaci\'on multibojetivo para dos pares de m\'etricas. Finalmente, en el cap\'itulo 5 se presentan las conclusiones de la investigaci\'on.
+El resto del documenta se encuentra organizado de la siguiente manera. En el cap\'itulo \ref{chapter:state-of-the-art} se estudia t\'ecinas de AutoML y optimizaci\'on multiobjetivo que conforman el estado del arte, as\'i como ejemplos de sistemas AutoML que apliquen t\'ecnicas de optimizaci\'on multiobjetivo. En el cap\'itulo \ref{chapter:proposal} se desarrolla una propuesta generalizada para resolver el problema de AutoML Heterog\'eneo utilizando optimizaci\'on multiobjetivo. El cap\'itulo \ref{chapter:implementation} muestra una implementaci\'on de la propuesta utilizando AutoGOAL. Finalmente, En el cap\'itulo \ref{chapter:experiments} se muestran resultados obtenidos tras aplicar la propuesta en tres corpus de datos distintos utilizando optimizaci\'on multiobjetivo para dos pares de m\'etricas. 
+% Finalmente, en el cap\'itulo 5 se presentan las conclusiones de la investigaci\'on.

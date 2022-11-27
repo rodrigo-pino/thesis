@@ -1,21 +1,21 @@
 \chapter{Experimentaci\'on y Resultados}\label{chapter:experiments}
-En este cap\'itulo se evaluan los resultados obtenidos por AutoGOAL Multiobjetivo tras aplicarse sobre tres corpus de datos utilizando los pares de m\'etricas precis\'on contra recobrado y \textit{f-score} contra tiempo de entrenamiento:
+En este cap\'itulo se eval\'uan los resultados obtenidos por AutoGOAL Multiobjetivo tras aplicarse sobre tres corpus de datos utilizando los pares de m\'etricas precis\'on contra recobrado y \textit{f-score} contra tiempo de entrenamiento:
 \begin{itemize}
     \item Precisi\'on es una m\'etrica que mide las muestras clasificadas correctamente entre todas las muestras extra\'idas.
     \item Recobrado mide las muestras clasificadas correctamente sobre todas las extra\'idas.
-    \item \textit{F-score} es el promedio harm\'onico entre precisi\'on y recobrado.
+    \item \textit{F-score} es el promedio arm\'onico entre precisi\'on y recobrado.
     \item \textit{Tiempo de entrenamiento} es un estimado que mide cuanto tiempo toma para una flujo de Aprendizaje Autom\'atico en realizar el proceso de entrenamiento.
 \end{itemize}
 
-Se utiliza el par de metricas precisi\'on y recobrado pues son crietrios que pueden tener comportamientos variados. Existen problemas donde es posble maximizar ambas y otros donde es obligatorio realizar consesiones entre estas tal que no exista una mejor soluci\'on sino un conjutno de estas.
+Se utiliza el par de metricas precisi\'on y recobrado pues son criterios que pueden tener comportamientos variados. Existen problemas donde es posible maximizar ambas y otros donde es obligatorio realizar concesiones entre estas tal que no exista una mejor soluci\'on sino un conjunto de estas.
 
 Se utilza \textit{f-score} contra tiempo de entrenamiento para probar si es posible dirigir efectivamente  la b\'usqueda maximizando la relevancia y minimizando el tiempo de ejecuci\'on. Es posible utilzar tambi\'en precisi\'on y recobrado junto con tiempo de entrenamiento pero con el objetivo de mantener estos primeros experimentos m\'as sencillos se utiliza \textit{f-score}.
 
 \section{Corpus de Evaluaci\'on}
-Se utilizan tres corpus de datos para comprobar el comportamiento del sistema cuando optmiza para varias m\'etricas simult\'aneamente. Los corpus se escogen de distintos tamaños y cada uno representa versiones distintas del problema de aprendizaje supervisado.
+Se utilizan tres corpus de datos para comprobar el comportamiento del sistema cuando optimiza para varias m\'etricas simult\'aneamente. Los corpus se escogen de distintos tamaños y cada uno representa versiones distintas del problema de aprendizaje supervisado.
 
 \subsection{CARS}
-Cars (\cite{Dua:2019}) es un corpus que representa un conjunto de carros con ciertas caracter\'isticas cat\'alogadas cualitativamente (ver \ref{implementation:table:cars:attributes}). El objetivo con este corpus es aprender a clasificar los carros de  acuerdo a sus atributos  en inaceptable, aceptable, bueno o muy bueno (\ref{implementation:table:cars:classes}). El dataset no tiene valores desconocidos.
+Cars (\cite{Dua:2019}) es un corpus que representa un conjunto de carros con ciertas caracter\'isticas catalogadas cualitativamente (ver \ref{implementation:table:cars:attributes}). El objetivo con este corpus es aprender a clasificar los carros de  acuerdo a sus atributos  en inaceptable, aceptable, bueno o muy bueno (\ref{implementation:table:cars:classes}). El corpus no tiene valores desconocidos.
 
 \begin{table}[ht]
     \centering
@@ -63,7 +63,7 @@ Cars (\cite{Dua:2019}) es un corpus que representa un conjunto de carros con cie
 \end{table}
 
 \subsection{HAHA}
-Humor Analysis based on Human Annotation (\cite{chiruzzo2019overview}) representa un conjunto de datos que contiene \textit{tweets} en espa\~nol en texto plano codificado en utf-8. Se quiere construir un clasificador que pueda catalogarlos correctamente entre si son humor\'isticos o no. Contiene un total de 30000 tweets donde se utilizan 24000 para entrenaiento y 6000 para evaluaci\'on.
+Humor Analysis based on Human Annotation (\cite{chiruzzo2019overview}) representa un conjunto de datos que contiene \textit{tweets} en espa\~nol en texto plano codificado en utf-8. Se quiere construir un clasificador que pueda catalogarlos correctamente entre si son humor\'isticos o no. Contiene un total de 30000 tweets donde se utilizan 24000 para entrenamiento y 6000 para evaluaci\'on.
 
 \begin{table}[ht]
     \centering
@@ -99,12 +99,12 @@ En esta secci\'on se muestran los resultados obtenidos tras aplicar AutoGOAL Mul
 En cada conjunto de datos se utilizaron param\'etros distintos debido fundamentalmene a que cada corpus representa problemas con diferente complejidad y cantidad de datos.
 
 \subsection{Cars}
-La aplicaci\'on de AutoGOAL en Cars utilza una poblaci\'on total de 40 individuos por generaci\'on, 1 hora de tiempo m\'aximo y 10 segundos de tiempo l\'imite por \textit{pipeline}. Se utilizaron las implementaciones de \textit{f-score}, \textit{precision} y \textit{recall} de Scikit-Learn (\cite{pedregosa2011scikit}) con el promedio \textit{weighted} utilizado para problemas de clasificaci\'on multiclase que pueden tener un desbalance en las clases existentes.
+La aplicaci\'on de AutoGOAL en Cars utiliza una poblaci\'on total de 40 individuos por generaci\'on, 1 hora de tiempo m\'aximo y 10 segundos de tiempo l\'imite por \textit{pipeline}. Se utilizaron las implementaciones de \textit{f-score}, \textit{precision} y \textit{recall} de scikit-learn (\cite{pedregosa2011scikit}) con el promedio \textit{weighted} utilizado para problemas de clasificaci\'on multiclase que pueden tener un desbalance en las clases existentes.
 
 \subsubsection{F-Score contra Tiempo de Entrenamiento}
 La mayor\'ia de las soluciones encontradas componen un frente de Pareto con una forma extra\~na aparentemente c\'oncava pero bien distribuida sobre el espacio (ver figura \ref{impl:fig:cars:fscore_vs_time}).  El sistema encuentra  m\'ultiples soluciones de muy buen \textit{f-score} la mayor\'ia dirigidas a minimizar el tiempo de entrenamiento. 
 
-L.os algoritmos que logran una puntuaci\'on de 1.0 tiene en com\'un que todos utilizan \textit{Suppport Vector Machines} (SVC). En el rango de 0.7 a 0.9 se encuentran pipelines con distintas t\'ecincas como \textit{Nearest Centroid}, \textit{Multinomial Naive Bayes}, \textit{Bernoulli Naive Bayes} y SVC l\'ineal.
+L.os algoritmos que logran una puntuaci\'on de 1.0 tiene en com\'un que todos utilizan \textit{Suppport Vector Machines} (SVC). En el rango de 0.7 a 0.9 se encuentran pipelines con distintas t\'ecnicas como \textit{Nearest Centroid}, \textit{Multinomial Naive Bayes}, \textit{Bernoulli Naive Bayes} y SVC l\'ineal.
 
 \begin{figure}[ht]
     \centering
@@ -115,9 +115,9 @@ L.os algoritmos que logran una puntuaci\'on de 1.0 tiene en com\'un que todos ut
 
 
 \subsubsection{Precisi\'on contra Recobrado}
-Durante esta prueba ocurre un hecho interesante, ni precisi\'on ni recobrado entr\'an en conflicto y por tanto no es necesario hacer concesiones entre una o la otra durante la optimizaci\'on. Se puede observar en la figura \ref{impl:fig:cars:precision_vs_recall} que el frente de Pareto esta consituido por un s\'olo punto donde se maximizan precisi\'on y recobrado. Tambi\'en se nota como las soluciones van mejorando con el transcurso de las iteraciones.
+Durante esta prueba  ni precisi\'on ni recobrado entr\'an en conflicto y por tanto no es necesario hacer concesiones entre una o la otra durante la optimizaci\'on. Se puede observar en la figura \ref{impl:fig:cars:precision_vs_recall} que el frente de Pareto esta consituido por un s\'olo punto donde se maximizan precisi\'on y recobrado. Tambi\'en se nota como las soluciones van mejorando con el transcurso de las iteraciones.
 
-AutoGOAL encontr\'o 5 soluciones compuestas entre otras t\'ecincas por SVC con un rendimiento perfecto. En este caso hay flujos m\'as complejos con respecto a la prueba anterior pues no se discrimina por tiempo de entrenamiento.
+AutoGOAL encontr\'o 5 soluciones compuestas, entre otras t\'ecnicas, por SVC con un rendimiento perfecto. En este caso hay flujos m\'as complejos con respecto a la prueba anterior pues no se discrimina por tiempo de entrenamiento.
 
 \begin{figure}[ht]
     \centering
@@ -127,8 +127,8 @@ AutoGOAL encontr\'o 5 soluciones compuestas entre otras t\'ecincas por SVC con u
 \end{figure}
 
 \subsection{HAHA}
-Se utilzo una poblaci\'on total de 40 individuos, 8 horas de tiempo m\'aximo y 10 segundos por  evaluaci\'on. 
-HAHA es un problema de clasificaci\'on binario y las m\'etricas \textit{f-score}, precisi\'on y recobrado son las implementadas en Scikit-Learn (\cite{pedregosa2011scikit}) utilizando promedio binario.
+Se utilizo una poblaci\'on total de 40 individuos, 8 horas de tiempo m\'aximo y 10 segundos por  evaluaci\'on. 
+HAHA es un problema de clasificaci\'on binario y las m\'etricas \textit{f-score}, precisi\'on y recobrado son las implementadas en scikit-learn (\cite{pedregosa2011scikit}) utilizando promedio binario.
 
 \subsubsection{F-Score contra Tiempo de Entrenamiento}
 
@@ -164,7 +164,7 @@ Los flujos obtenidos durante la ejecuci\'on de esta fase presentan mucha mayor d
     \label{impl:fig:haha:precision_vs_recall}
 \end{figure}
 
-Cuando se optimza con tiempo m\'aximo de tres minutos (ver figura \ref{impl:fig:haha:precision_vs_recall_3min}) no se muestra ning\'un cambio notable con respecto a la anterior prueba. 
+Cuando se optimiza con tiempo m\'aximo de tres minutos (ver figura \ref{impl:fig:haha:precision_vs_recall_3min}) no se muestra ning\'un cambio notable con respecto a la anterior prueba. 
 
 \begin{figure}[ht]
     \centering
@@ -181,7 +181,7 @@ El entrenamiento en esta prueba resultaron ser m\'as lentos y no fue posible rea
 
 
 \subsubsection{F-Score contra Tiempo de Entrenamiento}
-En esta prueba se ve un comportamiento similar a las anteriores como puede observar en la figura  \ref{impl:fig:MEDDOCAN:fscore_vs_train_time} un poco m\'as acentuado en lo que se refiere a m\'etricas de tiempo de entrenamiento pues la diferencia pasa de ser de segundos a minutos. Existe una soluci\'on con un tiempo de 160 segundos y una precision de 0.83 contra una de 230 segundos y una precisi\'on cercana a 0.9. Existe variedad de t\'ecnicas y tama\~no en los flujos generados .
+En esta prueba se ve un comportamiento similar a las anteriores como puede observar en la figura  \ref{impl:fig:MEDDOCAN:fscore_vs_train_time} un poco m\'as acentuado en lo que se refiere a m\'etricas de tiempo de entrenamiento pues la diferencia pasa de ser de segundos a minutos. Existe una soluci\'on con un tiempo de 160 segundos y una precisi\'on de 0.83 contra una de 230 segundos y una precisi\'on cercana a 0.9. Existe variedad de t\'ecnicas y tama\~no en los flujos generados .
 
 
 \begin{figure}[ht]
@@ -193,9 +193,9 @@ En esta prueba se ve un comportamiento similar a las anteriores como puede obser
 
 
 \subsubsection{Precisi\'on contra Recobrado}
-En esta prueba, representada en la figura \ref{impl:fig:MEDDOCAN:precision_vs_recall}, debido a la poca cantiad de iteraciones se obtiene una representaci\'on muy probre del frente de Pareo. No queda claro si estamos frente a un caso parecido al de precisi\'on contra recobrado de Cars (\ref{impl:fig:cars:precision_vs_recall}) donde las m\'etricas no entran en conflicto y es posible optimizar para ambas, o mas parecido al caso en HAHA (\ref{impl:fig:haha:precision_vs_recall}) donde es obligatorio realizar concesiones.
+En esta prueba, representada en la figura \ref{impl:fig:MEDDOCAN:precision_vs_recall}, debido a la poca cantidad de iteraciones se obtiene una representaci\'on muy pobre del frente de Pareo. No queda claro si estamos frente a un caso parecido al de precisi\'on contra recobrado de Cars (\ref{impl:fig:cars:precision_vs_recall}) donde las m\'etricas no entran en conflicto y es posible optimizar para ambas, o mas parecido al caso en HAHA (\ref{impl:fig:haha:precision_vs_recall}) donde es obligatorio realizar concesiones.
 
-Un dato interesante de esta prueba en comparaci\'on a cuando se optimiza \textit{f-score} contra tiempo de entrenamiento es que esta realizo menos iteraciones en el mismo rango de tiempo, visible por la diferencia de puntos graficados entre ambas. Esto sugiere que al optimizar utilizando el tiempo como una m\'etrica hace que el sistema priorize flujos r\'apidos de entrenar afectando positivamente la velocidad de b\'usqueda de AutoGOAL.
+Un dato interesante de esta prueba en comparaci\'on a cuando se optimiza \textit{f-score} contra tiempo de entrenamiento es que esta realiz\'o menos iteraciones en el mismo rango de tiempo, visible por la diferencia de puntos graficados entre ambas. Esto sugiere que al optimizar utilizando el tiempo como una m\'etrica hace que el sistema priorice flujos r\'apidos de entrenar afectando positivamente la velocidad de b\'usqueda de AutoGOAL.
 
 \begin{figure}[ht]
     \centering
