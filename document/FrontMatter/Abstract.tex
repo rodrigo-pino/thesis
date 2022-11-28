@@ -1,10 +1,13 @@
 \begin{resumen}
-	El problema multiobjetivo aplicado a sistemas de Aprendizaje de M\'aquina Automatizado (AutoML) es un \'area poco explorada. Este trabajo define el problema de optimizaci\'on multiobjetivo aplicado a sistemas de AutoML y propone una soluci\'on generalizada para cualquier tipo de sistema.
-    Aprovechando los dos espacios que componen a los sistemas AutoML: el espacio de b\'usqueda $\mathcal{X}$ donde se encuentran las soluciones del sistema y el espacio objetivo $\mathcal{Y}$ donde reside la evaluaci\'on de dichas soluciones respecto a ciertas m\'etricas. El sistema AutoML opera sobre $\mathcal{X}$ generando y evaluando las soluciones  y un algoritmo multiobjetivo selecciona las mejores en $\mathcal{Y}$.
+	El problema de optimizaci\'on multiobjetivo aplicado a sistemas de Aprendizaje de M\'aquina Automatizado (AutoML) es un \'area poco explorada. Este trabajo define el problema de optimizaci\'on multiobjetivo aplicado a sistemas de AutoML y propone una soluci\'on para cualquier tipo de sistema AutoML.
+    Aprovechando los dos espacios sobre los que trabajan los sistemas AutoML: el espacio de b\'usqueda $\mathcal{X}$ donde se encuentran las soluciones del sistema y el espacio objetivo $\mathcal{Y}$ donde reside la evaluaci\'on de dichas soluciones respecto a ciertas m\'etricas. El sistema AutoML  genera las soluciones en $\mathcal{X}$ y las eval\'ua obteniendo un representaci\'on de cada una en $\mathcal{Y}$. El algoritmo multiobjetivo  ordena las soluciones seg\'un se evaluaci\'on en $\mathcal{Y}$.
     La propuesta se inspira en NSGA-II como algoritmo multiobjetivo para seleccionar las mejores soluciones. 
-    Se realiza una implementaci\'on en AutoGOAL, un sistema orientado a resolver el problema de AutoML Heterog\'eneo. Se realizan pruebas midiendo \textit{f-score} contra tiempo de entrenamiento y precisi\'on contra recobrando obteniendo resultados satisfactorios que prueban la adici\'on de optimizaci\'on multiobjetivo a sistemas AutoML un beneficio inmediato.
+    Se realiza una implementaci\'on en AutoGOAL, un sistema orientado a resolver el problema de AutoML Heterog\'eneo.
+    Se eval\'ua midiendo \textit{f-score} contra tiempo de entrenamiento y precisi\'on contra recobrando obteniendo resultados satisfactorios. 
+    %que prueban la adici\'on de optimizaci\'on multiobjetivo a sistemas AutoML un beneficio inmediato.
+
 \end{resumen}
 
 \begin{abstract}
-	Resumen en inglés
+    Multiobjetive optimization applied to Automated Machine Learning (AutoML) systems is an under researched area. This project defines the optimization problem of multiple criteria applied to AutoML systems. It proposes a generalized solution that can be applied to any type of AutoML system by taking advantage of the two spaces where AutoML framework operates: the decision space $\mathcal{X}$ where solutions are located and the objective space $\mathcal{Y}$ where the solution's evaluations are found. The AutoML system manages pipeline generation and evalutaion so that every solution has it's own representation in $\mathcal{Y}$ where the multiobjective algorithm selects the best one. An adaptation of NSGA-II is used as the backbone of the proposal. An implementation is done on top of AutoGOAL, a system which targets the Heterogeneus AutoML problem. Tests are done with f-score versus training time and precision versus recall obtaining satisfactory outcomes.
 \end{abstract}

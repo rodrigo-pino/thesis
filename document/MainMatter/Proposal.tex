@@ -4,7 +4,7 @@
 
 \chapter{AutoML Heterog\'eneo Multiobjetivo}\label{chapter:proposal}
 
-AutoML Heterog\'eneo Multiobjetivo es una propuesta dirigida a resolver el problema definido en \ref{background:def:moo-automl-problem}. El n\'ucleo fundamental de la idea radica en trabajar sobre dos espacios bien definidos. El sistema busca y obtiene soluciones en el espacio de decisi\'on $\mathcal{X}$ y el resultado  de evaluar cada una de ellas se representa como un vector num\'erico donde cada una de sus componentes es la evaluaci\'on con respecto a cierta m\'etrica. Este vector representa un punto en el espacio objetivo $\mathcal{Y}$ con $\mathcal{Y} \subseteq \mathbb{R}^m$ donde $m$ representa el n\'umero de m\'etricas a evaluar. Cuando $m = 1$ es trivial la b\'usqueda del m\'as apto. Cuando $m \ge 2$ se complejiza la ordenaci\'on pues pueden existir varias soluciones buenas y no es posible hablar de una mejor soluci\'on, en cambio se habla de \textit{Pareto dominaci\'on} definido en (\ref{background:def:domintation}). La selecci\'on de los vectores  m\'as aptos del espacio de decisi\'on se realiza utilizando un algoritmo evolutivo multiobjetivo pues adem\'as de ser agn\'osticos al espacio de decisi\'on han demostrado ser los m\'as resistentes al frente de Pareto cuando tiene formas extra\~nas.
+AutoML Heterog\'eneo Multiobjetivo es una propuesta dirigida a resolver el problema definido en \ref{background:def:moo-automl-problem}. La propuesta se centra en trabajar sobre dos espacios bien definidos. El sistema AutoML busca y obtiene soluciones en el espacio de decisi\'on $\mathcal{X}$ y el resultado  de evaluar cada una de ellas se representa como un vector num\'erico donde cada una de sus componentes es la evaluaci\'on con respecto a cierta m\'etrica. Este vector representa un punto en el espacio objetivo $\mathcal{Y}$ con $\mathcal{Y} \subseteq \mathbb{R}^m$ donde $m$ representa el n\'umero de m\'etricas a evaluar. Cuando $m = 1$ es trivial la b\'usqueda del m\'as apto. Cuando $m \ge 2$ se complejiza la ordenaci\'on pues pueden existir varias soluciones buenas y no es posible hablar de una mejor soluci\'on, en cambio se habla de \textit{Pareto dominaci\'on} definido en (\ref{background:def:domintation}). La selecci\'on de los vectores  m\'as aptos del espacio de decisi\'on se realiza utilizando un algoritmo evolutivo multiobjetivo pues adem\'as de ser agn\'osticos al espacio de decisi\'on han demostrado ser los m\'as resistentes al frente de Pareto cuando tiene formas extra\~nas.
 
 \section{Descripci\'on General}
 \begin{figure}[ht]
@@ -23,16 +23,18 @@ La soluci\'on propuesta (ver \ref{proposal:fig:flux}) est\'a compuesta por dos e
 
 La propuesta en cada iteraci\'on utiliza la evaluaci\'on de las soluciones generadas por el sistema de AutoML. La evaluaci\'on de una soluci\'on se representa como un vector $v$ de $m$ componentes donde $v_i$ es la evaluaci\'on de la soluci\'on con respecto a la m\'etrica $i$. El algoritmo ordena estos vectores utilizando alg\'un MOEA y retorna una lista ordenada de estos. Este proceso se repite hasta que se cumpla alg\'un criterio de parada.
 
-La separaci\'on  por espacios existente entre ambas componentes de la propuesta permite que sean intercambiables. Todo sistema de AutoML que cumpla con estas condiciones es apto para la propuesta, no importa si est\'a enfocado en resolver el problema NAS o el problema CASH y toda algoritmo multiobjetivo capaz de producir ordenaciones efectivas utilizando solamente el espacio objetivo puede ser utilizado.
+La separaci\'on  por espacios existente entre ambas componentes de la propuesta permite que sean intercambiables. Todo sistema de AutoML que cumpla con estas condiciones es apto para la propuesta, no importa si est\'a enfocado en resolver el problema NAS o el problema CASH y todo algoritmo multiobjetivo capaz de producir ordenaciones efectivas utilizando solamente el espacio objetivo puede ser utilizado.
 %generalizar el problema a cualquier tipo de sistema AutoML o funci\'on de ordenaci\'on.
 
 % En su primera iteraci\'on el sistema AutoML debe producir una serie de soluciones y sus evaluaciones respectivas frente a las criterios de entrada. El algoritmo multiobjetivo debe ser capaz de ordenar efectivamente las soluciones de acuerdo a su evaluaci\'on tal que que los primeros $k$ elementos sean los m\'as aptos de para resolver el problema. Estas soluciones de mejor rendimiento se utilizan como entrada al sistema AutoML para que produzca una nueva generaci\'on de soluciones tomando la soluciones de entrada como referencia. El proceso se repite hasta que se cumpla el criterio de parada en donde se retornan los mejores individuos encontrados hasta el momento.
 
 \subsection{Descripci\'on Formal}
-El sistema propuesto est\'a compuesto por un sistema de Aprendizaje de M\'aquina Automatizado $\mathcal{A}(D, M, P)$  y un algoritmo evolutivo multiobjetivo $\mathcal{H}(TP)$. Los par\'ametros de entrada $D = \{(x_1, y_1), ..., (x_n, y_n)\}$ representa el conjunto de datos de entrada, $M = \{f_1, f_2, ..., f_m\}$ un conjunto de m\'etricas a evaluar, $P = \{p_1, p_2, ..., p_k\}$ el conjunto de soluciones de mejor rendimiento producidas por  $\mathcal{A}$ en la iteraci\'on anterior. $\mathcal{H}$ toma como entrada $TP$ que representa el conjunto de soluciones producidas en la iteraci\'on actual tras aplicar $\mathcal{A}(D, M, P)$. 
+El sistema propuesto (\ref{proposal:proposal_code}) est\'a compuesto por un sistema de Aprendizaje de M\'aquina Automatizado $\mathcal{A}(D, M, P)$  y un algoritmo evolutivo multiobjetivo $\mathcal{H}(TP)$. Los par\'ametros de entrada de $\mathcal{A}$ son $D = \{(x_1, y_1), ..., (x_n, y_n)\}$ el corpus de datos, $M = \{f_1, f_2, ..., f_m\}$ un conjunto de m\'etricas a evaluar y $P = \{p_1, p_2, ..., p_k\}$ el conjunto de soluciones de mejor rendimiento producidas por  $\mathcal{A}$ en la iteraci\'on anterior. $\mathcal{H}$ toma como entrada $TP$ que representa el conjunto de soluciones producidas en la iteraci\'on actual tras aplicar $\mathcal{A}(D, M, P)$. 
  %El objetivo final del sistema es producir una conjunto de soluciones de Aprendizaje Autom\'atico $P'$ que sean una muestra representativa del frente de Pareto (\ref{background:def:pareto_front}) utilizando un algoritmo multiobjetivo  $\mathcal{H}$ tal que $\mathcal{H}(TP) = P'$ en cierto n\'umero de iteraciones determinado por un criterio de parada. 
-\begin{algorithm}[ht]\caption{Soluci\'on a AutoML Heter\'ogeneo Multiobjetivo}
-    \KwIn{$\mathcal{A}$, D, M}
+\begin{algorithm}[ht]
+    \caption{AutoML Heter\'ogeneo Multiobjetivo}
+    \label{proposal:proposal_code}
+    \KwIn{D, M}
     \KwOut{P}
     $TP \gets \mathcal{A}(D, M, \emptyset)$ \tcp*{Se obtiene poblaci\'on inicial aleatoria}
     \While{no se cumplan condiciones de parada}{
@@ -49,10 +51,10 @@ El sistema propuesto est\'a compuesto por un sistema de Aprendizaje de M\'aquina
 Esencialmente cualquier tipo de MOEA tal que la informaci\'on del espacio objetivo sea suficiente se puede utilizar. Espec\'ificamente para esta propuesta utilizamos una adaptaci\'on de NSGA-II \brackcite{deb2002fast} por ser un algoritmo que sigue una idea intuitiva y tiene un buen rendimiento general, suficiente para demostrar la efectividad de la propuesta.
 
 \subsection{NSGA-II}
-NSGA-II \brackcite{deb2002fast} es un algoritmo multiobjetvo basados en el frente de Pareto caracter\'isticos por dividir el proceso de selecci\'on de los individuos m\'as aptos en dos etapas:
+NSGA-II \brackcite{deb2002fast} es un algoritmo multiobjetvo basado en el frente de Pareto caracter\'isticos por dividir el proceso de selecci\'on de los individuos m\'as aptos en dos etapas:
 \begin{itemize}
     \item \textit{Non Dominated Sorting} donde divide a la poblaci\'on basado en sus diferentes niveles de dominaci\'on.
-    \item \textit{Crowding Distance Sorting} donde se dedicada a preservar la diversidad entre los individuos encontrados. 
+    \item \textit{Crowding Distance Sorting} donde se dedica a preservar la diversidad entre los individuos encontrados. 
 \end{itemize}
 
 
@@ -86,7 +88,8 @@ El resultado de esta primera etapa es una lista ordenada  $F = \{F^0, ..., F^k\}
 %Dado un frente de rango $i$ $F_i$, tal que existen soluciones $x, y \in F_i$ se asume que $x \prec y$. Como el \'inidice de dominaci\'on de $x$ es $i$ y $x \prec y$ y ($\prec$) es una operador transitivo entonces todos los que dominan a $x$ dominan a $y$, adem\'as del propio $x$, por tanto el inidice de dominaci\'on de $y$ ser\'ia $i+1$ lo que es una contradicci\'on porque $y \in F_i$. 
 
 \subsubsection{Crowding Distance Sorting}
-\textit{Crowding Distance Sorting}(CD), uno de los aportes claves hechos por NSGA-II, se utiliza sobre  $F^i$ un frente de rango $i$ obtenido en la etapa anterior con el objetivo de ordenar sus elementos seg\'un cuan representativos del conjunto sean. Esta parte es vital pues permite que en los casos donde haya que utilizar solo la porci\'on de un frente, se utilize la m\'as representativa de este manteniendo la diversidad del conjunto.
+\textit{Crowding Distance Sorting}(CD), uno de los aportes claves hechos por NSGA-II, se utiliza sobre  $F^i$ un frente de rango $i$ obtenido en la etapa anterior con el objetivo de ordenar sus elementos seg\'un cu\'an representativos del conjunto sean. CD garantiza que se mantenga la diversidad en las soluciones encontradas.
+%parte es vital pues permite que en los casos donde haya que utilizar solo la porci\'on de un frente, se utilize la m\'as representativa de este manteniendo la diversidad del conjunto.
 %En la segunda etapa los vectores de cada frente obtenido se organizan utilizando \textit{crowding distance} (CD), uno de las contribuciones claves de NSGA-II (\cite{deb2002fast}). El prop\'osito de \textit{crowding distance} es estimar la densidad de las soluciones con respecto sus soluciones vecinas de tal manera que los primeros lugares pertenezcan a los elementos m\'as representativos de dicho frente.
 
 % Imagen de crowding distance
@@ -121,7 +124,7 @@ Calcular el CD de cada soluci\'on requiere que sean ordenadas seg\'un su valor n
 \subsubsection{Ciclo Prinicipal}
 Inicialmente se crea una poblaci\'on aleatoria $P_0$ de soluciones de tama\~no $N$. Cada soluci\'on es ordenada de acuerdo a \textit{Non Dominated Sorting} y se aplica un torneo binario utilizando operadores gen\'eticos de selecci\'on, recombinaci\'on y mutaci\'on para crear una poblaci\'on descendiente $Q_0$ de tama\~no $N$.
 
-Luego se forma una poblaci\'on $R_t = P_t \cup Q_t$ de tama\~no 2N. La poblaci\'on $R_t$ es ordenada de acuerdo al nivel de dominaci\'on de cada individuo obteni\'endose una lista de frentes de distinto rango $F = \{F^0, ..., F^k\}$. Las soluciones en $F^0$ representan las mejores soluciones encontradas por el algoritmo hasta el momento y es necesario que pasen a formar parte de la poblaci\'on de la siguiente iteraci\'on $P_{t+1}$. Si $|F^0| < N$ el frente completo pasa formar parte de $P_{t+1}$. Los miembros restantes de la nueva poblacion son escogidos de los dem\'as frentes acorde a su \'indice de dominaci\'on. Si $F^k$ no es capaz de pertencer completo a $P_{t+1}$ debido a que $\sum_0^k |F^i| > N$ se aplica \textit{Crowding Distance Sorting} sobre $F^k$ y se llena las posiciones restantes con los individuos de mayor distancia.
+Luego se forma una poblaci\'on $R_t = P_t \cup Q_t$ de tama\~no 2N. La poblaci\'on $R_t$ es ordenada de acuerdo al nivel de dominaci\'on de cada individuo obteni\'endose una lista de frentes de distinto rango $F = \{F^0, ..., F^k\}$. Las soluciones en $F^0$ representan las mejores soluciones encontradas por el algoritmo hasta el momento y es necesario que pasen a formar parte de la poblaci\'on de la siguiente iteraci\'on $P_{t+1}$. Si $|F^0| < N$ el frente completo pasa formar parte de $P_{t+1}$. Los miembros restantes de la nueva poblaci\'on son escogidos de los dem\'as frentes acorde a su \'indice de dominaci\'on. Si $F^l$ no es capaz de pertencer completo a $P_{t+1}$ debido a que $\sum_0^l |F^i| > N$ se aplica \textit{Crowding Distance Sorting} sobre $F^l$ y se llenan las posiciones restantes con los individuos de mayor distancia.
 
 La nueva poblaci\'on $P_{t+1}$ se utiliza para producir una poblci\'on $Q_{t+1}$ con operadores de selecci\'on, cruzamiento y mutaci\'on. El procedimiento general de NSGA-II se muestra en la figura \ref{proposal:fig:nsga2}.
 

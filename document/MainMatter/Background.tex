@@ -1,7 +1,7 @@
 \chapter{Estado del Arte}\label{chapter:state-of-the-art}
-El proceso de investigaci\'on para dise\~nar un flujo de Aprendizaje Autom\'atico requiere una experimentaci\'on variada donde se combinan m\'ultiples t\'ecnicas como redes neuronales, clasificadores supervisados, algoritmos de agrupamientos, entre otras. Adem\'as por cada selecci\'on de las anteriores se deben optimizar adecuadamente los hiperpar\'ametros que la componen.
+El proceso de investigaci\'on para dise\~nar un flujo de Aprendizaje Autom\'atico requiere una experimentaci\'on variada donde se combinan m\'ultiples t\'ecnicas de aprendizaje como redes neuronales, clasificadores supervisados, algoritmos de agrupamientos, entre otras. Adem\'as por cada selecci\'on de las t\'ecnicas anteriores se deben optimizar adecuadamente los hiperpar\'ametros que la componen.
 
-Con el uso de un sistema AutoML el investigador ya no tiene que crear el flujo de Aprendizaje Autom\'atico manualmente y puede dedicarse a realizar otras tareas como el adecuado preprocesamiento de los datos o ingenier\'ia de caracter\'isticas, no obstante, el proceso de automatizaci\'on viene con un costo. Cuando al experto necesita m\'as que modelos que produzcan resultados relevantes los sistemas AutoML actuales se tornan insuficientes pues no posee el suficiente control para comunicarle al sistema su intenci\'on de guiar la b\'usqueda en otros sentidos.
+Con el uso de un sistema AutoML el investigador ya no tiene que crear el flujo de Aprendizaje Autom\'atico manualmente y puede dedicarse a realizar otras tareas como la modelaci\'on del problema, no obstante, el proceso de automatizaci\'on viene con un costo. Cuando al experto necesita m\'as que modelos que produzcan resultados relevantes los sistemas AutoML actuales se tornan insuficientes pues no posee el suficiente control para comunicarle al sistema su intenci\'on de guiar la b\'usqueda en otros sentidos. Por ejemplo, el modelo por el que se rige un carro para conducirse aut\'onomamente debe ser lo suficientemente interpretable para que usuarios no expertos puedan entender sus decisiones.
 % de controlar el espacio de decsi\'on  desea un mayor control sobre los flujos producidos tal que tengan un buen desempe\~no con respecto a alguna m\'etrica adicional, los sistmeas AutoML dejan de ser de \'utiles pu\'es en el estado del arte actual del Aprendizaje Automatizado no existe el soporte para esto.
 
 En la secci\'on \ref{background:automl} se  hace un estudio del estado del arte en AutoML. Luego en la secci\'on \ref{background:moo} se estudia los diferentes paradigmas de Optimizaci\'on Multiobjetivo y se muestran diferentes propuestas de cada uno. Finalmente en la secci\'on \ref{background:mooautoml} se analizan casos conocidos donde al problema AutoML se le ha aplicado optimizaci\'on multiobjetivo.
@@ -10,7 +10,7 @@ En la secci\'on \ref{background:automl} se  hace un estudio del estado del arte 
 % Que es AutoML
 El Aprendizaje de M\'aquina Automatizado (Automated Machine Learning, AutoML) consiste en la generaci\'on autom\'atica de flujos, algoritmos o par\'ametros que resuelven un problema determinado y minimizan la dependencia del usuario. 
 
-Actualmente los sistemas AutoML se pueden en separar en dos conjuntos dependiendo del problema a resolver. Se encuentran los sistemas orientados a aprendizaje profundo que proponen resolver el problema de B\'usqueda de Arquitecturas Neuronales (\textit{Neural Arquitectural Search}, NAS) y  sistemas AutoML basado en selecci\'on y combinaci\'on; este \'ultimo puede solucionar o no el problema NAS. El segundo conjunto intenta resolver el problema de combinaci\'on, selecci\'on y optimizaci\'on de hiperpar\'ametros (\textit{Combined Algorith Selection and Hyperparameter Optimization}, CASH) acuñado por Auto-Weka \brackcite{thornton2013auto}. M\'as formalmente:
+Actualmente los sistemas AutoML se pueden separar en dos conjuntos dependiendo del problema a resolver. Se encuentran los sistemas orientados a aprendizaje profundo que proponen resolver el problema de B\'usqueda de Arquitecturas Neuronales (\textit{Neural Arquitectural Search}, NAS) y  sistemas AutoML basado en selecci\'on y combinaci\'on; este \'ultimo puede solucionar o no el problema NAS. El segundo conjunto intenta resolver el problema de combinaci\'on, selecci\'on y optimizaci\'on de hiperpar\'ametros (\textit{Combined Algorith Selection and Hyperparameter Optimization}, CASH) acuñado por Auto-Weka \brackcite{thornton2013auto}. M\'as formalmente:
 \begin{definition}
     Sea $A = \{a^1, ..., a^k\}$  un conjunto de algoritmos con espacios de configuraci\'on asociados $\Lambda^1, ..., \lambda^k$.
     Sea $D$ un conjunto de datos  que se divide en $\{D_{t}^{(1)},..., D_{t}^{(k)}\}$ y $\{D_{v}^{(1)},..., D_{v}^{(k)}\}$ 
@@ -25,7 +25,7 @@ Actualmente los sistemas AutoML se pueden en separar en dos conjuntos dependiend
 
 % El objetivo es transferir el problema de combinaci\'on, selcci\'on y optimizaci\'on de hiperpar\'ametros(\textit{Combined Algorithm Selection and Hyperparameter Optimization}, CASH por sus siglas en ingl\'es) del investigador al sistema, permitiendole a este enfocarse en otras tareas como la validaci\'on de los datos o ingenier\'ia de caracter\'isticas.
 
-En el campo del Aprendizaje de M\'aquina Automatizado cuenta con numerosas propuestas de distintos dominios: 
+El campo del Aprendizaje de M\'aquina Automatizado cuenta con numerosas propuestas de distintos dominios: 
 \begin{itemize}
     \item Optimizaci\'on Bayesiana%(\brackcite{hutter2019automated})
     \item Programaci\'on Evolutiva%(\brackcite{chen2018autostacker})
@@ -53,7 +53,7 @@ Las propuestas basadas en optimizaci\'on bayesiana est\'an divididas en dos comp
 \paragraph*{Auto-Keras \brackcite{jin2018efficient}} Un sistema de AutoML enfocado en resolver el problema NAS. Est\'a basado en la biblioteca Keras de Python, utilizada para crear redes neuronales.  La idea principal de esta propuesta es explorar el espacio mediante la transformaci\'on de redes, utilizando un algoritmo de Optimizaci\'on Bayesiana eficiente. Dichas transformaciones permiten generar redes manteniendo las configuraciones alcanzadas con entrenamientos anteriores, disminuyendo el uso de los recursos de c\'omputo. Auto-Keras a nivel t\'ecnico est\'a estructurado para el uso eficiente de la memoria y la ejecuci\'on en paralelo sobre el CPU y el GPU.
 
 % TODO: Quitar el anglicismo
-\paragraph*{autogxgboost \brackcite{thomas2018automatic}} Se cataloga como un sistema AutoML \textit {single-learner} debido a que solo utiliza un algoritmo de aprendizaje y optimiza los hiperpar\'ametros para este utilizando optimizaci\'on bayesiana. Requiere que el algoritmo sea un m\'etodo de aumento de gradiente con \'arboles (\textit{Gradient Boosting with Trees}, GBT) como \textit {xgboost} \brackcite{chen2016xgboost} debido a su prometedor rendimiento con los par\'ametros adecuados.   
+\paragraph*{autogxgboost \brackcite{thomas2018automatic}} Se cataloga como un sistema AutoML \textit {single-learner} pues solo utiliza un algoritmo de aprendizaje y optimiza los hiperpar\'ametros para este utilizando optimizaci\'on bayesiana. Requiere que el algoritmo sea un m\'etodo de aumento de gradiente con \'arboles (\textit{Gradient Boosting with Trees}, GBT) como \textit {xgboost} \brackcite{chen2016xgboost} debido a su prometedor rendimiento con los par\'ametros adecuados.   
     
 \subsection{Programaci\'on Evolutiva}
      Los sistemas AutoML basados en programaci\'on evolutiva crean una poblaci\'on inicial de flujos v\'alidos para luego seleccionar los de mejor rendimiento respecto a cierta m\'etrica. Los m\'as aptos son utilizados para crear la poblaci\'on de la pr\'oxima iteraci\'on. Las propuestas difieren principalmente en como modelan el espacio de b\'usqueda y qu\'e estrategias usan para crear los nuevos individuos.
@@ -66,7 +66,8 @@ Las propuestas basadas en optimizaci\'on bayesiana est\'an divididas en dos comp
 \paragraph{AutoGOAL \brackcite{estevez2020solving}} Utiliza una Gram\'atica Probabil\'istca Libre del Contexto (\textit{Probabilistic Context-Free Grammars}) para modelar el espacio de b\'usqueda y Evoluci\'on de Gram\'atica  Probabil\'istica (\textit{Probabilistic Grammatic Evolution}) \brackcite{megane2021probabilistic} para dirigir la b\'usqueda de acuerdo a los individuos m\'as aptos de cada iteraci\'on. AutoGOAL est\'a compuesto por gran cantidad de algoritmos de aprendizaje de diversas bibliotecas de Python que le  permite abarcar problemas de cualquier tipo, incluido problemas de procesamiento de lenguaje natural, donde cuenta con algoritmos pre-procesadores de datos.
 
 \subsection{B\'usqueda Aleatoria}
-Consiste en la exploraci\'on del espacio de b\'usqueda, ya sea de forma secuencial o en paralelo mediante la selecci\'on de soluciones aleatorias. %Este m\'etodo se utiliza muchas veces como comparaci\'on frente a estrategias m\'as avanzadas.
+Los sistemas basados en B\'usqueda Aleatoria realizan en la exploraci\'on del espacio de b\'usqueda, ya sea de forma secuencial o en paralelo mediante la selecci\'on de soluciones aleatorias. Utiliza una red aleatoria inicial (o predeterminada) para genera nuevas redes las cuales son evaluadas. La red generada con mejor puntuaci\'on se coge como punto de partida para la siguiente iteraci\'on. Las propuestas var\'ian seg\'un como se generan y eval\'uan dichas redes. 
+%Este m\'etodo se utiliza muchas veces como comparaci\'on frente a estrategias m\'as avanzadas.
 
         % TODO: Poner nash en espannol?
         \paragraph{NASH \brackcite{wei2016network}} Neural Arquitecture Search by Hillclimbing es una propuesta de soluci\'on al problema NAS.
@@ -75,14 +76,14 @@ Partiendo de una red aleatoria o predeterminada a la cual se le aplica \textit{m
         \paragraph{H20 AutoML \brackcite{ledell2020h2o}} Disponible en varios lenguajes de programaci\'on, utiliza los algoritmos de Aprendizaje Autom\'atico definidos en la biblioteca H20 \brackcite{boehmke2019hands}. Construye m\'ultiples modelos con diferentes juegos de hiperpar\'ametros seleccionados aleatoriamente en base a ciertas heur\'isticas. En funci\'on de la disponibilidad de recursos de c\'omputo, la b\'usqueda se detiene y los mejores modelos se utilizan para construir un ensemble.
 
         % TODO: Cuan grandes los datasets?
-        \paragraph{TransmogrifAI \brackcite{tovbin93meet}}  Ideado con el objetivo de tener un buen rendimiento en corpus de datos grandes, fue dise\~nado para ejecutarse sobre Apache Spark. Encapsula cinco componentes del proceso de aprendizaje autom\'atico en diferents pasos:
+        \paragraph{TransmogrifAI \brackcite{tovbin93meet}}  Se dise\~na con el objetivo de tener un buen rendimiento en corpus de datos grandes. Encapsula cinco componentes del proceso de aprendizaje autom\'atico en diferentes pasos:
         \begin{enumerate}
             \item Realiza un preprocesamiento de los datos donde obliga al cient\'ifico a especificar un esquema y establecer un sistema de tipos sobre estos. Transmogrif los analiza siendo capaz de inferir el tipo de algunos.
             \item Aplica ingenier\'ia de caracter\'isticas automatizada: busca obtener la representaci\'on n\'umerica adecuada para cualquier tipo de datos.
             % TODO: Hablar de los problemas que eso acarrea?
             \item Hace una validaci\'on de las caracter\'isticas para mitigar la probable explosi\'on de dimensionalidad ocurrida en el paso anterior y los problemas que ello acarrea.
             \item Resuelve el problema de selecci\'on autom\'atica de modelos ejecutando un torneo de varios algoritmos de Aprendizaje Autom\'atico, y escoge el mejor seg\'un el error de validaci\'on promedio.
-            \item En cada uno de los pasos anteriores se ejecuta adem\'as un paso subyacente de optimizaci\'on de hiperpar\'ametros, contrario a  muchos sistemas AutoML que solo optimizan solamente para el modelo soluci\'on. 
+            \item En cada uno de los pasos anteriores se ejecuta adem\'as un paso subyacente de optimizaci\'on de hiperpar\'ametros, contrario a  muchos sistemas AutoML que optimizan solamente para el modelo soluci\'on. 
         \end{enumerate}
         %donde la b\'usqueda se realiza sobre el espacio de las transformaciones de caracter\'isticas que son posibles en funci\'on de los datos utilizados.
 
@@ -111,14 +112,16 @@ Estos m\'etodos exploran el espacio de b\'usqueda con una forma estructurada pue
 \paragraph{AutoGluon \brackcite{erickson2020autogluon}} Realiza procesamiento de datos avanzados, aprendizaje profundo y ensamblaje de modelos multicapa. Reconoce autom\'aticamente el tipo de datos de cada columna para un procesamiento de datos robustos, luego construye un ensemble multicapa  que toma como entrada la instancia de cada uno de los tipos de modelos predefinidos. Cada modelo se entrena de forma secuencial y se a\~nade al ensemble. Para finalizar, se realiza un proceso de post-optimizaci\'on para destilar el ensemble resultante en un modelo m\'as peque\~no con rendimiento similar.
 
 \subsection{Monte Carlo}
- Esta estrategia se emplea en espacios de b\'usquedas jer\'arquicos para explorar eficientemente el \'arbol que describe todas las  posibles soluciones. En cada iteraci\'on se deciende por una rama del \'arbol hasta llegar a un nodo hoja, el camino representa una posible soluci\'on. Como todo algoritmo de Monte Carlo, requiere de una definici\'on adecuada de una funci\'on que permita un balance entre exploraci\'on y explotaci\'on. Esta estrategia require un espacio de b\'usequda donde las decisiones m\'as importantes est\'en posicionadas al principio en el \'arbol para ser efectiva.
+ Esta estrategia se emplea en espacios de b\'usquedas jer\'arquicos para explorar eficientemente el \'arbol que describe todas las  posibles soluciones. En cada iteraci\'on se deciende por una rama del \'arbol hasta llegar a un nodo hoja, el camino representa una posible soluci\'on. Como todo algoritmo de Monte Carlo, requiere de una definici\'on adecuada de una funci\'on que permita un balance entre exploraci\'on y explotaci\'on. Esta estrategia require un espacio de b\'usqueda donde las decisiones m\'as importantes est\'en posicionadas al principio en el \'arbol para ser efectiva.
 
  \paragraph{ML-Plan \brackcite{mohr2018ml}} Un sistema basado en redes de tareas jer\'arquicas (HTN) \brackcite{erol1994umcp}. La b\'usqueda es aleatoria, construyendo flujos parciales junto con un mecanismo que evita el sobreajuste. Cuenta con con dos tipos de algoritmos:  preprocesadores de datos y de aprendizaje. Sus flujos son un par compuesto por un procesador parametrizado y un algoritmo de aprendizaje.
     
 
 
 \section{Optimizaci\'on Multiobjetivo}\label{background:moo}
-Optimizaci\'on Multiobjetivo es la rama de la Ciencia y la Matem\'atica que se dedica a optimizar varias funciones objetivos simult\'aneamente. Aplicada principalmente en las ingenier\'ias y la econom\'ia donde  suelen existir conflictos entre los objetivos a optimizar. Ejemplo de su aplicaci\'on son: %Su aplicaci\'on es amplia y variada: 
+Optimizaci\'on Multiobjetivo es la rama de la Ciencia y la Matem\'atica que se dedica a optimizar varias funciones objetivos simult\'aneamente.
+Aplicada principalmente en las ingenier\'ias y la econom\'ia donde  suelen existir conflictos entre los objetivos a optimizar.
+Ejemplo de su aplicaci\'on son: %Su aplicaci\'on es amplia y variada: 
 %Exsiten muchos aplicaciones en la actualidad que se benefician de aplicar optimizaci\'on multiobjetivo, por ejemplo:
 \begin{itemize}
     \item La necesidad de lograr un balance entre energ\'ia producida y combustible utilizado por una termoel\'ectrica \brackcite{shirazi2012thermal}\brackcite{shirazi2014thermal}.
@@ -127,7 +130,7 @@ Optimizaci\'on Multiobjetivo es la rama de la Ciencia y la Matem\'atica que se d
     \item La distribuci\'on adecuada de recursos de radio para satisfacer eficientemente el requerimiento de sus usuarios \brackcite{bjornson2013optimal}.
 \end{itemize}
 
-El problema multiobjetivo consiste en optimizar varias funciones y lograr soluciones que hagan las concesiones pertinentes entre los criterios que tengan conflictos entre s\'i.
+El problema multiobjetivo consiste en optimizar varias funciones y lograr soluciones que hagan concesiones pertinentes entre los criterios que tengan conflictos entre s\'i.
 \begin{definition}{Optimizaci\'on Multiobjetivo:}
     \label{background:def:moo}
      Dado $m$ funciones objetivos: $f_1: \mathcal{X} \rightarrow \mathbb{R}, ..., f_m: \mathcal{X} \rightarrow \mathbb{R}$ que transforman un vector $x$ del espacio de decisi\'on $\mathcal{X}$ a un valor de $\mathbb{R}$. Se define el problema multiobjetivo como:
@@ -164,7 +167,7 @@ El problema multiobjetivo se ha intentado resolver utilizando tres enfoques de d
 \begin{enumerate}
     \item T\'ecnicas de Escalarizaci\'on.
     \item M\'etodos Num\'ericos.
-    \item Algoritmos Evolucionarios.
+    \item Algoritmos Evolutivos.
 \end{enumerate}
 
 
@@ -175,7 +178,7 @@ El problema multiobjetivo se ha intentado resolver utilizando tres enfoques de d
 
 \subsection{T\'ecnicas de Escalarizaci\'on }
 
-Las t\'ecnicas de escalarizaci\'on han sido las m\'as utilizadas para resolver el problema multiobjetivo \brackcite{miettinen2012nonlinear}. Estas t\'ecnicas consisten en agregar funciones objetivos o  reformularlas como restricciones en una sola funci\'on sobre la cual se aplica un m\'etodo de optimizaci\'on est\'andar de un solo objetivo. La nueva funci\'on objetivo adem\'as se parametriza con un vector de pesos, que dependiendo de sus valores resulta en un punto distinto del frente de Pareto.
+Las t\'ecnicas de escalarizaci\'on han sido las m\'as utilizadas para resolver el problema multiobjetivo \brackcite{miettinen2012nonlinear}. Estas t\'ecnicas consisten en agregar funciones objetivos o  reformularlas como restricciones en una sola funci\'on sobre la cual se aplica un m\'etodo de optimizaci\'on est\'andar de un solo objetivo. La nueva funci\'on objetivo adem\'as se parametriza con un vector de pesos, que dependiendo de sus valores resulta en un punto distinto del frente de Pareto. Seg\'un como se confome la funci\'on objetivo se definen los m\'etodos de escalarizaci\'on:
 \begin{enumerate}
     \item Linear Weighting: Se combinan todas las funciones objetivos en una suma. A cada funci\'on objetivo se le asigna un escalar de peso.
     \begin{equation*}
@@ -208,16 +211,16 @@ Las t\'ecnicas de escalarizaci\'on han sido las m\'as utilizadas para resolver e
 En principio todos los algoritmos de escalarizaci\'on se pueden resolver utilizando m\'etodos num\'ericos. Adem\'as existen otros m\'etodos  que intentan resolver el problema haciendo cumplir las condiciones de Karush-Kuhn-Tucker (KKT) \brackcite{kuhn2014nonlinear}.
 
 La idea va de encontrar al menos una soluci\'on al sistema de ecuaciones creado tras intentar resolver el problema KKT. Luego se utilizan m\'etodos de continuaci\'on y homotop\'ia para añadir al conjunto soluci\'on soluciones cercanas a esta. 
-Este tipo de enfoque no es ideal para espacios de b\'usqueda complejos pues requiere que las soluciones satisfagan las condiciones de convexidad local y diferenciabilidad \brackcite{hillermeier2001nonlinear} \brackcite{schutze_et_al:DagSemProc.04461.16}.
+Este tipo de enfoque no es ideal para espacios de b\'usqueda complejos pues requiere que las soluciones satisfagan las condiciones de convexidad local y diferenciabilidad \brackcite{hillermeier2001nonlinear}\brackcite{schutze_et_al:DagSemProc.04461.16}.
 
 Existen otros m\'etodos para la b\'usqueda de m\'inimos globales como \textit{T\'ecnicas de Subdivisi\'on} por \brackcite{dellnitz2005covering}, \textit{Optimizaci\'on Global Bayesiana} \brackcite{emmerich2016multicriteria} y \textit{Optimizaci\'on de Lipschitz} \brackcite{vzilinskas2013worst}. % Estas requiren de que el espacio de decisi\'on tenga una baja dimensionalidad.
-Adem\'as  se investiga  m\'etodos n\'umericos que no necesiten diferenciar para su resoluci\'on utilizando t\'ecnicas de b\'usquedas directas \brackcite{custodio2011direct}\brackcite{audet2010mesh}.
+as\'i como m\'etodos que no necesiten diferenciar para su resoluci\'on utilizando t\'ecnicas de b\'usquedas directas \brackcite{custodio2011direct}\brackcite{audet2010mesh}.
 
-\subsection{Algoritmos Evolucionarios Multiobjetivos }
+\subsection{Algoritmos Evolutivos Multiobjetivos }
 
 Los algoritmos gen\'eticos utilizan paradigmas extra\'idos de la naturaleza, tal como selecci\'on natural, mutaci\'on y recombinaci\'on para dirigir una poblaci\'on (o conjunto de vectores de decisi\'on) hacia una soluci\'on \'optima \brackcite{back1996evolutionary}.
 
-Los algoritmos evolucionarios multiobjetivos (MOEA por sus siglas en ingl\'es) generalizan esta idea, y son diseñados para acercarse en cada iteraci\'on  al frente de Pareto. Como en este caso no existe soluci\'on \'unica, la manera de seleccionar los individuos cambia fundamentalmente. Dentro de los MOEA existen tres paradigmas principales:
+Los algoritmos evolutivos multiobjetivos (MOEA por sus siglas en ingl\'es) generalizan esta idea, y son diseñados para acercarse en cada iteraci\'on  al frente de Pareto. Como en este caso no existe soluci\'on \'unica, la manera de seleccionar los individuos cambia fundamentalmente. Dentro de los MOEA existen tres paradigmas principales:
 
 \begin{enumerate}
     \item \textbf{MOEA basados en el frente de Pareto}\label{background:def:MOEA}: Se identifican por dividir el proceso de selecci\'on en dos etapas. En la primera se organizan los individuos seg\'un su \'indice de dominaci\'on y se acomodan en distintos subconjuntos seg\'un la cantidad de soluciones que los dominen (e.g. un subconjunto para las soluciones a las cuales nadie domina, otro para los son dominados por alguna soluci\'on etc.). En la segunda ordenaci\'on cada subconjunto se ordena buscando que los primeros lugares sean los elementos m\'as representativos de cada subconjunto. NSGA-II \brackcite{deb2002fast} y SPEA2 \brackcite{zitzler1999multiobjective} son algoritmos de este tipo.
@@ -233,9 +236,9 @@ Los algoritmos evolucionarios multiobjetivos (MOEA por sus siglas en ingl\'es) g
 % TODO: (Poner esto en alg\'un lado)
  El t\'ermino Optimizaci\'on Multiobjetivo se utiliza cuando el n\'umero de funciones objetivos son dos o tres. Para un cantidad de criterios mayor se le conoce coloquialmente en la literatura como Optimizaci\'on para Muchos Objetivos o \textit{many-objective optimization} en ingl\'es, propuesto inicialmente por \brackcite{10.1007/978-3-540-31880-4_2}. Se hace \'enfasis en esta diferenciaci\'on pues al aumentar el n\'umero de m\'etricas a optimizar:
  \begin{enumerate}
-     \item ya no es posible visualizar el frente de Pareto;
-     \item la computaci\'on de indicadores o de selecci\'on para muchos algoritmos se convierte en problemas NP-duros;
-     \item existe un r\'apido crecimiento de puntos no dominados, mientras mayor n\'umero de objetivos, la probabilidad de que un punto sea no dominado en un set con distribuci\'on normal tiende exponencialmente a 1.
+     \item No es posible visualizar el frente de Pareto.
+     \item La computaci\'on de indicadores o de selecci\'on para muchos algoritmos se convierte en problemas NP-duros.
+     \item Existe un r\'apido crecimiento de puntos no dominados, mientras mayor n\'umero de objetivos, la probabilidad de que un punto sea no dominado en un set con distribuci\'on normal tiende exponencialmente a 1.
  \end{enumerate}
 
 % TODO: Referenciar esto
@@ -249,7 +252,7 @@ Los algoritmos que mejor han tenido resultado en esta \'area son los algoritmos 
 
 La comunidad FatML (\textit{Fairness, Accountability and Transparency in Machine Learning}) hace \'enfasis sobre como optimizar para una sola m\'etrica acarrea problemas que pueden ser evitados optimizando simult\'aneamente para m\'ultiples criterios \brackcite{barocas2017fairness}. No obstante, es escaso el estudio sobre sistemas de Aprendizaje de M\'aquina Automatizado a los que se les aplica optimizaci\'on multiobjetivo.
 
-Definimos el problema multiobjetivo aplicado a sistemas AutoML de la siguiente manera:
+Se define el problema multiobjetivo aplicado a sistemas AutoML de la siguiente manera:
 \begin{definition}\label{background:def:moo-automl-problem}
     Dado un conjuntos de datos $D$ y  un conjunto de m\'etricas a evaluar $M = \{f_1, f_2, ...,f_m\}$, se espera que  un sistema AutoML $\mathcal{A}$ retorne un conjunto de flujos, algoritmos o redes $P = \{p_1, p_2, ..., p_k\}$ tal que su evaluaci\'on con respecto a las m\'etricas en $M$ sean una aproximaci\'on del frente de Pareto en el espacio objetivo $\mathcal{Y}$ .
     \begin{equation*}

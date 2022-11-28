@@ -25,7 +25,8 @@
 	style=numeric,
 	citestyle=numeric,
   hyperref=true,
-	backref=true
+	backref=true,
+    backend=biber
 	]{biblatex}
 \RequirePackage[linktocpage,breaklinks,colorlinks,%
                 linkcolor=black,anchorcolor=black,citecolor=black,%
