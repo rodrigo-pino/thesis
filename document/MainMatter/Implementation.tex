@@ -8,6 +8,15 @@ para ser usada con PCFG.
 PGE est\'a basado en Algoritmos de Estimaci\'on de Distribuci\'on (EDAs) \brackcite{larranaga2001estimation} una t\'ecnica evolutiva que remplaza las operaciones de mutaci\'on y cruce por un muestreado sobre las probabilidades de las producciones de PCFG. Dado una gram\'atica $G$ y una cadena $c \in G$, PGE modifica las probabilidades asociadas a cada producci\'on de $G$ para que las pr\'oximas cadenas generadas con $G$ tengan mayor probabilidad de utilizar las mismas producciones que $c$. Cuando $c$ representa el individuo m\'as aptos entonces las pr\'oximas generaciones tienen mayor probabilidad de conservar sus caracter\'isticas.
 Este es un algoritmo sencillo pero efectivo que logra un balance entre exploraci\'on y explotaci\'on local haci\'endolo resistente a m\'inimos locales y a la generaci\'on de soluciones iguales.
 
+AutoGOAL posee cualidades que lo hacen un candidato natural para la implementaci\'on de la propuesta definida en el c\'apitulo \ref{chapter:proposal}:
+\begin{enumerate}
+    \item Su arquitectura modular permite la adici\'on sencilla  de un nuevo optimizador. 
+    \item El optimizador multiobjetivo se beneficia del algoritmo gen\'etico subyacente que utiliza AutoGOAL para modelar su espacio de b\'usqueda. 
+\end{enumerate}
+
+% Su modelaci\'on del espacio de b\'usqueda utilizando un algoritmo gen\'etico donde en cada iteraci\'on se acerca m\'as a la soluci\'on \'optima combina con el MOEA de la propuesta.
+% La arquitectura m\'odular de AutoGOAL junto con su espacio de de b\'usqueda modelado con algoritmos gen\'eticos lo hacen un candidato natural para la implementaci\'on de la propuesta definida en el cap\'itulo \ref{chapter:proposal}. 
+
 \section{Implementaci\'on}
 
 \begin{figure}[ht]
@@ -182,7 +191,7 @@ print(automl.best_pipeline_)
 Las m\'etricas se utilizan para evaluar el rendimiento de las soluciones generadas por AutoGOAL.
 La definici\'on de m\'etricas multiobjetivo  es similar a como se definen en AutoGOAL est\'andar con la diferencia de que estas retornan tuplas de elementos como se muestra en \ref{impl:metrics}. 
 
-Es \'util poder definir todas las m\'etricas dentro de una funci\'on pues permite mayor control sobre el espacio objetivo ya que se pueden definir relaciones entra esta. La segunda m\'etrica definida, \textit{acc\_vs\_train\_time\_better}, es superior a la primera porque desestima las soluciones que tienen exactitud 0.
+Es \'util poder definir todas las m\'etricas dentro de una funci\'on pues permite mayor control sobre el espacio objetivo ya que se pueden definir relaciones entre estas. La segunda m\'etrica definida, \textit{acc\_vs\_train\_time\_better}, es superior a la primera porque desestima las soluciones que tienen exactitud 0.
 
 \begin{lstlisting}[caption=Ejemplo de m\'etrica: \textit{accuracy} contra tiempo, language=Python, label=impl:metrics]
 from time import time

@@ -1,37 +1,23 @@
 \chapter*{Introducción}\label{chapter:introduction}
 \addcontentsline{toc}{chapter}{Introducción}
-La sociedad moderna est\'a cada vez m\'as digitalizada. Algoritmos de Inteligencia Artificial (IA)  se integran progresiva y gradualmente a nuestras vidas. El Aprendizaje Autom\'atico, una rama de la IA, tiene un auge particular pues tiene nichos de aplicaciones para las cuales los algoritmos convencionales resultan insuficientes. Los modelos de Aprendizaje Autom\'atico se han expandido a lo largo  de la ciencia y la t\'ecnica.
-% TODO: Oracion muy larga
-Se utilizan en la medicina para la detecci\'on temprana de c\'ancer \brackcite{kourou2015machine}, 
-%la recomendaci\'on de noticias basadas en nuestros gustos online \brackcite{liu2010personalized},
-en la industria automotriz para el dise\~no de carros inteligentes que se conducen a s\'i mismos\brackcite{badue2021self},
-en redes sociales como moderadores de contenido a trav\'es de la detecci\'on de sentimientos de odio en un texto \brackcite{fortuna2018survey} 
-e incluso en el arte, donde sistemas producen im\'agenes a partir de descripciones textuales \brackcite{xu2018attngan}. %El Aprendizaje Autom\'atico (\textit{Machine Learning} en ingl\'es) se encuentra en el centro de todas estas aplicaciones.
+En la sociedad actual el Aprendizaje Autom\'atico tiene una presencia cada vez m\'as creciente en la vida cotidiana. Ha encontrado caso de uso donde los algoritmos convencionales resultan insuficientes, provocando su adopci\'on masiva por diversos campos de la ciencia y la t\'ecnica.
+Se pueden encontrar algoritmos de Aprendizaje Autom\'atico en la medicina para la detecci\'on preventiva del c\'ancer \brackcite{kourou2015machine}, en el dise\~no de carros aut\'onomos \brackcite{badue2021self}, e incluso en el arte, donde son capaces de generar im\'agenes utilizando una descripci\'on textual \brackcite{xu2018attngan}.
+% Su flexibilidad y capacidad de resolver problemas permite que tenga una amplia gama de aplicaciones en diversos dominios. La detecci\'on temprana de enfermedades \brackcite{kourou2015machine}, recomendaci\'on de noticias \brackcite{liu2010personalized} y conducci\'on aut\'onoma de veh\'iculos \brackcite{badue2021self} son ejemplos de su variado rango de aplicaciones.
 
-La efectividad de un modelo de Aprendizaje de M\'aquina est\'a dado por su dise\~no pues necesita una correcta selecci\'on de t\'ecnicas de aprendizaje e hiperpar\'ametros. Realizar el proceso de selecci\'on adecuado es una tarea que requiere conocimientos, experiencia y abundante prueba y error. Formar expertos en el tema capaces de realizar esta tarea toma a\~nos y no es posible esperar a su formaci\'on para suplir la demanda de Aprendizaje Autom\'atico actual.
+Las popularidad del Aprendizaje Autom\'atico ha provocado un incremento en la demanda al punto que el n\'umero de expertos en el tema ya no pueden suplir. Adem\'as el dise\~no de un modelo de Aprendizaje Autom\'atico es un proceso que toma tiempo pues seleccionar los modelos e hiperpar\'ametros adecuados require abundante prueba y error.
+Estas dificultades impulsan el estudio del Aprendizaje de M\'aquina Automatizado (\textit{Automated Machine Learning}, AutoML), una rama dedicada a facilitar el proceso de dise\~no de modelos de Aprendizaje Autom\'atico.
 
+Los programas que resuelven el problema de Aprendizaje Automatizado son conocidos como sistemas AutoML y var\'ian en la parte de trabajo del experto que desean automatizar: desde la selecci\'on autom\'atica de hiperpar\'ametros \brackcite{feurer2019hyperparameter} a la selecci\'on de modelos \brackcite{thornton2013auto} o ambos  simult\'aneamente \brackcite{thornton2013auto}. El objetivo general de estos sistemas es producir una selecci\'on tal que el modelo final maximice respecto a cierta m\'etrica o criterio de evaluaci\'on. 
+% Usualmente esta m\'etrica representa la relevancia de los resultados obtenidos.
 
-Con el objetivo de suplir la demanda de Aprendizaje Autom\'atico nace el Aprendizaje de M\'quina Automatizado, un nueva l\'inea de investigaci\'on dirigida a automatizar parte del proceso de los expertos haciendo el aprendizaje autom\'atico accesible a usuarios no expertos o empresas sin el suficiente capital para aplicar aprendizaje automatico.
+% %la recomendaci\'on de noticias basadas en nuestros gustos online \brackcite{liu2010personalized},
+% en redes sociales como moderadores de contenido a trav\'es de la detecci\'on de sentimientos de odio en un texto \brackcite{fortuna2018survey} 
+% e incluso en el arte, donde sistemas producen im\'agenes a partir de descripciones textuales \brackcite{xu2018attngan}.
+%El Aprendizaje Autom\'atico (\textit{Machine Learning} en ingl\'es) se encuentra en el centro de todas estas aplicaciones.
 
-% Dise\~nar un modelo de Aprendizaje Autom\'atico require de expertos capaces de seleccionar las t\'ecinas de aprendizaje y los valores de los hiperpar\'ametros. Para producir flujos efectivos se necesita un dise\~no correcto.
-
-% La formaci\'on de un experto de Aprendizaje Autom\'atico toma a\~nos, y 
-
-% Existe una creciente demanda de expertos en Aprendizaje Autom\'atico, no obstante, el n\'umero de expertos disponibles no basta pra suplirla. Formar un experto lleva a\~nos de estudios. Un flujo o modelo de Aprendizaje Autom\'atico se compone por  t\'ecnicas de aprendizajes e hiperpar\'ametros. El correcto dise\~no de estos flujos requiere de personal experto capaz seleccionar 
-%Hacer estos flujos efectivos requieren de un buen dise\~no determinado por las t\'ecnicas e hiperpar\'ametro que lo compoen.
-
-% Los modelos o flujos de Aprendizaje Autom\'atico requiren para su correcto funcionamiento de un buen dise\~no determinado por la selecci\'on de t\'ecnicas de aprendizaje e hiperpar\'ametros que la componen. La modelaci\'on es una ardua tarea que requiere conocimientos, 
-
-% no obstante, el n\'umero de expertos disponibles sobre el tema no es suficiente para la creciente demanda de programas de este tipo. Los modelos o flujos de aprendizaje de m\'aquina requieren para su correcto funcionamiento de un buen dise\~no determinado por la selecci\'on de t\'ecnicas de aprendizaje e hiperpar\'ametros que lo componen. 
-% La modelaci\'on  es una tarea que requiere conocimientos, experiencia y abundante prueba y error.
-% TODO: Mejorar escritura, cual es la insuficiencia  no queda claro
-% Con el objetivo de mitigar est\'a insuficiencia nace el Aprendizaje de M\'aquina Automatizado, una l\'inea de investigaci\'on dirigida a automatizar esta parte del proceso.
-
-Los programas que resuelven el problema de Aprendizaje Automatizado son conocidos como sistemas AutoML y var\'ian en la parte de trabajo del experto que desean automatizar: desde la selecci\'on autom\'atica de hiperpar\'ametros \brackcite{feurer2019hyperparameter} a la selecci\'on de modelos \brackcite{thornton2013auto} o ambos  simult\'aneamente. El objetivo general de estos sistemas es producir una selecci\'on tal que el modelo final maximice respecto a cierta m\'etrica o criterio de evaluaci\'on. 
 % TODO: Esta oracion necesita cita?
-Usualmente esta m\'etrica representa la relevancia de los resultados obtenidos.
 
-En el contexto actual, existen problemas para los cuales ya no es suficiente que un modelo de Aprendizaje Autom\'atico obtenga resultados relevantes pues se requiere adem\'as un buen desempe\~no respecto a criterios adicionales. En el campo del Aprendizaje de M\'aquina Automatizado esto implica la necesidad de incrementar la expresividad para describir los problemas con tal de obtener mayor control sobre las soluciones que estos generan. Entre las propuestas para lograr esto se encuentra la adici\'on de optimizaci\'on simult\'anea de m\'ultiples criterios de evaluaci\'on a los sistemas AutoML  tal que los modelos de Aprendizaje Autom\'atico producidos tengan buen rendimiento en estos.   
+En el contexto actual, existen problemas para los cuales ya no es suficiente que un modelo de Aprendizaje Autom\'atico obtenga resultados relevantes pues se requiere adem\'as un buen desempe\~no respecto a criterios adicionales. En el campo del Aprendizaje de M\'aquina Automatizado esto implica la necesidad de incrementar la expresividad para describir los problemas con tal de obtener mayor control sobre las soluciones que estos generan. Entre las propuestas para lograr esto se encuentra la adici\'on de optimizaci\'on simult\'anea para m\'ultiples criterios de evaluaci\'on.   
 
 \section*{Motivaci\'on}
 % Los modelos de Aprendizaje de M\'aquina forman cada vez m\'as y m\'as parte de la vida diaria, aplic\'andose en situaciones directamente  relacionadas con la vida de los seres humanos. 

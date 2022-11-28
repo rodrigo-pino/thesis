@@ -1,15 +1,25 @@
 \begin{conclusions}
-    La adici\'on de optimizaci\'on multiobjetivo a problemas AutoML incrementa exponencialmente sus usos. Los usuarios obtienen una forma efectiva de dirigir la b\'usqueda sin tener que participar activamente en esta. Problemas previamente sin resoluci\'on por sistemas AutoML, pueden ser abordados.
+    Se desarroll\'o una propuesta de un algoritmo multiobjetivo para sistemas AutoML. Se utiliz\'o un dise\~no donde se separan las componentes principales de la propuesta en distintos espacios. Esto permiti\'o generalizar la propuesta a cualquier sistema AutoML o algoritmo multiobjetivo que cumpla con los requerimientos. En este proyecto se utiliz\'o una adpataci\'on de NSGA-II \brackcite{deb2002fast} como algoritmo de optimizaci\'on multiobjetivo
+    Se increment\'o el nivel de expresividad lo que permite describir problemas de AutoML previamente inalcanzables a trav\'es del uso de varias m\'etricas. 
 
-    Separar las componentes del sistema tal que trabajen en espacios separados posibilita la integraci\'on intuitiva y no invasiva de este mecanismo a los sistemas de AutoML. Adem\'as la utilizaci\'on de algoritmos evolutivos multiobjetivo garantiza soluciones igualmente distribuidas sobre el frente de Pareto, no importa cuan extra\~na sea su forma.
+   % Se realiz\'o una implementaci\'on utilizando AutoGOAL como sistema AutoML. Se a\~nadi\'o un nuevo optimizador multiobjetvo y cambios de infraestructura que permiteron la optimizaci\'on multiobjetivo.
+   % La separaci\'on de componentes en dos espacios distintos permiten la integraci\'on sencilla y no invasiva del algoritmo de optimziac\'on multiobjetivo a cualquier sistema AutoML compatible. La definici\'on de NSGA-II Generalizado garantiza soluciones igualmente distribuidas sobre el frente de Pareto, no importa cu\'an extra\~na sea su forma.
 
-    Autogoal Multiobjetivo, una adaptaci\'on de la propuesta, es muestra de integraci\'on sencilla. La implementaci\'on mantiene  la misma interfaz sencilla de AutoGOAL est\'andar que permite su f\'acil uso a usuarios de cualquier \'ambito de experiencia. Se invita a utilizar esta nueva caracter\'istica de AutoGOAL.
+    Se implement\'o la propuesta utilizando AutoGOAL \brackcite{estevez2020solving} como sitema AutoML Heterog\'eneo. Se a\~nadi\'o un nuevo optimizador y se generaliz\'o la estructura interna para funcionar con m\'as de una m\'etrica. La interfaz externa de AutoGOAL se mantuvo similar. Se invita a usuarios de cualquier \'ambito a utilizar esta nueva caracter\'istica.
 
-    Los experimentos muestran resultados prometedores y el beneficio que significa la optimizaci\'on en paralelo de m\'ultiples criterios incluso para problemas que solo utilizan una sola m\'etrica.
-    Abre interrogantes interesantes sobre como se afectar\'ian experimentos previamente realizados con AutoGOAL despu\'es de la adici\'on de una m\'etrica adicional como tiempo de entrenamiento o complejidad del flujo.
+    Durante la experimentaci\'on se obtuvieron resultados prometedores. La implementaci\'on funcion\'o de acuerdo a las expectativas: en todos los casos se lograron aproximaciones al frente de Pareto bien distribuidas. Adem\'as se observ\'o el efecto positivo de utilizar m\'etricas adicionales como tiempo de entrenamiento, que disminuy\'o el tiempo de b\'usqueda de las soluciones.
+
+    %La adici\'on de optimizaci\'on multiobjetivo a problemas AutoML incrementa exponencialmente sus usos. Los usuarios obtienen una forma efectiva de dirigir la b\'usqueda sin tener que participar activamente en esta. Problemas previamente sin resoluci\'on por sistemas AutoML, pueden ser abordados.
+
+    %Separar las componentes del sistema tal que trabajen en espacios separados posibilita la integraci\'on intuitiva y no invasiva de este mecanismo a los sistemas de AutoML. Adem\'as la utilizaci\'on de algoritmos evolutivos multiobjetivo garantiza soluciones igualmente distribuidas sobre el frente de Pareto, no importa cuan extra\~na sea su forma.
+
+    % Autogoal Multiobjetivo, una adaptaci\'on de la propuesta, es muestra de integraci\'on sencilla. La implementaci\'on mantiene  la misma interfaz sencilla de AutoGOAL est\'andar que permite su f\'acil uso a usuarios de cualquier \'ambito de experiencia. Se invita a utilizar esta nueva caracter\'istica de AutoGOAL.
+
+    %Los experimentos muestran resultados prometedores y el beneficio que significa la optimizaci\'on en paralelo de m\'ultiples criterios incluso para problemas que solo utilizan una sola m\'etrica.
+    %Abre interrogantes interesantes sobre como se afectar\'ian experimentos previamente realizados con AutoGOAL despu\'es de la adici\'on de una m\'etrica adicional como tiempo de entrenamiento o complejidad del flujo.
 
 
-    % El incremento exponencial en control que ofrece multiobjetvo para describi los prolemas, es cuesti\'on de esperar para encontrarla en los dem\'as sistemas AutoML.
+    % El incremento exponencial en control que ofrece multiobjetivo para describi los prolemas, es cuesti\'on de esperar para encontrarla en los dem\'as sistemas AutoML.
 
 
     % se crean herramientas que brindan mayor expresivadad a los usuarios permitiendo la soluci\'on y mejoramiento de problemas actuales del campo del Aprendizaje Automatizado como la mitigaci\'on de sesgos. Adem\'as se obtienen beneficios inheretens de la optimizaci\'on multiobjetivo como el retorno de m\'ultples modelos igual de buenos.
