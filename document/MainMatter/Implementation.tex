@@ -8,7 +8,7 @@ para ser usada con PCFG.
 PGE est\'a basado en Algoritmos de Estimaci\'on de Distribuci\'on (EDAs) \brackcite{larranaga2001estimation} una t\'ecnica evolutiva que remplaza las operaciones de mutaci\'on y cruce por un muestreado sobre las probabilidades de las producciones de PCFG. Dado una gram\'atica $G$ y una cadena $c \in G$, PGE modifica las probabilidades asociadas a cada producci\'on de $G$ para que las pr\'oximas cadenas generadas con $G$ tengan mayor probabilidad de utilizar las mismas producciones que $c$. Cuando $c$ representa el individuo m\'as aptos entonces las pr\'oximas generaciones tienen mayor probabilidad de conservar sus caracter\'isticas.
 Este es un algoritmo sencillo pero efectivo que logra un balance entre exploraci\'on y explotaci\'on local haci\'endolo resistente a m\'inimos locales y a la generaci\'on de soluciones iguales.
 
-AutoGOAL posee cualidades que lo hacen un candidato natural para la implementaci\'on de la propuesta definida en el c\'apitulo \ref{chapter:proposal}:
+AutoGOAL posee cualidades que lo hacen un candidato natural para la implementaci\'on de la propuesta definida en el cap\'itulo \ref{chapter:proposal}:
 \begin{enumerate}
     \item Su arquitectura modular permite la adici\'on sencilla  de un nuevo optimizador. 
     \item El optimizador multiobjetivo se beneficia del algoritmo gen\'etico subyacente que utiliza AutoGOAL para modelar su espacio de b\'usqueda. 
@@ -115,7 +115,7 @@ def non_dominated_sort(self, scores: List[List[float]]):
 \end{lstlisting}
 
 \subsubsection{Crowding Distance Sorting}
-Se sigue la idea del algoritmo propuesto en (\ref{proposal:alg:cd}). Dado $m$ m\'etricas a evaluar se realizan $m$ iteraciones, donde en cada una se ordena un frente de rango $k$ de acuerdo a la m\'etrica $m_i$. Las soluciones que con respecto a la m\'etrica $m_i$ tienen el m\'inimo y mayor valor se les asigna distancia infinita y luego se c\'alculan los valores intermedios. Las componentes de los vectores soluci\'on se normalizan antes de ejecutar \textit{Crowding Distance} aplicando \textit{feature scaling} para llevar todos los valores al rango [0, 1].
+Se sigue la idea del algoritmo propuesto en (\ref{proposal:alg:cd}). Dado $m$ m\'etricas a evaluar se realizan $m$ iteraciones, donde en cada una se ordena un frente de rango $k$ de acuerdo a la m\'etrica $m_i$. Las soluciones que con respecto a la m\'etrica $m_i$ tienen el m\'inimo y mayor valor se les asigna distancia infinita y luego se calculan los valores intermedios. Las componentes de los vectores soluci\'on se normalizan antes de ejecutar \textit{Crowding Distance} aplicando \textit{feature scaling} para llevar todos los valores al rango [0, 1].
 
 \begin{lstlisting}[caption=Selecci\'on seg\'un estimaci\'on de densidad, language=Python]
 def crowding_distance(
@@ -158,7 +158,7 @@ Adem\'as de la adici\'on de la clase NSPGE, la infraestructura interna de AutoGO
     \item La respuesta del optimizador es el frente de rango $0$ tras aplicar \textit{Non Dominated Sorting} a las $k$ mejores soluciones encontradas durante todo el ciclo de ejecuci\'on. Idealmente corresponde con una aproximaci\'on del frente de Pareto.
 \end{itemize}
 
-\section{Aplicaci\'on de Autogoal Multiobjetivo}
+\section{Aplicaci\'on de AutoGOAL Multiobjetivo}
 AutoGOAL Multiobjetivo mantiene la misma interfaz que AutoGOAL. Para utilizar esta nueva ordenaci\'on se necesita  se\~nalar el algoritmo de b\'usqueda a utilizar con el par\'ametro \textbf{search\_algorithm}. Adem\'as es necesario definir una m\'etrica que retorne 2 o m\'as valores en \textbf{score\_metric} y especificar por cada una si se desea maximizar o minimizar utilizando el par\'ametro  \textbf{maximize}. 
 
 \begin{lstlisting}[caption=Uso de AutoGOAL con multiobjetivo, language=Python]

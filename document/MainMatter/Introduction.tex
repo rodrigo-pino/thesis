@@ -4,7 +4,7 @@ En la sociedad actual el Aprendizaje Autom\'atico tiene una presencia cada vez m
 Se pueden encontrar algoritmos de Aprendizaje Autom\'atico en la medicina para la detecci\'on preventiva del c\'ancer \brackcite{kourou2015machine}, en el dise\~no de carros aut\'onomos \brackcite{badue2021self}, e incluso en el arte, donde son capaces de generar im\'agenes utilizando una descripci\'on textual \brackcite{xu2018attngan}.
 % Su flexibilidad y capacidad de resolver problemas permite que tenga una amplia gama de aplicaciones en diversos dominios. La detecci\'on temprana de enfermedades \brackcite{kourou2015machine}, recomendaci\'on de noticias \brackcite{liu2010personalized} y conducci\'on aut\'onoma de veh\'iculos \brackcite{badue2021self} son ejemplos de su variado rango de aplicaciones.
 
-Las popularidad del Aprendizaje Autom\'atico ha provocado un incremento en la demanda al punto que el n\'umero de expertos en el tema ya no pueden suplir. Adem\'as el dise\~no de un modelo de Aprendizaje Autom\'atico es un proceso que toma tiempo pues seleccionar los modelos e hiperpar\'ametros adecuados require abundante prueba y error.
+Las popularidad del Aprendizaje Autom\'atico ha provocado un incremento en la demanda al punto que el n\'umero de expertos en el tema ya no pueden suplir. Adem\'as el dise\~no de un modelo de Aprendizaje Autom\'atico es un proceso que toma tiempo pues seleccionar los modelos e hiperpar\'ametros adecuados requiere abundante prueba y error.
 Estas dificultades impulsan el estudio del Aprendizaje de M\'aquina Automatizado (\textit{Automated Machine Learning}, AutoML), una rama dedicada a facilitar el proceso de dise\~no de modelos de Aprendizaje Autom\'atico.
 
 Los programas que resuelven el problema de Aprendizaje Automatizado son conocidos como sistemas AutoML y var\'ian en la parte de trabajo del experto que desean automatizar: desde la selecci\'on autom\'atica de hiperpar\'ametros \brackcite{feurer2019hyperparameter} a la selecci\'on de modelos \brackcite{thornton2013auto} o ambos  simult\'aneamente \brackcite{thornton2013auto}. El objetivo general de estos sistemas es producir una selecci\'on tal que el modelo final maximice respecto a cierta m\'etrica o criterio de evaluaci\'on. 
@@ -27,7 +27,7 @@ Un problema conocido y estudiado es el sesgo en los flujos de Aprendizaje de M\'
 % TODO: Poner referencia  a situaciones de interpretabilidad y de robustez
 Hay situaciones donde se quieren evaluar los modelos en s\'i utilizando alguna m\'etrica adicional tales como interpretabilidad \brackcite{molnar2020interpretable} o robustez \brackcite{papernot2016distillation}. La interpretabilidad permite entender sin necesidad de ser un experto porque el flujo toma ciertas decisiones y la robustez indica cuan resistente es el modelo frente a perturbaciones en los datos de entrenamiento. 
 
-La optimizaci\'on multiobjetivo en AutoML permite el uso de m\'etricas que no tienen sentido usarlas individualemente como \textit{precisi\'on} y \textit{recobrado}. 
+La optimizaci\'on multiobjetivo en AutoML permite el uso de m\'etricas que no tienen sentido usarlas individualmente como \textit{precisi\'on} y \textit{recobrado}. 
  \textit{Precisi\'on} mide la proporci\'on entre los valores relevantes identificados y todos los valores identificados
  mientras que \textit{recobrado} mide la proporci\'on entre los valores relevantes identificados y todos los valores relevantes.
 Estas m\'etricas cuando se usan por separado no representan la relevancia de un modelo pues basta para tener un recobrado perfecto seleccionar todos los elementos del conjunto de datos, y una precisi\'on casi perfecta escogiendo un pequeño conjunto de elementos.
@@ -40,7 +40,7 @@ Un sistema AutoML Multiobjetivo puede prescindir de m\'etricas como \textit{f-sc
 % No darle la vuelta al pollo
 % Decir cual es el problema: Poder utilizar optimizacion multiobjetivo dentro de AutoGOAL
 El problema multiobjetivo aplicado a sistemas de AutoML es una tem\'atica poco estudiada y con aplicaciones pr\'acticas en la actualidad.
-Los sistemas AutoML de mayor reconocimento en el campo solo son capaces de optimizar para una sola m\'etrica. 
+Los sistemas AutoML de mayor reconocimiento en el campo solo son capaces de optimizar para una sola m\'etrica. 
 
 Los sistemas de AutoML utilizan espacios de b\'usqueda ca\'oticos y no diferenciables para los cuales se necesitan algoritmos agn\'osticos a esos espacios y resistentes a formas extra\~nas del frente de Pareto. No existe un algoritmo de optimizaci\'on multiobjetivo lo suficientemente general que se pueda aplicar a cualquier sistema de AutoML.
 % La capacidad de optimizar paralelamente para varios objetivos no resulta trivial y es necesario la integraci\'on de un algoritmo que sea lo m\'as resistente a este espacio sin sacrificar la obtenci\'on de buenos resultados. En la literatura hay varios ejemplos de optimizaci\'on multiobjetivo pero ninguno aplicado directamente al campo del AutoML. Los algoritmos evoluacionarios han resultado ser los mejores para la optimizaci\'on multiobjetivo pues cumplen con estas caracter\'isticas.
@@ -64,14 +64,14 @@ En el entorno del grupo de Inteligencia Artificial de la facultad de Matem\'atic
 La entidad tambi\'en desarrolla otras l\'ineas donde se estudia la posible mitigaci\'on de sesgos en flujos producidos por sistemas AutoML \brackcite{consuegra2022intelligent}. 
 %Esto requiere de poder optimizar para m\'etricas adicionales como justeza.
 
-Este trabajo es una propuesta que pretende incrementar la expresividad con que se pueden definir problema se AutoML. que tienen los usuarios para la b\'usqueda de sus soluciones permitendo la utilizaci\'on de varias m\'etricas.
+Este trabajo es una propuesta que pretende incrementar la expresividad con que se pueden definir problema se AutoML. que tienen los usuarios para la b\'usqueda de sus soluciones permitiendo la utilizaci\'on de varias m\'etricas.
 %AutoGOAL una herramienta de AutoML que utilza algoritmos gen\'eticos y permite genera 
 
 
  
 \section*{Objetivo}
 \subsection*{Objetivo General}
-Dise\~nar una propuesta de optimizaci\'on multiobjetvo en el dominio de problemas de AutoML
+Dise\~nar una propuesta de optimizaci\'on multiobjetivo en el dominio de problemas de AutoML
 \subsection*{Objetivos Espec\'ificos}
 \begin{itemize}
     \item Estudiar el estado del arte sobre sistemas de Aprendizaje de M\'aquina Automatizado

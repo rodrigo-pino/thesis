@@ -32,7 +32,7 @@ La separaci\'on  por espacios existente entre ambas componentes de la propuesta 
 El sistema propuesto (\ref{proposal:proposal_code}) est\'a compuesto por un sistema de Aprendizaje de M\'aquina Automatizado $\mathcal{A}(D, M, P)$  y un algoritmo evolutivo multiobjetivo $\mathcal{H}(TP)$. Los par\'ametros de entrada de $\mathcal{A}$ son $D = \{(x_1, y_1), ..., (x_n, y_n)\}$ el corpus de datos, $M = \{f_1, f_2, ..., f_m\}$ un conjunto de m\'etricas a evaluar y $P = \{p_1, p_2, ..., p_k\}$ el conjunto de soluciones de mejor rendimiento producidas por  $\mathcal{A}$ en la iteraci\'on anterior. $\mathcal{H}$ toma como entrada $TP$ que representa el conjunto de soluciones producidas en la iteraci\'on actual tras aplicar $\mathcal{A}(D, M, P)$. 
  %El objetivo final del sistema es producir una conjunto de soluciones de Aprendizaje Autom\'atico $P'$ que sean una muestra representativa del frente de Pareto (\ref{background:def:pareto_front}) utilizando un algoritmo multiobjetivo  $\mathcal{H}$ tal que $\mathcal{H}(TP) = P'$ en cierto n\'umero de iteraciones determinado por un criterio de parada. 
 \begin{algorithm}[ht]
-    \caption{AutoML Heter\'ogeneo Multiobjetivo}
+    \caption{AutoML Heterog\'eneo Multiobjetivo}
     \label{proposal:proposal_code}
     \KwIn{D, M}
     \KwOut{P}
@@ -51,7 +51,7 @@ El sistema propuesto (\ref{proposal:proposal_code}) est\'a compuesto por un sist
 Esencialmente cualquier tipo de MOEA tal que la informaci\'on del espacio objetivo sea suficiente se puede utilizar. Espec\'ificamente para esta propuesta utilizamos una adaptaci\'on de NSGA-II \brackcite{deb2002fast} por ser un algoritmo que sigue una idea intuitiva y tiene un buen rendimiento general, suficiente para demostrar la efectividad de la propuesta.
 
 \subsection{NSGA-II}
-NSGA-II \brackcite{deb2002fast} es un algoritmo multiobjetvo basado en el frente de Pareto caracter\'isticos por dividir el proceso de selecci\'on de los individuos m\'as aptos en dos etapas:
+NSGA-II \brackcite{deb2002fast} es un algoritmo multiobjetivo basado en el frente de Pareto caracter\'isticos por dividir el proceso de selecci\'on de los individuos m\'as aptos en dos etapas:
 \begin{itemize}
     \item \textit{Non Dominated Sorting} donde divide a la poblaci\'on basado en sus diferentes niveles de dominaci\'on.
     \item \textit{Crowding Distance Sorting} donde se dedica a preservar la diversidad entre los individuos encontrados. 
@@ -93,7 +93,7 @@ El resultado de esta primera etapa es una lista ordenada  $F = \{F^0, ..., F^k\}
 %En la segunda etapa los vectores de cada frente obtenido se organizan utilizando \textit{crowding distance} (CD), uno de las contribuciones claves de NSGA-II (\cite{deb2002fast}). El prop\'osito de \textit{crowding distance} es estimar la densidad de las soluciones con respecto sus soluciones vecinas de tal manera que los primeros lugares pertenezcan a los elementos m\'as representativos de dicho frente.
 
 % Imagen de crowding distance
-Calcular el CD de cada soluci\'on requiere que sean ordenadas seg\'un su valor normalizado por cada funci\'on objetivo y calcular el promedio de la distancia entre una soluci\'on y sus dos adyacentes respecto a dicha funci\'on objetivo. Esta distancia es el per\'imetro del cuboide formado utilizando los vecinos m\'as cercanos como v\'ertices. Los puntos que representan el m\'inimo y m\'aximo de al menos alguna funci\'on objetivo se les asigna \textit{crowiding distance} infinita. El  algoritmo queda descrito en \ref{proposal:alg:cd}.
+Calcular el CD de cada soluci\'on requiere que sean ordenadas seg\'un su valor normalizado por cada funci\'on objetivo y calcular el promedio de la distancia entre una soluci\'on y sus dos adyacentes respecto a dicha funci\'on objetivo. Esta distancia es el per\'imetro del cuboide formado utilizando los vecinos m\'as cercanos como v\'ertices. Los puntos que representan el m\'inimo y m\'aximo de al menos alguna funci\'on objetivo se les asigna \textit{crowding distance} infinita. El  algoritmo queda descrito en \ref{proposal:alg:cd}.
 
 \begin{algorithm*}[ht]
     \caption{Crowding Distance Sorting}
@@ -124,22 +124,22 @@ Calcular el CD de cada soluci\'on requiere que sean ordenadas seg\'un su valor n
 \subsubsection{Ciclo Prinicipal}
 Inicialmente se crea una poblaci\'on aleatoria $P_0$ de soluciones de tama\~no $N$. Cada soluci\'on es ordenada de acuerdo a \textit{Non Dominated Sorting} y se aplica un torneo binario utilizando operadores gen\'eticos de selecci\'on, recombinaci\'on y mutaci\'on para crear una poblaci\'on descendiente $Q_0$ de tama\~no $N$.
 
-Luego se forma una poblaci\'on $R_t = P_t \cup Q_t$ de tama\~no 2N. La poblaci\'on $R_t$ es ordenada de acuerdo al nivel de dominaci\'on de cada individuo obteni\'endose una lista de frentes de distinto rango $F = \{F^0, ..., F^k\}$. Las soluciones en $F^0$ representan las mejores soluciones encontradas por el algoritmo hasta el momento y es necesario que pasen a formar parte de la poblaci\'on de la siguiente iteraci\'on $P_{t+1}$. Si $|F^0| < N$ el frente completo pasa formar parte de $P_{t+1}$. Los miembros restantes de la nueva poblaci\'on son escogidos de los dem\'as frentes acorde a su \'indice de dominaci\'on. Si $F^l$ no es capaz de pertencer completo a $P_{t+1}$ debido a que $\sum_0^l |F^i| > N$ se aplica \textit{Crowding Distance Sorting} sobre $F^l$ y se llenan las posiciones restantes con los individuos de mayor distancia.
+Luego se forma una poblaci\'on $R_t = P_t \cup Q_t$ de tama\~no 2N. La poblaci\'on $R_t$ es ordenada de acuerdo al nivel de dominaci\'on de cada individuo obteni\'endose una lista de frentes de distinto rango $F = \{F^0, ..., F^k\}$. Las soluciones en $F^0$ representan las mejores soluciones encontradas por el algoritmo hasta el momento y es necesario que pasen a formar parte de la poblaci\'on de la siguiente iteraci\'on $P_{t+1}$. Si $|F^0| < N$ el frente completo pasa formar parte de $P_{t+1}$. Los miembros restantes de la nueva poblaci\'on son escogidos de los dem\'as frentes acorde a su \'indice de dominaci\'on. Si $F^l$ no es capaz de pertenecer completo a $P_{t+1}$ debido a que $\sum_0^l |F^i| > N$ se aplica \textit{Crowding Distance Sorting} sobre $F^l$ y se llenan las posiciones restantes con los individuos de mayor distancia.
 
 La nueva poblaci\'on $P_{t+1}$ se utiliza para producir una poblci\'on $Q_{t+1}$ con operadores de selecci\'on, cruzamiento y mutaci\'on. El procedimiento general de NSGA-II se muestra en la figura \ref{proposal:fig:nsga2}.
 
 \begin{figure}[ht]
     \centering
     \includegraphics[scale=0.5]{Pictures/nsga2.png}
-    \caption{Funcionamineto de NSGA-II}
+    \caption{Funcionamiento de NSGA-II}
     \label{proposal:fig:nsga2}
 \end{figure}
 
 \subsection{NSGA-II Generalizado}
 
-NSGA-II realiza una serie de asunciones sobre las poblaciones con las que trabajan que no lo hacen perfectamente integrable con la propuesta inical (\ref{proposal:fig:flux}). Se utiliza una adaptaci\'on del algoritmo que conserva sus dos etapas de ranking fundamentales pero con un ciclo principal m\'as sencillo que no aplica operadores gen\'eticos ni modificaciones sobre la poblaci\'on limit\'andolo al espacio objetivo $\mathcal{Y}$.
+NSGA-II realiza una serie de asunciones sobre las poblaciones con las que trabajan que no lo hacen perfectamente integrable con la propuesta inicial (\ref{proposal:fig:flux}). Se utiliza una adaptaci\'on del algoritmo que conserva sus dos etapas de \textit{ranking} fundamentales pero con un ciclo principal m\'as sencillo que no aplica operadores gen\'eticos ni modificaciones sobre la poblaci\'on limit\'andolo al espacio objetivo $\mathcal{Y}$.
 
 \subsubsection{Ciclo Prinicipal}
-El nuevo ciclo principal recibe una poblaci\'on inicial $P$ de tama\~no N y pasa directamente a aplicar \textit{Non Dominated Sorting} con los que obtiene una lista de frentes de distinto rango $F = \{F^0, ..., F^l\}$ con el objetivo de formar un conjunto $P'$ de tama\~no $k$ que representen los mejores elementos de $P$. Las soluciones que pasan a formar parte de $P'$ se escojen a\~nadiendo en grupos por cada frente $F^i$ hasta cierto frente $F^q$ que no pueda a\~nadirse completo. Los puestos restantes en $P'$ se llenan con los elementos de mayor distancia de $F^q$ tras aplicar \textit{Crowding Distance}.
+El nuevo ciclo principal recibe una poblaci\'on inicial $P$ de tama\~no N y pasa directamente a aplicar \textit{Non Dominated Sorting} con los que obtiene una lista de frentes de distinto rango $F = \{F^0, ..., F^l\}$ con el objetivo de formar un conjunto $P'$ de tama\~no $k$ que representen los mejores elementos de $P$. Las soluciones que pasan a formar parte de $P'$ se escogen a\~nadiendo en grupos por cada frente $F^i$ hasta cierto frente $F^q$ que no pueda a\~nadirse completo. Los puestos restantes en $P'$ se llenan con los elementos de mayor distancia de $F^q$ tras aplicar \textit{Crowding Distance}.
 
 Se simplifica el ciclo respetando la idea de la propuesta general.  Los sistemas AutoML son los que deciden como generar soluciones y que hacer con la informaci\'on de los m\'as aptos, permitiendo que se puedan utilizar como una caja negra intercambiable.
