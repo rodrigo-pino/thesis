@@ -22,7 +22,7 @@
 \RequirePackage{footmisc}
 \RequirePackage{csquotes}
 \RequirePackage[
-	style=numeric,
+	style=apa,
 	citestyle=numeric,
   hyperref=true,
 	backref=true,

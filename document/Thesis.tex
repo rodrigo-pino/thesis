@@ -2,6 +2,7 @@
 \usepackage{subfigure}
 \usepackage[ruled,lined,linesnumbered,titlenumbered,algochapter,spanish,onelanguage]{algorithm2e}
 \usepackage{amsmath}
+% \usepackage{amsthm}
 \usepackage{amssymb}
 \usepackage{amsbsy}
 \usepackage{caption,booktabs}
@@ -50,7 +51,7 @@
 
 \lstset{style=mystyle}
 
-\title{Optimización Multiobjetivo para Autogoal}
+\title{Optimización Multiobjetivo para Sistemas AutoML}
 \author{\\\vspace{0.25cm}Rodrigo Daniel Pino Trueba}
 \advisor{\\\vspace{0.25cm}Dra. Suilan Est\'evez Velarde\\\vspace{0.2cm}Lic. Daniel Vald\'es P\'erez}
 \degree{Licenciado en Ciencia de la Computación}
@@ -76,13 +77,23 @@
 \renewcommand{\lstlistingname}{Ejemplo de código}
 \renewcommand{\lstlistlistingname}{Ejemplos de código}
 
+\newcommand*\wildcard[2][5cm]{%
+  \mbox{%
+    \vbox to 3cm{%
+      \vfill
+      \hbox to #1{\hrulefill}\par
+      \hbox to #1{\strut\hfil#2\hfil}
+    }
+  }
+}
+
 \begin{document}
 
 \frontmatter
 \maketitle
 
 \include{FrontMatter/Dedication}
-\include{FrontMatter/Thanks}
+% \include{FrontMatter/Thanks}
 \include{FrontMatter/SupervisorOpinion}
 \include{FrontMatter/Abstract}
 \include{FrontMatter/Contents}
